@@ -10,31 +10,80 @@
 <link href="css/tooplate-kool-form-pack.css" rel="stylesheet" />
 
 <style>
-  /* Arka plan video (isteğe bağlı; yoksa silebilirsin) */
-  .video-wrap{position:fixed;inset:0;overflow:hidden;z-index:-1}
+  /* ---- Renk değişkenleri (kontrast yüksek) ---- */
+  :root{
+    --fg: #f4f7fb;               /* ana yazı */
+    --fg-dim: rgba(255,255,255,.78);
+    --fg-muted: rgba(255,255,255,.65);
+    --stroke: rgba(255,255,255,.10);
+    --glass: rgba(20,20,20,.45);
+    --glass-2: rgba(255,255,255,.08);
+    --accent: #ffb27a;           /* küçük sıcak vurgu */
+  }
+
+  /* Genel yazı rengi */
+  body, .site-header, .offcanvas, .modal, .hero-section {
+    color: var(--fg);
+  }
+
+  /* Arka plan video (opsiyonel) */
+  .video-wrap{position:fixed;inset:0;overflow:hidden;z-index:-2}
   .custom-video{min-width:100%;min-height:100%;object-fit:cover}
 
-  /* Üst/hero padding (header çakışmasın) */
+  /* Hero karartma: yazılar her zaman okunur */
+  .hero-section { position: relative; }
+  .hero-section::before{
+    content:""; position:absolute; inset:0; z-index:-1;
+    background: radial-gradient(1200px 700px at 50% 10%, rgba(0,0,0,.35), rgba(0,0,0,.65));
+  }
+  .hero-section .container{ position:relative; z-index:2; }
+
+  .site-brand{position:fixed;top:15px;left:20px;font-weight:800;letter-spacing:.5px;color:var(--fg);z-index:1000;text-shadow:0 2px 8px rgba(0,0,0,.55)}
   .hero-section.ziyaret-hero{padding-top:220px!important;padding-bottom:40px}
   @media (min-width:992px){.hero-section.ziyaret-hero{padding-top:260px!important}}
 
-  /* Küçük dokunuşlar */
-  .toolbar{backdrop-filter:blur(6px);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px}
-  .pill{border-radius:999px;padding:2px 10px}
-  .muted-sm{opacity:.85}
-  .list-group-item{border-radius:12px}
-  .download-card{transition:transform .15s, box-shadow .15s;border-radius:1rem}
-  .download-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.18)}
-  #listArea .fw-semibold{color:#fff!important}
-  #gridArea .card-title{color:#fff!important}
-  .dropzone{
-    border:2px dashed rgba(255,255,255,.35);
-    border-radius:16px; padding:24px; text-align:center;
-    background:rgba(0,0,0,.2);
+  /* Kart/araç çubuğu cam efekti */
+  .toolbar{
+    backdrop-filter: blur(8px);
+    background: var(--glass);
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    padding: 12px;
   }
-  .dropzone.drag{background:rgba(255,255,255,.08)}
-  .progress{height:10px}
-  .site-brand{position:fixed;top:15px;left:20px;font-weight:700;color:#fff;z-index:1000;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+  .list-group-item, .card{
+    background: var(--glass);
+    border: 1px solid var(--stroke);
+    color: var(--fg);
+  }
+
+  .pill{border-radius:999px;padding:6px 12px}
+  .muted-sm{opacity:1;color:var(--fg-muted)}
+  .text-white-50{color:var(--fg-muted)!important}
+
+  /* Yükleme kutusu */
+  .dropzone{
+    border:2px dashed var(--glass-2);
+    border-radius:16px; padding:26px; text-align:center;
+    background: rgba(0,0,0,.28); color:var(--fg-dim);
+  }
+  .dropzone.drag{background: rgba(255,255,255,.10)}
+
+  /* İlerleme çubuğu görünümü */
+  .progress{height:10px; background: rgba(255,255,255,.15)}
+  .progress-bar{
+    background-image: linear-gradient(90deg, #ffd2a8, #ffb27a);
+    color:#1b1b1b; font-weight:700;
+  }
+
+  /* Dosya isimleri/başlıklar net beyaz */
+  .fw-semibold, h1,h2,h3,h4,h5,h6 { color:#fff!important; }
+
+  /* Küçük ikon/başlık uyumu */
+  h2 .bi{ color: var(--accent); }
+
+  /* Offcanvas linkleri görünür olsun */
+  .offcanvas a{ color: var(--fg-dim); }
+  .offcanvas a.active, .offcanvas a:hover{ color: #fff; }
 </style>
 </head>
 <body>
@@ -42,16 +91,6 @@
   <div class="site-brand">BARISHA</div>
 
 <main>
-
-  <!-- (opsiyonel) arka plan video -->
-  <!--
-  <div class="video-wrap">
-    <video autoplay loop muted playsinline class="custom-video">
-      <source src="videos/video.mp4" type="video/mp4">
-    </video>
-  </div>
-  -->
-
   <!-- ÜST MENÜ (diğer sayfalarla aynı) -->
   <header class="site-header">
     <div class="container">
@@ -92,13 +131,13 @@
       <div class="row justify-content-center text-center">
 
         <div class="col-lg-10">
-          <h2 class="mb-2">🤝 Ziyaretçi Dosya Bırak</h2>
+          <h2 class="mb-2"><i class="bi bi-hand-thumbs-up"></i> Ziyaretçi Dosya Bırak</h2>
           <p class="mb-4 muted-sm">
             İstediğin <b>rumuz</b> ile giriş yap, dosyanı yükle. Dosyalar <code>/Ziyaret/&lt;rumuz&gt;/</code> klasörüne eklenir ve herkes indirebilir.
           </p>
         </div>
 
-        <!-- RUMUZ SEÇ / GİRİŞ -->
+        <!-- RUMUZ -->
         <div class="col-lg-10">
           <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center">
             <div class="input-group">
@@ -111,7 +150,7 @@
           </div>
         </div>
 
-        <!-- YÜKLEME BÖLÜMÜ -->
+        <!-- YÜKLEME -->
         <div class="col-lg-10 mt-3">
           <div class="dropzone" id="dropzone">
             <p class="mb-2"><i class="bi-upload fs-3"></i></p>
@@ -125,7 +164,7 @@
           <div class="mt-3" id="uploadList"></div>
         </div>
 
-        <!-- ZİYARETÇİ DOSYALARI LİSTE -->
+        <!-- LİSTE -->
         <div class="col-lg-10 mt-4">
           <h4 class="mb-3">📂 Ziyaretçi Yüklemeleri</h4>
 
@@ -162,44 +201,40 @@
 <script>
 /* ====== AYARLAR ====== */
 const OWNER  = "barisha-app";
-const REPO   = "Barisha";       // repo adın
+const REPO   = "Barisha";   // repo adın
 const BRANCH = "main";
-const ROOT_ZIYARET = "Ziyaret"; // yüklemelerin gideceği klasör
-// Kendi deploy ettiğin endpoint (Vercel/Netlify):
-const UPLOAD_ENDPOINT = "/api/upload"; // Vercel'de bu şekilde olur
+const ROOT_ZIYARET = "Ziyaret";
+// Kendi serverless endpoint'in:
+const UPLOAD_ENDPOINT = "/api/upload";
 
-/* ====== YARDIMCI ====== */
-const qSel = (s, el=document)=> el.querySelector(s);
+/* ====== BASİC UTILS ====== */
+const $ = (s,el=document)=>el.querySelector(s);
 function humanSize(bytes){if(bytes==null)return"";const u=["B","KB","MB","GB","TB"];let i=0,n=bytes;while(n>=1024&&i<u.length-1){n/=1024;i++}return(n<10&&i>0?n.toFixed(1):n.toFixed(0))+" "+u[i]}
 
 /* ====== RUMUZ ====== */
-const nickInput = qSel("#nick");
-const saveNickBtn = qSel("#saveNick");
-const clearNickBtn = qSel("#clearNick");
-const nickInfo = qSel("#nickInfo");
-
-function loadNick(){ const n=localStorage.getItem("rumuz")||""; nickInput.value = n; updateNickInfo(); }
-function updateNickInfo(){ const n=nickInput.value.trim(); nickInfo.textContent = n ? `Aktif rumuz: ${n}` : "Rumuz girip kaydetmelisin."; }
+const nickInput=$("#nick"), saveNickBtn=$("#saveNick"), clearNickBtn=$("#clearNick"), nickInfo=$("#nickInfo");
+function loadNick(){ const n=localStorage.getItem("rumuz")||""; nickInput.value=n; updateNickInfo(); }
+function updateNickInfo(){ const n=nickInput.value.trim(); nickInfo.textContent=n?`Aktif rumuz: ${n}`:"Rumuz girip kaydetmelisin."; }
 saveNickBtn.addEventListener("click",()=>{ const n=nickInput.value.trim(); if(!n){alert("Rumuz boş olamaz.");return;} localStorage.setItem("rumuz",n); updateNickInfo(); });
 clearNickBtn.addEventListener("click",()=>{ localStorage.removeItem("rumuz"); nickInput.value=""; updateNickInfo(); });
 
 /* ====== YÜKLEME ====== */
-const dropzone = qSel("#dropzone");
-const fileInput = qSel("#fileInput");
-const uploadList = qSel("#uploadList");
+const dropzone=$("#dropzone"), fileInput=$("#fileInput"), uploadList=$("#uploadList");
 
 function addUploadRow(file){
-  const wrap = document.createElement("div");
-  wrap.className = "card my-2";
-  wrap.innerHTML = `
+  const wrap=document.createElement("div");
+  wrap.className="card my-2";
+  wrap.innerHTML=`
     <div class="card-body text-start">
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <div class="fw-semibold">${file.name}</div>
           <div class="text-white-50 small">${humanSize(file.size)}</div>
         </div>
-        <div style="min-width:160px">
-          <div class="progress"><div class="progress-bar" role="progressbar" style="width:0%"></div></div>
+        <div style="min-width:210px" class="text-end">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%">0%</div>
+          </div>
         </div>
       </div>
       <div class="small mt-2 text-white-50 status-text">Hazır</div>
@@ -208,91 +243,94 @@ function addUploadRow(file){
   return wrap;
 }
 
+/* XHR ile GERÇEK ilerleme yüzdesi */
 async function uploadFile(file){
-  const rumuz = localStorage.getItem("rumuz")?.trim();
+  const rumuz=localStorage.getItem("rumuz")?.trim();
   if(!rumuz){ alert("Önce rumuzunu kaydet."); throw new Error("no-nick"); }
+  if(file.size>50*1024*1024){ if(!confirm("Dosya 50MB'den büyük. Devam edilsin mi?")) return; }
 
-  const row = addUploadRow(file);
-  const bar = row.querySelector(".progress-bar");
-  const st  = row.querySelector(".status-text");
+  const row=addUploadRow(file);
+  const bar=row.querySelector(".progress-bar");
+  const st=row.querySelector(".status-text");
 
-  try{
-    st.textContent = "Yükleniyor...";
-    bar.style.width = "20%";
+  const body=new FormData();
+  body.append("owner",OWNER);
+  body.append("repo",REPO);
+  body.append("branch",BRANCH);
+  body.append("root",ROOT_ZIYARET);
+  body.append("nick",rumuz);
+  body.append("file",file,file.name);
 
-    const body = new FormData();
-    body.append("owner", OWNER);
-    body.append("repo", REPO);
-    body.append("branch", BRANCH);
-    body.append("root", ROOT_ZIYARET);
-    body.append("nick", rumuz);
-    body.append("file", file, file.name);
-
-    const res = await fetch(UPLOAD_ENDPOINT, { method: "POST", body });
-    if(!res.ok){
-      const txt = await res.text();
-      throw new Error(`Sunucu hatası: ${res.status} ${txt}`);
-    }
-    bar.style.width = "100%";
-    st.textContent = "Tamamlandı ✅";
-  }catch(e){
-    console.error(e);
-    st.textContent = "Hata ❌ " + e.message;
-    bar.classList.add("bg-danger");
-    throw e;
-  }
+  return new Promise((resolve,reject)=>{
+    const xhr=new XMLHttpRequest();
+    xhr.open("POST",UPLOAD_ENDPOINT,true);
+    xhr.upload.onprogress=(e)=>{
+      if(e.lengthComputable){
+        const p=Math.round((e.loaded/e.total)*100);
+        bar.style.width=p+"%"; bar.textContent=p+"%";
+      }
+    };
+    xhr.onload=()=>{
+      if(xhr.status>=200 && xhr.status<300){
+        bar.classList.remove("progress-bar-animated");
+        st.textContent="Tamamlandı ✅";
+        resolve();
+      }else{
+        bar.classList.add("bg-danger");
+        st.textContent="Hata ❌ "+xhr.statusText;
+        reject(new Error(xhr.statusText));
+      }
+    };
+    xhr.onerror=()=>{ bar.classList.add("bg-danger"); st.textContent="Bağlantı hatası ❌"; reject(new Error("network")); };
+    st.textContent="Yükleniyor...";
+    xhr.send(body);
+  });
 }
 
 /* drag & drop */
-["dragenter","dragover"].forEach(evt => dropzone.addEventListener(evt, e=>{e.preventDefault(); dropzone.classList.add("drag")}));
-["dragleave","drop"].forEach(evt => dropzone.addEventListener(evt, e=>{e.preventDefault(); dropzone.classList.remove("drag")}));
-dropzone.addEventListener("drop", async e=>{
-  const files = Array.from(e.dataTransfer.files||[]);
-  for(const f of files){ await uploadFile(f).catch(()=>{}); }
+["dragenter","dragover"].forEach(evt=>dropzone.addEventListener(evt,e=>{e.preventDefault();dropzone.classList.add("drag")}));
+["dragleave","drop"].forEach(evt=>dropzone.addEventListener(evt,e=>{e.preventDefault();dropzone.classList.remove("drag")}));
+dropzone.addEventListener("drop",async e=>{
+  const files=Array.from(e.dataTransfer.files||[]);
+  for(const f of files){ try{ await uploadFile(f);}catch(_){} }
   refreshList();
 });
-fileInput.addEventListener("change", async e=>{
-  const files = Array.from(e.target.files||[]);
-  for(const f of files){ await uploadFile(f).catch(()=>{}); }
-  fileInput.value = "";
+fileInput.addEventListener("change",async e=>{
+  const files=Array.from(e.target.files||[]);
+  for(const f of files){ try{ await uploadFile(f);}catch(_){} }
+  fileInput.value="";
   refreshList();
 });
 
-/* ====== LİSTELEME ====== */
-const listArea = qSel("#listArea");
-const statusEl = qSel("#status");
-const qEl = qSel("#q");
-const sortEl = qSel("#sortBy");
-const refreshBtn = qSel("#refresh");
+/* ====== LİSTE ====== */
+const listArea=$("#listArea"), statusEl=$("#status"), qEl=$("#q"), sortEl=$("#sortBy"), refreshBtn=$("#refresh");
+let allFiles=[];
 
-let allFiles = []; // {name, size, path, raw, url, date?, nick?}
-
-const API_CONTENTS = (path) => `https://api.github.com/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
-function rawURL(path){ return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`; }
-function siteURL(path){ return `${encodeURIComponent(path).replace(/%2F/g,"/")}`; } // repo içi yol (raw değil)
+const API_CONTENTS=(path)=>`https://api.github.com/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
+function rawURL(path){return`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;}
+function siteURL(path){return`${encodeURIComponent(path).replace(/%2F/g,"/")}`;}
 
 async function fetchDir(path){
-  const res = await fetch(API_CONTENTS(path), { headers: { "Accept":"application/vnd.github+json" }});
+  const res=await fetch(API_CONTENTS(path),{headers:{"Accept":"application/vnd.github+json"}});
   if(!res.ok) return [];
-  const data = await res.json();
-  return Array.isArray(data) ? data : [];
+  const data=await res.json();
+  return Array.isArray(data)?data:[];
 }
 
-// Ziyaret/ altında hem rumuz klasörleri hem doğrudan dosya olabilir; hepsini düz listeye topla
 async function loadList(){
   try{
-    statusEl.innerHTML = `<span class="spinner-sm me-2"></span> Yükleniyor...`;
-    allFiles = [];
-    const root = await fetchDir(ROOT_ZIYARET);
+    statusEl.innerHTML=`<span class="spinner-sm me-2"></span> Yükleniyor...`;
+    allFiles=[];
+    const root=await fetchDir(ROOT_ZIYARET);
     for(const item of root){
-      if(item.type === "file"){
-        allFiles.push({ name:item.name, size:item.size, path:item.path, raw:rawURL(item.path), url:siteURL(item.path), date:null, nick:null });
-      } else if(item.type === "dir"){
-        const nick = item.name;
-        const sub = await fetchDir(item.path);
+      if(item.type==="file"){
+        allFiles.push({name:item.name,size:item.size,path:item.path,raw:rawURL(item.path),url:siteURL(item.path),date:null,nick:null});
+      }else if(item.type==="dir"){
+        const nick=item.name;
+        const sub=await fetchDir(item.path);
         for(const f of sub){
-          if(f.type === "file"){
-            allFiles.push({ name:f.name, size:f.size, path:f.path, raw:rawURL(f.path), url:siteURL(f.path), date:null, nick });
+          if(f.type==="file"){
+            allFiles.push({name:f.name,size:f.size,path:f.path,raw:rawURL(f.path),url:siteURL(f.path),date:null,nick});
           }
         }
       }
@@ -300,35 +338,35 @@ async function loadList(){
     render();
   }catch(e){
     console.error(e);
-    statusEl.textContent = "Liste yüklenemedi.";
+    statusEl.textContent="Liste yüklenemedi.";
   }
 }
 
 function applyFilters(list){
-  const q = qEl.value.trim().toLowerCase();
-  let filtered = list.filter(f=>{
+  const q=qEl.value.trim().toLowerCase();
+  let filtered=list.filter(f=>{
     if(!q) return true;
     return (f.name.toLowerCase().includes(q) || (f.nick||"").toLowerCase().includes(q));
   });
 
   switch(sortEl.value){
-    case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
-    case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
-    case "date-desc": /* tarih yok, isimle yakınsın */ filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
-    case "date-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
-    case "size-desc": filtered.sort((a,b)=> (b.size||0)-(a.size||0)); break;
-    case "size-asc":  filtered.sort((a,b)=> (a.size||0)-(b.size||0)); break;
+    case "name-asc":  filtered.sort((a,b)=>a.name.localeCompare(b.name,"tr")); break;
+    case "name-desc": filtered.sort((a,b)=>b.name.localeCompare(a.name,"tr")); break;
+    case "date-desc": filtered.sort((a,b)=>a.name.localeCompare(b.name,"tr")); break;
+    case "date-asc":  filtered.sort((a,b)=>a.name.localeCompare(b.name,"tr")); break;
+    case "size-desc": filtered.sort((a,b)=>(b.size||0)-(a.size||0)); break;
+    case "size-asc":  filtered.sort((a,b)=>(a.size||0)-(b.size||0)); break;
   }
   return filtered;
 }
 
 function render(){
-  const items = applyFilters(allFiles);
-  listArea.innerHTML = "";
+  const items=applyFilters(allFiles);
+  listArea.innerHTML="";
   for(const f of items){
-    const row = document.createElement("div");
-    row.className = "list-group-item d-flex justify-content-between align-items-center download-card mb-2";
-    row.innerHTML = `
+    const row=document.createElement("div");
+    row.className="list-group-item d-flex justify-content-between align-items-center download-card mb-2";
+    row.innerHTML=`
       <div class="d-flex align-items-center gap-3 text-start">
         <i class="bi bi-file-earmark fs-4"></i>
         <div>
@@ -345,9 +383,9 @@ function render(){
   statusEl.textContent = items.length ? `Toplam ${items.length} dosya listelendi.` : "Dosya yok.";
 }
 
-qEl.addEventListener("input", render);
-sortEl.addEventListener("change", render);
-qSel("#refresh").addEventListener("click", loadList);
+qEl.addEventListener("input",render);
+sortEl.addEventListener("change",render);
+refreshBtn.addEventListener("click",loadList);
 
 /* init */
 loadNick();

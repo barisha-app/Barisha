@@ -23,14 +23,14 @@
   .hero-section.ziyaret-hero{padding-top:220px!important;padding-bottom:40px}
   @media(min-width:992px){.hero-section.ziyaret-hero{padding-top:260px!important}}
 
-  /* Sol/sağ iki sütun düzeni */
+  /* İki sütun düzeni */
   .layout{display:flex; gap:24px}
   .left{flex:0 0 20%; min-width:260px}
   .right{flex:1}
   @media(max-width:991.98px){ .layout{flex-direction:column} .left{flex-basis:auto;min-width:0} }
 
-  /* Sol sütun: sticky */
-  .left-sticky{position:sticky; top:120px}
+  /* Sol sütun sticky */
+  .left-sticky{position:sticky; top:120px; align-self:flex-start}
 
   /* Cam görünümler */
   .toolbar{backdrop-filter:blur(8px);background:var(--glass);border:1px solid var(--stroke);border-radius:16px;padding:12px}
@@ -48,6 +48,17 @@
   /* Başlıklar/dosya adları net beyaz */
   h1,h2,h3,h4,h5,h6,.fw-semibold{color:#fff!important}
   h2 .bi{color:var(--accent)}
+
+  /* ==== Scroll kilidini kaldır ==== */
+  .hero-section,
+  .hero-section.hero-bg,
+  .hero-section.ziyaret-hero{
+    min-height: unset !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 80px;
+  }
+  html, body { overflow-y: auto !important; }
 </style>
 </head>
 <body>
@@ -139,7 +150,6 @@
 
         <!-- SAĞ: %80 – Liste/Arama -->
         <section class="right">
-          <!-- Liste araçları -->
           <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center mb-3">
             <div class="input-group">
               <span class="input-group-text"><i class="bi-search"></i></span>
@@ -157,7 +167,6 @@
             <span id="status" class="ms-lg-2 muted-sm"><span class="spinner-sm me-2"></span> Yükleniyor...</span>
           </div>
 
-          <!-- Dosya listesi -->
           <div id="listArea" class="list group"></div>
 
           <div class="mt-4 text-center">
@@ -173,9 +182,10 @@
 <script>
 /* ====== AYARLAR ====== */
 const OWNER  = "barisha-app";
-const REPO   = "Barisha";
+const REPO   = "Barisha";   // repo adın
 const BRANCH = "main";
 const ROOT_ZIYARET = "Ziyaret";
+// Vercel/Netlify endpoint'in:
 const UPLOAD_ENDPOINT = "/api/upload";
 
 /* ====== UTILS ====== */

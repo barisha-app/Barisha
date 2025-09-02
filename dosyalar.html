@@ -1,169 +1,402 @@
 <!doctype html>
 <html lang="tr">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dosya İndirme Merkezi</title>
 
-    <!-- CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
+    <!-- Mevcut temaya uyum -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="css/tooplate-kool-form-pack.css" rel="stylesheet" />
 
     <style>
-      .search-wrap { max-width: 560px; margin: 0 auto; }
-      .download-card { transition: transform .15s ease, box-shadow .15s ease; }
-      .download-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
-      .muted-sm { font-size:.9rem; opacity:.8; }
-      .spinner { display:inline-block; width:1.25rem; height:1.25rem; border:.2rem solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation: spin 0.8s linear infinite; }
-      @keyframes spin { to { transform: rotate(360deg); } }
+      /* Kozmetik dokunuşlar (temayla uyumlu) */
+      .toolbar {
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 12px;
+      }
+      .download-card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        border-radius: 1rem;
+      }
+      .download-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+      }
+      .muted-sm {
+        font-size: 0.92rem;
+        opacity: 0.85;
+      }
+      .grid .download-card .card-body {
+        min-height: 140px;
+      }
+      .grid .card-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .view-toggle .btn {
+        border-radius: 10px;
+      }
+      .pill {
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 0.78rem;
+      }
+      .spinner-sm {
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 0.2rem solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .hero-section .container {
+        position: relative;
+        z-index: 2;
+      }
+      .copy-ok {
+        animation: pop 0.4s ease;
+      }
+      @keyframes pop {
+        0% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+      }
     </style>
   </head>
   <body>
     <main>
       <section class="hero-section hero-bg d-flex justify-content-center align-items-center">
         <div class="container">
-          <div class="row">
-            <div class="col-lg-10 col-12 text-center mx-auto">
-              <h2 class="mb-3">📂 Dosya İndirme Merkezi</h2>
-              <p class="mb-4">Bu sayfa <code>/dosyalar</code> klasöründeki dosyaları otomatik listeler.</p>
+          <div class="row justify-content-center text-center">
+            <div class="col-lg-10">
+              <h2 class="mb-2">📂 Dosya İndirme Merkezi</h2>
+              <p class="mb-4 muted-sm">
+                Bu sayfa, depodaki <code>/dosyalar</code> klasörünü otomatik listeler. Yeni dosya
+                yüklediğinde sayfayı yenilemen yeterli.
+              </p>
+            </div>
 
-              <!-- Arama -->
-              <div class="search-wrap input-group mb-4">
-                <span class="input-group-text"><i class="bi-search"></i></span>
-                <input id="searchInput" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)">
-                <button id="clearBtn" class="btn btn-outline-secondary" type="button">Temizle</button>
+            <!-- Araç Çubuğu -->
+            <div class="col-lg-10">
+              <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi-search"></i></span>
+                  <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
+                </div>
+
+                <div class="d-flex gap-2 flex-grow-1 flex-lg-grow-0">
+                  <select id="extFilter" class="form-select">
+                    <option value="*">Tüm uzantılar</option>
+                    <option value="docs">Belgeler (pdf, doc[x], xls[x], ppt[x])</option>
+                    <option value="image">Görseller (png, jpg, webp, svg)</option>
+                    <option value="audio">Ses (mp3, wav, m4a, flac)</option>
+                    <option value="video">Video (mp4, mkv, mov, webm)</option>
+                    <option value="archive">Arşiv (zip, rar, 7z, tar.gz)</option>
+                    <option value="playlist">Listeler (m3u, m3u8, txt)</option>
+                  </select>
+
+                  <select id="sortBy" class="form-select">
+                    <option value="name-asc">Ada göre (A→Z)</option>
+                    <option value="name-desc">Ada göre (Z→A)</option>
+                    <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
+                    <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
+                    <option value="size-desc">Boyut (Büyük→Küçük)</option>
+                    <option value="size-asc">Boyut (Küçük→Büyük)</option>
+                  </select>
+
+                  <div class="btn-group view-toggle" role="group" aria-label="Görünüm">
+                    <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
+                      <i class="bi-list-ul"></i>
+                    </button>
+                    <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
+                      <i class="bi-grid-3x3-gap"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <button id="clearBtn" class="btn btn-outline-light">
+                  Temizle
+                </button>
+              </div>
+            </div>
+
+            <!-- İçerik -->
+            <div class="col-lg-10 mt-3">
+              <div id="listArea" class="list group"></div>
+              <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
+
+              <div id="status" class="mt-3 muted-sm">
+                <span class="spinner-sm me-2"></span> Dosyalar yükleniyor...
               </div>
 
-              <!-- Liste -->
-              <div id="list" class="list-group text-start"></div>
-
-              <!-- Durum -->
-              <div id="status" class="mt-4 muted-sm"></div>
-
-              <a class="custom-btn btn mt-5" href="index.html">⬅️ Ana Sayfa</a>
+              <a class="custom-btn btn mt-4" href="index.html">⬅️ Ana Sayfa</a>
             </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- JS -->
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
-      // ======= Ayarlar (repo bilgilerin) =======
+      // ====== KİŞİSELLEŞTİR (repo ayarların) ======
       const OWNER  = "barisha-app";
       const REPO   = "BY-TAKI";
       const BRANCH = "main";
-      const PATH   = "dosyalar"; // dosyaları koyduğun klasör
+      const FOLDER = "dosyalar";
 
-      // GitHub API endpoint'i
-      const API_URL = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}?ref=${BRANCH}`;
+      const API_LIST   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
+      const API_COMMITS = (path) =>
+        `https://api.github.com/repos/${OWNER}/${REPO}/commits?path=${encodeURIComponent(path)}&per_page=1`;
 
-      const listEl   = document.getElementById("list");
-      const statusEl = document.getElementById("status");
-      const searchEl = document.getElementById("searchInput");
+      // Elementler
+      const qEl = document.getElementById("q");
+      const extEl = document.getElementById("extFilter");
+      const sortEl = document.getElementById("sortBy");
       const clearBtn = document.getElementById("clearBtn");
+      const btnList = document.getElementById("btnList");
+      const btnGrid = document.getElementById("btnGrid");
 
-      // Basit ikon seçici
-      function fileIcon(name) {
-        const ext = (name.split(".").pop() || "").toLowerCase();
-        if (["png","jpg","jpeg","gif","webp","svg"].includes(ext)) return "bi-file-image";
-        if (["mp4","mov","mkv","webm"].includes(ext)) return "bi-file-earmark-play";
-        if (["mp3","wav","aac","m4a","flac"].includes(ext)) return "bi-file-music";
-        if (["pdf"].includes(ext)) return "bi-file-earmark-pdf";
-        if (["doc","docx","odt","rtf"].includes(ext)) return "bi-file-earmark-word";
+      const listArea = document.getElementById("listArea");
+      const gridArea = document.getElementById("gridArea");
+      const statusEl = document.getElementById("status");
+
+      let allFiles = []; // {name, size, path, download_url, date?}
+      let view = "list"; // "list" | "grid"
+
+      // Uzantı grupları
+      const groups = {
+        docs: ["pdf","doc","docx","xls","xlsx","csv","ppt","pptx"],
+        image: ["png","jpg","jpeg","gif","webp","svg"],
+        audio: ["mp3","wav","aac","m4a","flac"],
+        video: ["mp4","mov","mkv","webm"],
+        archive: ["zip","rar","7z","tar","gz","tar.gz"],
+        playlist: ["m3u","m3u8","txt"]
+      };
+
+      function iconFor(name) {
+        const ext = name.split(".").pop()?.toLowerCase() || "";
+        if (groups.image.includes(ext)) return "bi-file-image";
+        if (groups.video.includes(ext)) return "bi-file-earmark-play";
+        if (groups.audio.includes(ext)) return "bi-file-music";
+        if (ext === "pdf") return "bi-file-earmark-pdf";
+        if (["doc","docx","rtf","odt"].includes(ext)) return "bi-file-earmark-word";
         if (["xls","xlsx","csv","ods"].includes(ext)) return "bi-file-earmark-spreadsheet";
         if (["ppt","pptx"].includes(ext)) return "bi-file-earmark-ppt";
-        if (["zip","rar","7z","tar","gz"].includes(ext)) return "bi-file-zip";
-        if (["m3u","m3u8","txt","md","json"].includes(ext)) return "bi-file-earmark-text";
+        if (groups.archive.includes(ext)) return "bi-file-zip";
+        if (groups.playlist.includes(ext)) return "bi-file-earmark-text";
         return "bi-file-earmark";
       }
 
-      // Boyutu okunur hale getir
       function humanSize(bytes) {
         if (bytes == null) return "";
         const units = ["B","KB","MB","GB","TB"];
-        let i=0, num=bytes;
-        while (num >= 1024 && i < units.length-1) { num /= 1024; i++; }
-        return num.toFixed(num < 10 && i>0 ? 1 : 0) + " " + units[i];
-        }
-
-      // Liste öğesi oluştur
-      function makeItem({name, path, size, download_url}) {
-        // GitHub Pages’da dosyaya görece link de verebilirsin:
-        const relativeHref = `${PATH}/${encodeURIComponent(name)}`;
-        // Veya doğrudan raw link: download_url
-        const href = relativeHref; // istersen 'download_url' yapabilirsin
-
-        const li = document.createElement("a");
-        li.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center download-card";
-        li.href = href;
-        li.setAttribute("download", "");
-        li.innerHTML = `
-          <span class="d-flex align-items-center gap-2">
-            <i class="bi ${fileIcon(name)}"></i>
-            <strong>${name}</strong>
-          </span>
-          <span class="badge bg-primary rounded-pill">${humanSize(size) || "İndir"}</span>
-        `;
-        return li;
+        let i = 0, n = bytes;
+        while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+        const fixed = n < 10 && i > 0 ? 1 : 0;
+        return n.toFixed(fixed) + " " + units[i];
       }
 
-      // Durum yaz
-      function setStatus(msg, loading=false) {
-        statusEl.innerHTML = loading ? `<span class="spinner me-2"></span>${msg}` : msg;
+      function rawURL(path) {
+        // path: "dosyalar/dosya adım.pdf"
+        return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
       }
 
-      // Veriyi getir & render et
-      async function loadFiles() {
+      async function fetchCommitDate(path) {
         try {
-          setStatus("Dosyalar yükleniyor...", true);
-          const res = await fetch(API_URL, { headers: { "Accept": "application/vnd.github+json" }});
-          if (!res.ok) {
-            throw new Error("GitHub API hatası: " + res.status);
-          }
+          const res = await fetch(API_COMMITS(path), { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("commit-api");
           const data = await res.json();
-
-          // Sadece dosya olanları al (klasörleri at)
-          const files = data.filter(item => item.type === "file");
-
-          // Hiç dosya yoksa
-          if (!files.length) {
-            setStatus("Bu klasörde henüz dosya yok. Lütfen depoda '/dosyalar' klasörüne dosya yükleyin.");
-            return;
-          }
-
-          // İsim sıralı
-          files.sort((a,b) => a.name.localeCompare(b.name, "tr"));
-
-          // Render
-          listEl.innerHTML = "";
-          files.forEach(f => listEl.appendChild(makeItem(f)));
-          setStatus(`Toplam ${files.length} dosya listelendi.`);
-          
-          // Arama
-          searchEl.addEventListener("input", () => filter(files));
-          clearBtn.addEventListener("click", () => { searchEl.value=""; filter(files); });
-        } catch (err) {
-          console.error(err);
-          setStatus("Dosyalar yüklenemedi. İnternet/GitHub erişimini kontrol edin.");
+          const iso = data?.[0]?.commit?.committer?.date || data?.[0]?.commit?.author?.date;
+          return iso ? new Date(iso) : null;
+        } catch {
+          return null;
         }
       }
 
-      function filter(files) {
-        const q = searchEl.value.trim().toLowerCase();
-        const items = [...listEl.children];
-        let shown = 0;
-        files.forEach((f, i) => {
-          const match = !q || f.name.toLowerCase().includes(q);
-          items[i].style.display = match ? "" : "none";
-          if (match) shown++;
-        });
-        setStatus(q ? `${shown} sonuç` : `Toplam ${files.length} dosya listelendi.`);
+      async function load() {
+        try {
+          statusEl.innerHTML = '<span class="spinner-sm me-2"></span> Dosyalar yükleniyor...';
+          const res = await fetch(API_LIST, { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("list-api");
+          const data = await res.json();
+          const files = data.filter(i => i.type === "file");
+
+          // Commit tarihlerini sırayla al (rate limit’e nazik davran)
+          for (const f of files) {
+            const date = await fetchCommitDate(f.path);
+            allFiles.push({
+              name: f.name,
+              size: f.size,
+              path: f.path,                // "dosyalar/xxx.ext"
+              url: `${FOLDER}/${encodeURIComponent(f.name)}`, // site içi göreli yol
+              raw: rawURL(f.path),
+              date
+            });
+          }
+
+          render();
+        } catch (e) {
+          console.error(e);
+          statusEl.textContent = "Dosyalar yüklenemedi. GitHub API sınırı veya ağ hatası olabilir.";
+        }
       }
 
-      loadFiles();
+      function applyFilters(files) {
+        const q = qEl.value.trim().toLowerCase();
+        const groupKey = extEl.value;
+
+        let filtered = files.filter(f => {
+          const matchQ = !q || f.name.toLowerCase().includes(q);
+          let matchGroup = true;
+          if (groupKey !== "*") {
+            const ext = f.name.split(".").pop()?.toLowerCase() || "";
+            matchGroup = groups[groupKey]?.includes(ext);
+          }
+          return matchQ && matchGroup;
+        });
+
+        switch (sortEl.value) {
+          case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
+          case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
+          case "date-desc": filtered.sort((a,b)=> (b.date?.getTime()||0) - (a.date?.getTime()||0)); break;
+          case "date-asc":  filtered.sort((a,b)=> (a.date?.getTime()||0) - (b.date?.getTime()||0)); break;
+          case "size-desc": filtered.sort((a,b)=> (b.size||0) - (a.size||0)); break;
+          case "size-asc":  filtered.sort((a,b)=> (a.size||0) - (b.size||0)); break;
+        }
+        return filtered;
+      }
+
+      function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(()=>{
+          btn.innerHTML = '<i class="bi-clipboard-check"></i>';
+          btn.classList.add("copy-ok");
+          setTimeout(()=>{
+            btn.innerHTML = '<i class="bi-clipboard"></i>';
+            btn.classList.remove("copy-ok");
+          }, 900);
+        });
+      }
+
+      function itemListRow(f) {
+        const row = document.createElement("div");
+        row.className = "list-group-item d-flex justify-content-between align-items-center download-card";
+
+        const left = document.createElement("div");
+        left.className = "d-flex align-items-center gap-3 text-start";
+        left.innerHTML = `
+          <i class="bi ${iconFor(f.name)} fs-4"></i>
+          <div>
+            <div class="fw-semibold">${f.name}</div>
+            <div class="text-white-50 small">
+              ${f.date ? new Date(f.date).toLocaleString() : "Tarih yok"} • ${humanSize(f.size)}
+            </div>
+          </div>
+        `;
+
+        const right = document.createElement("div");
+        right.className = "d-flex align-items-center gap-2";
+        right.innerHTML = `
+          <a class="btn btn-sm btn-light pill" href="${f.url}" download><i class="bi-download me-1"></i>İndir</a>
+          <a class="btn btn-sm btn-outline-light pill" href="${f.raw}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+          <button class="btn btn-sm btn-outline-light pill" title="Bağlantıyı kopyala"><i class="bi-clipboard"></i></button>
+        `;
+        const copyBtn = right.querySelector("button");
+        copyBtn.addEventListener("click", ()=> copyToClipboard(location.origin + location.pathname.replace(/[^/]*$/,"") + f.url, copyBtn));
+
+        row.appendChild(left);
+        row.appendChild(right);
+        return row;
+      }
+
+      function itemGridCard(f) {
+        const col = document.createElement("div");
+        col.className = "col";
+
+        const card = document.createElement("div");
+        card.className = "card h-100 download-card";
+        card.innerHTML = `
+          <div class="card-body text-start">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi ${iconFor(f.name)} fs-4"></i>
+              <h6 class="card-title mb-0">${f.name}</h6>
+            </div>
+            <div class="text-white-50 small mb-3">
+              ${f.date ? new Date(f.date).toLocaleDateString() : "Tarih yok"} • ${humanSize(f.size)}
+            </div>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-light pill" href="${f.url}" download><i class="bi-download me-1"></i>İndir</a>
+              <a class="btn btn-sm btn-outline-light pill" href="${f.raw}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+              <button class="btn btn-sm btn-outline-light pill" title="Kopyala"><i class="bi-clipboard"></i></button>
+            </div>
+          </div>
+        `;
+        const copyBtn = card.querySelector("button");
+        copyBtn.addEventListener("click", ()=> copyToClipboard(location.origin + location.pathname.replace(/[^/]*$/,"") + f.url, copyBtn));
+
+        col.appendChild(card);
+        return col;
+      }
+
+      function render() {
+        const filtered = applyFilters(allFiles);
+
+        // Liste görünümü
+        listArea.innerHTML = "";
+        filtered.forEach(f => listArea.appendChild(itemListRow(f)));
+
+        // Grid görünümü
+        gridArea.innerHTML = "";
+        filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
+
+        // Sayım
+        if (!filtered.length) {
+          statusEl.textContent = "Eşleşen dosya yok.";
+        } else {
+          statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
+        }
+
+        // Görünüm anahtarı
+        if (view === "list") {
+          listArea.style.display = "";
+          gridArea.style.display = "none";
+          btnList.classList.add("active");
+          btnGrid.classList.remove("active");
+        } else {
+          listArea.style.display = "none";
+          gridArea.style.display = "";
+          btnGrid.classList.add("active");
+          btnList.classList.remove("active");
+        }
+      }
+
+      // Etkileşimler
+      qEl.addEventListener("input", render);
+      extEl.addEventListener("change", render);
+      sortEl.addEventListener("change", render);
+      clearBtn.addEventListener("click", ()=>{
+        qEl.value = "";
+        extEl.value = "*";
+        sortEl.value = "name-asc";
+        render();
+      });
+
+      btnList.addEventListener("click", ()=> { view = "list"; render(); });
+      btnGrid.addEventListener("click", ()=> { view = "grid"; render(); });
+
+      // Başlat
+      load();
     </script>
   </body>
 </html>

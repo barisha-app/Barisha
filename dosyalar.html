@@ -11,12 +11,72 @@
     <link href="css/tooplate-kool-form-pack.css" rel="stylesheet" />
 
     <style>
-      /* ... önceki stiller ... */
-
-      /* Dosya isimleri beyaz */
-      .file-name {
-        color: #fff !important;
+      /* Kozmetik dokunuşlar (temayla uyumlu) */
+      .toolbar {
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 12px;
       }
+      .download-card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        border-radius: 1rem;
+      }
+      .download-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+      }
+      .muted-sm {
+        font-size: 0.92rem;
+        opacity: 0.85;
+      }
+      .grid .download-card .card-body {
+        min-height: 140px;
+      }
+      .grid .card-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .view-toggle .btn {
+        border-radius: 10px;
+      }
+      .pill {
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 0.78rem;
+      }
+      .spinner-sm {
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 0.2rem solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .hero-section .container {
+        position: relative;
+        z-index: 2;
+      }
+      .copy-ok {
+        animation: pop 0.4s ease;
+      }
+      @keyframes pop {
+        0% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+      }
+
+      /* SADECE dosya isimleri beyaz */
+      #listArea .fw-semibold { color: #fff !important; }  /* liste görünümü */
+      #gridArea .card-title  { color: #fff !important; }  /* ızgara görünümü */
     </style>
   </head>
   <body>
@@ -27,12 +87,56 @@
             <div class="col-lg-10">
               <h2 class="mb-2">📂 Dosya İndirme Merkezi</h2>
               <p class="mb-4 muted-sm">
-                Bu sayfa, depodaki <code>/dosyalar</code> klasörünü otomatik listeler.
+                Bu sayfa, depodaki <code>/dosyalar</code> klasörünü otomatik listeler. Yeni dosya
+                yüklediğinde sayfayı yenilemen yeterli.
               </p>
             </div>
 
-            <!-- Araç Çubuğu (aynı kaldı) -->
+            <!-- Araç Çubuğu -->
+            <div class="col-lg-10">
+              <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi-search"></i></span>
+                  <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
+                </div>
 
+                <div class="d-flex gap-2 flex-grow-1 flex-lg-grow-0">
+                  <select id="extFilter" class="form-select">
+                    <option value="*">Tüm uzantılar</option>
+                    <option value="docs">Belgeler (pdf, doc[x], xls[x], ppt[x])</option>
+                    <option value="image">Görseller (png, jpg, webp, svg)</option>
+                    <option value="audio">Ses (mp3, wav, m4a, flac)</option>
+                    <option value="video">Video (mp4, mkv, mov, webm)</option>
+                    <option value="archive">Arşiv (zip, rar, 7z, tar.gz)</option>
+                    <option value="playlist">Listeler (m3u, m3u8, txt)</option>
+                  </select>
+
+                  <select id="sortBy" class="form-select">
+                    <option value="name-asc">Ada göre (A→Z)</option>
+                    <option value="name-desc">Ada göre (Z→A)</option>
+                    <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
+                    <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
+                    <option value="size-desc">Boyut (Büyük→Küçük)</option>
+                    <option value="size-asc">Boyut (Küçük→Büyük)</option>
+                  </select>
+
+                  <div class="btn-group view-toggle" role="group" aria-label="Görünüm">
+                    <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
+                      <i class="bi-list-ul"></i>
+                    </button>
+                    <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
+                      <i class="bi-grid-3x3-gap"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <button id="clearBtn" class="btn btn-outline-light">
+                  Temizle
+                </button>
+              </div>
+            </div>
+
+            <!-- İçerik -->
             <div class="col-lg-10 mt-3">
               <div id="listArea" class="list group"></div>
               <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
@@ -50,7 +154,139 @@
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
-      // ... ayarlar aynı kaldı ...
+      const OWNER  = "barisha-app";
+      const REPO   = "BY-TAKI";
+      const BRANCH = "main";
+      const FOLDER = "dosyalar";
+
+      const API_LIST   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
+      const API_COMMITS = (path) =>
+        `https://api.github.com/repos/${OWNER}/${REPO}/commits?path=${encodeURIComponent(path)}&per_page=1`;
+
+      const qEl = document.getElementById("q");
+      const extEl = document.getElementById("extFilter");
+      const sortEl = document.getElementById("sortBy");
+      const clearBtn = document.getElementById("clearBtn");
+      const btnList = document.getElementById("btnList");
+      const btnGrid = document.getElementById("btnGrid");
+
+      const listArea = document.getElementById("listArea");
+      const gridArea = document.getElementById("gridArea");
+      const statusEl = document.getElementById("status");
+
+      let allFiles = [];
+      let view = "list";
+
+      const groups = {
+        docs: ["pdf","doc","docx","xls","xlsx","csv","ppt","pptx"],
+        image: ["png","jpg","jpeg","gif","webp","svg"],
+        audio: ["mp3","wav","aac","m4a","flac"],
+        video: ["mp4","mov","mkv","webm"],
+        archive: ["zip","rar","7z","tar","gz","tar.gz"],
+        playlist: ["m3u","m3u8","txt"]
+      };
+
+      function iconFor(name) {
+        const ext = name.split(".").pop()?.toLowerCase() || "";
+        if (groups.image.includes(ext)) return "bi-file-image";
+        if (groups.video.includes(ext)) return "bi-file-earmark-play";
+        if (groups.audio.includes(ext)) return "bi-file-music";
+        if (ext === "pdf") return "bi-file-earmark-pdf";
+        if (["doc","docx","rtf","odt"].includes(ext)) return "bi-file-earmark-word";
+        if (["xls","xlsx","csv","ods"].includes(ext)) return "bi-file-earmark-spreadsheet";
+        if (["ppt","pptx"].includes(ext)) return "bi-file-earmark-ppt";
+        if (groups.archive.includes(ext)) return "bi-file-zip";
+        if (groups.playlist.includes(ext)) return "bi-file-earmark-text";
+        return "bi-file-earmark";
+      }
+
+      function humanSize(bytes) {
+        if (bytes == null) return "";
+        const units = ["B","KB","MB","GB","TB"];
+        let i = 0, n = bytes;
+        while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+        const fixed = n < 10 && i > 0 ? 1 : 0;
+        return n.toFixed(fixed) + " " + units[i];
+      }
+
+      function rawURL(path) {
+        return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
+      }
+
+      async function fetchCommitDate(path) {
+        try {
+          const res = await fetch(API_COMMITS(path), { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("commit-api");
+          const data = await res.json();
+          const iso = data?.[0]?.commit?.committer?.date || data?.[0]?.commit?.author?.date;
+          return iso ? new Date(iso) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      async function load() {
+        try {
+          statusEl.innerHTML = '<span class="spinner-sm me-2"></span> Dosyalar yükleniyor...';
+          const res = await fetch(API_LIST, { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("list-api");
+          const data = await res.json();
+          const files = data.filter(i => i.type === "file");
+
+          for (const f of files) {
+            const date = await fetchCommitDate(f.path);
+            allFiles.push({
+              name: f.name,
+              size: f.size,
+              path: f.path,
+              url: `${FOLDER}/${encodeURIComponent(f.name)}`,
+              raw: rawURL(f.path),
+              date
+            });
+          }
+
+          render();
+        } catch (e) {
+          console.error(e);
+          statusEl.textContent = "Dosyalar yüklenemedi. GitHub API sınırı veya ağ hatası olabilir.";
+        }
+      }
+
+      function applyFilters(files) {
+        const q = qEl.value.trim().toLowerCase();
+        const groupKey = extEl.value;
+
+        let filtered = files.filter(f => {
+          const matchQ = !q || f.name.toLowerCase().includes(q);
+          let matchGroup = true;
+          if (groupKey !== "*") {
+            const ext = f.name.split(".").pop()?.toLowerCase() || "";
+            matchGroup = groups[groupKey]?.includes(ext);
+          }
+          return matchQ && matchGroup;
+        });
+
+        switch (sortEl.value) {
+          case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
+          case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
+          case "date-desc": filtered.sort((a,b)=> (b.date?.getTime()||0) - (a.date?.getTime()||0)); break;
+          case "date-asc":  filtered.sort((a,b)=> (a.date?.getTime()||0) - (b.date?.getTime()||0)); break;
+          case "size-desc": filtered.sort((a,b)=> (b.size||0) - (a.size||0)); break;
+          case "size-asc":  filtered.sort((a,b)=> (a.size||0) - (b.size||0)); break;
+        }
+        return filtered;
+      }
+
+      function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(()=>{
+          btn.innerHTML = '<i class="bi-clipboard-check"></i>';
+          btn.classList.add("copy-ok");
+          setTimeout(()=>{
+            btn.innerHTML = '<i class="bi-clipboard"></i>';
+            btn.classList.remove("copy-ok");
+          }, 900);
+        });
+      }
 
       function itemListRow(f) {
         const row = document.createElement("div");
@@ -61,7 +297,7 @@
         left.innerHTML = `
           <i class="bi ${iconFor(f.name)} fs-4"></i>
           <div>
-            <div class="fw-semibold file-name">${f.name}</div>
+            <div class="fw-semibold">${f.name}</div>
             <div class="text-white-50 small">
               ${f.date ? new Date(f.date).toLocaleString() : "Tarih yok"} • ${humanSize(f.size)}
             </div>
@@ -93,7 +329,7 @@
           <div class="card-body text-start">
             <div class="d-flex align-items-center gap-2 mb-2">
               <i class="bi ${iconFor(f.name)} fs-4"></i>
-              <h6 class="card-title mb-0 file-name">${f.name}</h6>
+              <h6 class="card-title mb-0">${f.name}</h6>
             </div>
             <div class="text-white-50 small mb-3">
               ${f.date ? new Date(f.date).toLocaleDateString() : "Tarih yok"} • ${humanSize(f.size)}
@@ -112,7 +348,47 @@
         return col;
       }
 
-      // ... diğer fonksiyonlar aynı kaldı ...
+      function render() {
+        const filtered = applyFilters(allFiles);
+
+        listArea.innerHTML = "";
+        filtered.forEach(f => listArea.appendChild(itemListRow(f)));
+
+        gridArea.innerHTML = "";
+        filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
+
+        if (!filtered.length) {
+          statusEl.textContent = "Eşleşen dosya yok.";
+        } else {
+          statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
+        }
+
+        if (view === "list") {
+          listArea.style.display = "";
+          gridArea.style.display = "none";
+          btnList.classList.add("active");
+          btnGrid.classList.remove("active");
+        } else {
+          listArea.style.display = "none";
+          gridArea.style.display = "";
+          btnGrid.classList.add("active");
+          btnList.classList.remove("active");
+        }
+      }
+
+      qEl.addEventListener("input", render);
+      extEl.addEventListener("change", render);
+      sortEl.addEventListener("change", render);
+      clearBtn.addEventListener("click", ()=>{
+        qEl.value = "";
+        extEl.value = "*";
+        sortEl.value = "name-asc";
+        render();
+      });
+
+      btnList.addEventListener("click", ()=> { view = "list"; render(); });
+      btnGrid.addEventListener("click", ()=> { view = "grid"; render(); });
+
       load();
     </script>
   </body>

@@ -1,0 +1,41 @@
+﻿#EXTM3U x-tvg-url="https://raw.githubusercontent.com/rideordie16/epg/main/bin/guide.xml"
+#EXTINF:-1 tvg-name="BEYAZ TV"tvg-id="BeyazTV.tr"tvg-logo="https://i.ibb.co/1mftzTP/beyaz-tv.png"group-title="":http-user-agent="",BEYAZ TV
+https://beyaztv-live.daioncdn.net/beyaztv/beyaztv.m3u8
+#EXTINF:-1 tvg-name="CINE5 TV"tvg-id=""tvg-logo="https://i.ibb.co/7vNbSyP/cine5.png"group-title="":http-user-agent="",CINE5 TV
+https://cdn-cine5.yayin.com.tr/cine5/cine5/chunklist_w406416276.m3u8
+#EXTINF:-1 tvg-name="A2 HD"tvg-id="A2TV.tr"tvg-logo="https://i.ibb.co/7WTsG83/a2.png"group-title="":http-user-agent="",A2
+https://trkvz.daioncdn.net/a2tv/a2tv_1080p.m3u8?e=1756188067&st=tHOXxkPjDBN-V4lNe2o_NA&sid=7owmgf71b3s4&app=59363a60-be96-4f73-9eff-355d0ff2c758&ce=3
+#EXTINF:-1 tvg-name="EUROSTAR"tvg-id="EuroStar.tr"tvg-logo="https://i.ibb.co/CbdPSX6/euro-star.png"group-title="":http-user-agent="",EUROSTAR
+https://mn-nl.mncdn.com/dogusdyg_eurostar/live_1080p3000000kbps/index.m3u8?st=_B3MKPJwm9XSqNmtPwJ6wA&e=1756229599
+#EXTINF:-1 tvg-name="KANAL 7"tvg-id="Kanal7.tr"tvg-logo="https://i.ibb.co/dcC9pzY/kanal-7.png"group-title="":http-user-agent="",KANAL 7
+https://kanal7.daioncdn.net/kanal7/kanal7_1080p.m3u8?&sid=7own7o0ypqnk&app=f99587ad-1637-494d-8255-da35b09d17a1&ce=3
+#EXTINF:-1 tvg-name="ATV"tvg-id="ATV.tr"tvg-logo="https://i.ibb.co/DwFJ0vn/atv.png"group-title="":http-user-agent="",ATV
+http://89.187.191.41/ATV-HD-TR/video.m3u8
+#EXTINF:-1 tvg-name="KANAL 7 AVRUPA"tvg-id=""tvg-logo="https://i.ibb.co/F4P8ddm/kanal-7-avrupa.png"group-title="":http-user-agent="",KANAL 7 AVRUPA
+https://livetv.radyotvonline.net/kanal7live/kanal7avr/chunklist.m3u8
+#EXTINF:-1 tvg-name="KANAL D"tvg-id="KanalD.tr"tvg-logo="https://i.ibb.co/hf2mSz5/kanal-d.png"group-title="":http-user-agent="",KANAL D
+https://demiroren-live.daioncdn.net/kanald/kanald_1080p.m3u8?app=kanald_web&ce=3
+#EXTINF:-1 tvg-name="EURO D"tvg-id="EuroD.tr"tvg-logo="https://i.ibb.co/jMQTJmh/euro-d.png"group-title="":http-user-agent="",EURO D
+https://live.duhnet.tv/S2/HLS_LIVE/eurodnp/track_4_1000/playlist.m3u8
+#EXTINF:-1 tvg-name="TEVE2"tvg-id="Teve2.tr"tvg-logo="https://i.ibb.co/JRpJc2P/teve2.png"group-title="":http-user-agent="",TEVE 2
+https://live.duhnet.tv/S2/HLS_LIVE/teve2np/track_4_1000/playlist.m3u8
+#EXTINF:-1 tvg-name="TV 8"tvg-id="TV8.tr"tvg-logo="https://i.ibb.co/Kr5SFY1/tv8.png"group-title="":http-user-agent="",TV 8
+https://tv8-live.daioncdn.net/tv8/tv8_1080p.m3u8
+#EXTINF:-1 tvg-name="TV 8.5"tvg-id="TV85.tr"tvg-logo="https://i.ibb.co/6PRYHdW/tv85.png"group-title="":http-user-agent="",TV 8.5
+https://tv8-live.daioncdn.net/tv8bucuk/tv8bucuk_1080p.m3u8
+#EXTINF:-1 tvg-name="ATV AVRUPA"tvg-id=""tvg-logo="https://i.ibb.co/Mg8kV1j/atv-avrupa.png"group-title="":http-user-agent="",ATV AVRUPA
+https://trkvz-live.ercdn.net/atvavrupa/atvavrupa_576p.m3u8?st=YbCDp88_SRAyVwZpUiyqyA&e=1756188100
+#EXTINF:-1 tvg-name="SHOW MAX"tvg-id="ShowMax.tr"tvg-logo="https://i.ibb.co/qJnvXJQ/show-max.png"group-title="":http-user-agent="",SHOW MAX
+https://raw.githubusercontent.com/rideordie16/YouTube/main/ch/showmax.m3u8
+#EXTINF:-1 tvg-name="NOW"tvg-id="Fox.tr"tvg-logo="https://i.ibb.co/QvTPfhs/now.png"group-title="":http-user-agent="",NOW
+https://nowtv-live-ad.ercdn.net/nowtv/nowtv_720p.m3u8?e=1756202912&st=-5glGDGRMS_iZHFrCq8F7Q
+#EXTINF:-1 tvg-name="SHOW TURK"tvg-id="ShowTurk.tr"tvg-logo="https://i.ibb.co/rtCJSqm/show-turk.png"group-title="":http-user-agent="",SHOW TURK
+https://raw.githubusercontent.com/rideordie16/YouTube/main/ch/showturk.m3u8
+#EXTINF:-1 tvg-name="SHOW TV"tvg-id="ShowTV.tr"tvg-logo="https://i.ibb.co/Rv0rWhZ/show.png"group-title="":http-user-agent="",SHOW TV
+https://ciner-live.daioncdn.net/showtv/showtv_1080p.m3u8
+#EXTINF:-1 tvg-name="360"tvg-id="360.tr"tvg-logo="https://i.ibb.co/s3gJCGL/360.png"group-title="":http-user-agent="",360
+https://turkmedya-live.ercdn.net/tv360/tv360_720p.m3u8
+#EXTINF:-1 tvg-name="TRT 1"tvg-id="TRT1.tr"tvg-logo="https://i.ibb.co/thr6mVk/trt-1.png"group-title="":http-user-agent="",TRT 1
+https://tv-trt1.medya.trt.com.tr/master_720.m3u8
+#EXTINF:-1 tvg-name="CİNE1 TV"tvg-id="Cine.1.tr"tvg-logo="https://i.ibb.co/zhxTBMR/cine1.png"group-title="":http-user-agent="",CINE1
+https://live.artidijitalmedya.com/artidijital_cine1/cine1/playlist.m3u8

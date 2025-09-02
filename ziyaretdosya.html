@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ziyaretçi Dosya Alanı | BARISHA</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/bootstrap-icons.css" rel="stylesheet" />
+<link href="css/tooplate-kool-form-pack.css" rel="stylesheet" />
+
+<style>
+  .hero-section .container { position: relative; z-index: 2; }
+  .toolbar { backdrop-filter: blur(6px); background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:12px; }
+  .pill{ border-radius:999px; padding:6px 14px; }
+  .muted-sm{opacity:.85}
+  .upload-card{ backdrop-filter: blur(6px); background: rgba(255,255,255,.06); border:1px dashed rgba(255,255,255,.25); border-radius:16px; }
+  .dropzone{ border:2px dashed rgba(255,255,255,.35); border-radius:16px; padding:20px; cursor:pointer; }
+  .dropzone.drag{ background: rgba(255,255,255,.08); }
+  .download-card{ transition:.15s; border-radius:1rem; }
+  .download-card:hover{ transform: translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.18); }
+  #listArea .fw-semibold{ color:#fff !important; }
+  #gridArea .card-title{ color:#fff !important; }
+  .spinner-sm{ width:1.1rem;height:1.1rem;border:.2rem solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;display:inline-block;animation:spin .8s linear infinite }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-section.downloads-hero{ padding-top:220px!important; padding-bottom:40px }
+  @media (min-width:992px){ .hero-section.downloads-hero{ padding-top:260px!important } }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ÜST MENÜ (sitendekiyle aynı yapı) -->
+  <header class="site-header">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-12 col-12 d-flex">
+          <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+            <i class="bi-box"></i><span>BARISHA</span>
+          </a>
+          <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
+            <span class="text-white me-4 d-none d-lg-block">Bağlantıda kalın</span>
+            <li class="social-icon-item"><a href="https://www.instagram.com/barisha.tr" target="_blank" class="social-icon-link bi-instagram"></a></li>
+            <li class="social-icon-item"><a href="https://twitter.com" target="_blank" class="social-icon-link bi-twitter"></a></li>
+            <li class="social-icon-item"><a href="https://wa.me/905303042950" target="_blank" class="social-icon-link bi-whatsapp"></a></li>
+          </ul>
+          <div>
+            <a href="#" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">Bana haber ver <i class="bi-arrow-right ms-2"></i></a>
+          </div>
+          <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" aria-controls="offcanvasMenu"></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
+    <div class="offcanvas-header"><button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas"></button></div>
+    <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+      <nav>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="login.html">Giriş Yap</a></li>
+          <li><a href="register.html">Hesap Oluştur</a></li>
+          <li><a href="password-reset.html">Şifre Sıfırla</a></li>
+          <li><a href="dosyalar.html">Dosyalarım</a></li>
+          <li><a class="active" href="ziyaretdosya.html">Ziyaretçi Dosyaları</a></li>
+          <li><a href="contact.html">İletişim</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero-section hero-bg d-flex justify-content-center align-items-center downloads-hero">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-9">
+          <h2 class="mb-2">👥 Ziyaretçi Dosya Alanı</h2>
+          <p class="muted-sm mb-4">Ziyaretçiler rumuz ile dosya yükleyebilir. Yüklenen dosyalar <code>/Ziyaret/&lt;Rumuz&gt;</code> klasörüne kaydedilir ve herkese açık listelenir.</p>
+        </div>
+
+        <!-- Yükleme Kartı -->
+        <div class="col-lg-9">
+          <div class="upload-card p-3 p-lg-4">
+            <div class="row g-3 text-start">
+              <div class="col-md-4">
+                <label class="form-label">Rumuz</label>
+                <input id="nickname" type="text" class="form-control" placeholder="ör. misafir27" maxlength="40" />
+                <div class="form-text">Lütfen özel bilgi (telefon, mail vs.) yazmayın.</div>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Dosya(lar)</label>
+                <div id="drop" class="dropzone text-center text-white-50">
+                  <div><i class="bi-cloud-arrow-up fs-3"></i></div>
+                  <div>Dosyaları buraya sürükleyin ya da tıklayın</div>
+                  <input id="fileInput" type="file" class="d-none" multiple />
+                </div>
+                <div class="form-text">Toplam önerilen tek dosya &lt; 20 MB (büyük dosyalar için farklı depolama düşünün).</div>
+              </div>
+              <div class="col-12 d-flex gap-2">
+                <button id="btnUpload" class="btn btn-light pill"><i class="bi-upload me-1"></i>Yükle</button>
+                <button id="btnClear" class="btn btn-outline-light pill">Temizle</button>
+                <div id="upStatus" class="ms-auto muted-sm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listeleme / Filtre -->
+        <div class="col-lg-9 mt-4">
+          <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi-search"></i></span>
+              <input id="q" type="text" class="form-control" placeholder="Ara (dosya adı / rumuz)" />
+            </div>
+            <select id="sortBy" class="form-select">
+              <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
+              <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
+              <option value="name-asc">Ada göre (A→Z)</option>
+              <option value="name-desc">Ada göre (Z→A)</option>
+              <option value="size-desc">Boyut (Büyük→Küçük)</option>
+              <option value="size-asc">Boyut (Küçük→Büyük)</option>
+            </select>
+            <button id="btnRefresh" class="btn btn-outline-light">Yenile</button>
+          </div>
+        </div>
+
+        <!-- İçerik -->
+        <div class="col-lg-9 mt-3">
+          <div id="listArea" class="list group"></div>
+          <div id="status" class="mt-3 muted-sm">
+            <span class="spinner-sm me-2"></span> Ziyaretçi dosyaları yükleniyor...
+          </div>
+
+          <a class="custom-btn btn mt-4" href="dosyalar.html">⬅️ Dosyalarım</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  /* ==== REPO AYARLARI (okuma için) ==== */
+  const OWNER  = "barisha-app";
+  const REPO   = "Barisha";            // <-- DOSYALARINI BUNA YÜKLÜYORSUN (dosyalar.html de böyleydi)
+  const BRANCH = "main";
+  const FOLDER = "Ziyaret";            // ziyaretçi yüklemeleri burada
+  const API_LIST = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
+
+  const qEl = document.getElementById("q");
+  const sortEl = document.getElementById("sortBy");
+  const btnRefresh = document.getElementById("btnRefresh");
+  const listArea = document.getElementById("listArea");
+  const statusEl = document.getElementById("status");
+
+  const nickEl = document.getElementById("nickname");
+  const fileInput = document.getElementById("fileInput");
+  const drop = document.getElementById("drop");
+  const btnUpload = document.getElementById("btnUpload");
+  const btnClear = document.getElementById("btnClear");
+  const upStatus = document.getElementById("upStatus");
+
+  let queuedFiles = [];
+  let allFiles = []; // {name,size,path,url,raw,date?,nick?}
+
+  // ---- Upload UI ----
+  drop.addEventListener("click", ()=> fileInput.click());
+  drop.addEventListener("dragover", e=>{ e.preventDefault(); drop.classList.add("drag"); });
+  drop.addEventListener("dragleave", ()=> drop.classList.remove("drag"));
+  drop.addEventListener("drop", e=>{
+    e.preventDefault();
+    drop.classList.remove("drag");
+    if (e.dataTransfer?.files?.length) {
+      queuedFiles = [...e.dataTransfer.files];
+      upStatus.textContent = `${queuedFiles.length} dosya seçildi.`;
+    }
+  });
+  fileInput.addEventListener("change", ()=>{
+    queuedFiles = [...fileInput.files];
+    upStatus.textContent = `${queuedFiles.length} dosya seçildi.`;
+  });
+  btnClear.addEventListener("click", ()=>{
+    fileInput.value = "";
+    queuedFiles = [];
+    upStatus.textContent = "";
+  });
+
+  // ---- Upload handler (serverless endpoint gerekir) ----
+  btnUpload.addEventListener("click", async ()=>{
+    const nick = (nickEl.value || "").trim();
+    if (!nick) { alert("Lütfen bir rumuz girin."); return; }
+    if (!queuedFiles.length) { alert("Lütfen en az bir dosya seçin."); return; }
+
+    upStatus.innerHTML = '<span class="spinner-sm me-2"></span> Yükleniyor...';
+
+    // Backend endpoint (aşağıda kodunu veriyorum)
+    const endpoint = "/api/ziyaret-upload";
+
+    const form = new FormData();
+    form.set("nickname", nick);
+    queuedFiles.forEach(f=> form.append("files", f, f.name));
+
+    try {
+      const res = await fetch(endpoint, { method: "POST", body: form });
+      const data = await res.json().catch(()=> ({}));
+
+      if (!res.ok) throw new Error(data?.error || res.statusText);
+      upStatus.textContent = `Yüklendi: ${data.saved?.length || queuedFiles.length} dosya.`;
+      // Temizle ve listeyi yenile
+      fileInput.value=""; queuedFiles=[]; await load();
+    } catch (e) {
+      console.error(e);
+      upStatus.textContent = "Yükleme başarısız: " + e.message;
+    }
+  });
+
+  // ---- List / Read (public) ----
+  async function load(){
+    try{
+      statusEl.innerHTML = '<span class="spinner-sm me-2"></span> Ziyaretçi dosyaları yükleniyor...';
+      const res = await fetch(API_LIST, { headers: { "Accept":"application/vnd.github+json" }});
+      if (!res.ok) throw new Error("Liste alınamadı");
+      const roots = await res.json(); // Klasörler (rumuz)
+      const folders = roots.filter(i=> i.type==="dir");
+
+      const acc = [];
+      // her rumuz klasörünü dolaş
+      for (const dir of folders){
+        const r = await fetch(dir.url, { headers: { "Accept":"application/vnd.github+json" }});
+        if (!r.ok) continue;
+        const files = await r.json();
+        const nick = dir.name;
+        for (const f of files){
+          if (f.type !== "file") continue;
+          acc.push({
+            name: f.name,
+            size: f.size,
+            path: f.path,
+            nick,
+            url: `${FOLDER}/${encodeURIComponent(nick)}/${encodeURIComponent(f.name)}`, // site içi yol
+            raw: `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(f.path).replace(/%2F/g,"/")}`,
+            date: null
+          });
+        }
+      }
+      allFiles = acc;
+      render();
+    }catch(e){
+      console.error(e);
+      statusEl.textContent = "Ziyaretçi dosyaları yüklenemedi.";
+    }
+  }
+
+  function render(){
+    let q = (qEl.value || "").trim().toLowerCase();
+    let filtered = allFiles.filter(f => {
+      const hay = `${f.name} ${f.nick}`.toLowerCase();
+      return !q || hay.includes(q);
+    });
+
+    switch (sortEl.value) {
+      case "name-asc": filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
+      case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
+      case "size-desc": filtered.sort((a,b)=> (b.size||0)-(a.size||0)); break;
+      case "size-asc": filtered.sort((a,b)=> (a.size||0)-(b.size||0)); break;
+      case "date-asc": default: break; // date yok şimdilik
+      case "date-desc": break;
+    }
+
+    listArea.innerHTML = "";
+    if (!filtered.length){
+      statusEl.textContent = "Henüz dosya yok veya eşleşme bulunamadı.";
+      return;
+    } else {
+      statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
+    }
+
+    filtered.forEach(f=>{
+      const row = document.createElement("div");
+      row.className = "list-group-item d-flex justify-content-between align-items-center download-card";
+      const left = document.createElement("div");
+      left.className = "d-flex align-items-center gap-3 text-start";
+      left.innerHTML = `
+        <i class="bi bi-file-earmark fs-4"></i>
+        <div>
+          <div class="fw-semibold">${f.name}</div>
+          <div class="text-white-50 small">👤 ${f.nick} • ${ (f.size/1024).toFixed(1) } KB</div>
+        </div>
+      `;
+      const right = document.createElement("div");
+      right.className = "d-flex align-items-center gap-2";
+      right.innerHTML = `
+        <a class="btn btn-sm btn-light pill" href="${f.url}" download><i class="bi-download me-1"></i>İndir</a>
+        <a class="btn btn-sm btn-outline-light pill" href="${f.raw}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+      `;
+      row.appendChild(left); row.appendChild(right);
+      listArea.appendChild(row);
+    });
+  }
+
+  qEl.addEventListener("input", render);
+  sortEl.addEventListener("change", render);
+  btnRefresh.addEventListener("click", load);
+
+  load();
+</script>
+</body>
+</html>

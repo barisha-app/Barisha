@@ -61,4 +61,109 @@
       const API_URL = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}?ref=${BRANCH}`;
 
       const listEl   = document.getElementById("list");
-      const statusEl = docume
+      const statusEl = document.getElementById("status");
+      const searchEl = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearBtn");
+
+      // Basit ikon seçici
+      function fileIcon(name) {
+        const ext = (name.split(".").pop() || "").toLowerCase();
+        if (["png","jpg","jpeg","gif","webp","svg"].includes(ext)) return "bi-file-image";
+        if (["mp4","mov","mkv","webm"].includes(ext)) return "bi-file-earmark-play";
+        if (["mp3","wav","aac","m4a","flac"].includes(ext)) return "bi-file-music";
+        if (["pdf"].includes(ext)) return "bi-file-earmark-pdf";
+        if (["doc","docx","odt","rtf"].includes(ext)) return "bi-file-earmark-word";
+        if (["xls","xlsx","csv","ods"].includes(ext)) return "bi-file-earmark-spreadsheet";
+        if (["ppt","pptx"].includes(ext)) return "bi-file-earmark-ppt";
+        if (["zip","rar","7z","tar","gz"].includes(ext)) return "bi-file-zip";
+        if (["m3u","m3u8","txt","md","json"].includes(ext)) return "bi-file-earmark-text";
+        return "bi-file-earmark";
+      }
+
+      // Boyutu okunur hale getir
+      function humanSize(bytes) {
+        if (bytes == null) return "";
+        const units = ["B","KB","MB","GB","TB"];
+        let i=0, num=bytes;
+        while (num >= 1024 && i < units.length-1) { num /= 1024; i++; }
+        return num.toFixed(num < 10 && i>0 ? 1 : 0) + " " + units[i];
+        }
+
+      // Liste öğesi oluştur
+      function makeItem({name, path, size, download_url}) {
+        // GitHub Pages’da dosyaya görece link de verebilirsin:
+        const relativeHref = `${PATH}/${encodeURIComponent(name)}`;
+        // Veya doğrudan raw link: download_url
+        const href = relativeHref; // istersen 'download_url' yapabilirsin
+
+        const li = document.createElement("a");
+        li.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center download-card";
+        li.href = href;
+        li.setAttribute("download", "");
+        li.innerHTML = `
+          <span class="d-flex align-items-center gap-2">
+            <i class="bi ${fileIcon(name)}"></i>
+            <strong>${name}</strong>
+          </span>
+          <span class="badge bg-primary rounded-pill">${humanSize(size) || "İndir"}</span>
+        `;
+        return li;
+      }
+
+      // Durum yaz
+      function setStatus(msg, loading=false) {
+        statusEl.innerHTML = loading ? `<span class="spinner me-2"></span>${msg}` : msg;
+      }
+
+      // Veriyi getir & render et
+      async function loadFiles() {
+        try {
+          setStatus("Dosyalar yükleniyor...", true);
+          const res = await fetch(API_URL, { headers: { "Accept": "application/vnd.github+json" }});
+          if (!res.ok) {
+            throw new Error("GitHub API hatası: " + res.status);
+          }
+          const data = await res.json();
+
+          // Sadece dosya olanları al (klasörleri at)
+          const files = data.filter(item => item.type === "file");
+
+          // Hiç dosya yoksa
+          if (!files.length) {
+            setStatus("Bu klasörde henüz dosya yok. Lütfen depoda '/dosyalar' klasörüne dosya yükleyin.");
+            return;
+          }
+
+          // İsim sıralı
+          files.sort((a,b) => a.name.localeCompare(b.name, "tr"));
+
+          // Render
+          listEl.innerHTML = "";
+          files.forEach(f => listEl.appendChild(makeItem(f)));
+          setStatus(`Toplam ${files.length} dosya listelendi.`);
+          
+          // Arama
+          searchEl.addEventListener("input", () => filter(files));
+          clearBtn.addEventListener("click", () => { searchEl.value=""; filter(files); });
+        } catch (err) {
+          console.error(err);
+          setStatus("Dosyalar yüklenemedi. İnternet/GitHub erişimini kontrol edin.");
+        }
+      }
+
+      function filter(files) {
+        const q = searchEl.value.trim().toLowerCase();
+        const items = [...listEl.children];
+        let shown = 0;
+        files.forEach((f, i) => {
+          const match = !q || f.name.toLowerCase().includes(q);
+          items[i].style.display = match ? "" : "none";
+          if (match) shown++;
+        });
+        setStatus(q ? `${shown} sonuç` : `Toplam ${files.length} dosya listelendi.`);
+      }
+
+      loadFiles();
+    </script>
+  </body>
+</html>

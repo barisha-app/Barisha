@@ -1,0 +1,10 @@
+{
+  "name": "barisha-upload-api",
+  "version": "1.0.0",
+  "main": "api/upload.js",
+  "license": "MIT",
+  "dependencies": {
+    "formidable": "^3.5.1",
+    "node-fetch": "^3.3.2"
+  }
+}

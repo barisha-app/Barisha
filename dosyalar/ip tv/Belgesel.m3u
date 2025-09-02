@@ -1,7 +1,0 @@
-﻿#EXTM3U
-#EXTINF:-1 :http-user-agent="National Geographic"tvg-id="NationalGeographic.tr"tvg-name=""group-title="Belgesel"tvg-logo="",National Geographic
-https://saran-live.ercdn.net/natgeohd/index.m3u8
-#EXTINF:-1 :http-user-agent="National Geographic Wild"tvg-id="NationalGeographicWild.tr"tvg-name=""group-title="Belgesel"tvg-logo="",National Geographic Wild
-https://saran-live.ercdn.net/natgeowild/index.m3u8
-#EXTINF:-1 :http-user-agent=""tvg-id=""tvg-name=""group-title=""tvg-logo="",
-

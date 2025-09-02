@@ -1,0 +1,31 @@
+﻿#EXTM3U x-tvg-url="https://raw.githubusercontent.com/rideordie16/epg/main/bin/guide.xml"
+#EXTINF:-1 tvg-name="TVNET"tvg-id="TVNET.tr"tvg-logo="https://i.ibb.co/2jtzN6F/tvnet.png"group-title="":http-user-agent="",TVNET
+https://mn-nl.mncdn.com/tvnet/tvnet/playlist.m3u8
+#EXTINF:-1 tvg-name="HABER GLOBAL"tvg-id="HaberGlobal.tr"tvg-logo="https://i.ibb.co/4ZpZWkf/haber-global.png"group-title="":http-user-agent="",HABER GLOBAL
+https://tv.ensonhaber.com/haberglobal/haberglobal_720p.m3u8
+#EXTINF:-1 tvg-name="Haberturk TV"tvg-id="HaberturkTV.tr"tvg-logo="https://i.ibb.co/5GmcTH9/haberturk.png"group-title="":http-user-agent="",HABERTURK
+https://ciner-live.daioncdn.net/haberturktv/haberturktv_1080p.m3u8
+#EXTINF:-1 tvg-name="CNN TURK"tvg-id="CNNTurk.tr"tvg-logo="https://i.ibb.co/bFsmkwJ/cnn-turk.png"group-title="":http-user-agent="",CNN TURK
+https://live.duhnet.tv//S2/HLS_LIVE/cnnturknp/track_4_1000/playlist.m3u8?&live=true&app=com.cnnturk&st=mu-Ni2HEMid32Jfd6fWXxw&e=1756153902
+#EXTINF:-1 tvg-name="BENGUTURK TV"tvg-id="BenguturkTV.tr"tvg-logo="https://i.ibb.co/CHWhMvQ/bengu-turk.png"group-title="":http-user-agent="",BENGU TURK
+https://tv.ensonhaber.com/benguturk/benguturk_720p.m3u8
+#EXTINF:-1 tvg-name="HALK TV"tvg-id="HalkTV.tr"tvg-logo="https://i.ibb.co/DYhmg6k/halk-tv.png"group-title="":http-user-agent="",HALK TV
+https://halktv.daioncdn.net/halktv/halktv_1080p.m3u8?app=c86957d3-74a7-44da-9ad2-dc358c769609
+#EXTINF:-1 tvg-name="NTV"tvg-id="NTV.tr"tvg-logo="https://i.ibb.co/gRR1zpm/ntv.png"group-title="":http-user-agent="",NTV
+https://dogus.daioncdn.net/ntv/ntv_720p.m3u8
+#EXTINF:-1 tvg-name="A HABER"tvg-id="AHaber.tr"tvg-logo="https://i.ibb.co/Hhjcgm3/a-haber.png"group-title="":http-user-agent="",A HABER
+https://trkvz-live.ercdn.net/ahaberhd/ahaberhd_720p.m3u8?st=jsnO5OPvxIXorAG1xiij6w&e=1756187969
+#EXTINF:-1 tvg-name="TGRT HABER HD"tvg-id="TGRTHaber.tr"tvg-logo="https://i.ibb.co/K5frjVY/tgrt-haber.png"group-title="":http-user-agent="",TGRT HABER HD
+https://canli.tgrthaber.com/tgrt.m3u8
+#EXTINF:-1 tvg-name="Akit TV"tvg-id="AkitTV.tr"tvg-logo="https://i.ibb.co/MBwzD2b/akit-tv.png"group-title="":http-user-agent="",AKIT TV
+https://akittv-live.ercdn.net/akittv/akittv_720p.m3u8
+#EXTINF:-1 tvg-name="TRT HABER"tvg-id="TRTHaber.tr"tvg-logo="https://i.ibb.co/NCvRHC3/trt-haber.png"group-title="":http-user-agent="",TRT HABER
+https://tv-trthaber.medya.trt.com.tr/master_720.m3u8
+#EXTINF:-1 tvg-name="BLOOMBERG HT"tvg-id="BloombergHT.tr"tvg-logo="https://i.ibb.co/PTNvZkD/bloomberg-ht.png"group-title="":http-user-agent="",BLOOMBERG HT
+https://ciner-live.daioncdn.net/bloomberght/bloomberght_720p.m3u8
+#EXTINF:-1 tvg-name="24 TV"tvg-id="40"tvg-logo="https://i.ibb.co/tHQpWvn/24.png"group-title="":http-user-agent="",24
+https://turkmedya-live.ercdn.net/tv24/tv24_1080p.m3u8
+#EXTINF:-1 tvg-name="TURKHABER"tvg-id="TurkHaberTV.tr"tvg-logo="https://i.ibb.co/ySv65wg/turk-haber.png"group-title="":http-user-agent="",TURKHABER
+https://edge1.socialsmart.tv/turkhaber/bant1/playlist.m3u8
+#EXTINF:-1 tvg-name="TV 100"tvg-id="TV100.tr"tvg-logo="https://i.ibb.co/zZnBCWt/tv100.png"group-title="":http-user-agent="",TV 100
+https://tv100.daioncdn.net/tv100/tv100_1080p.m3u8?app=web

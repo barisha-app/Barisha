@@ -1,0 +1,37 @@
+﻿#EXTM3U
+#EXTINF:-1 tvg-name="Kurdsat TV"tvg-id="kurdsat.tv"tvg-logo="https://cdn6.aptoide.com/imgs/a/f/e/afe314a10c57d7cc20a578aa6c77fa0d_icon.png"group-title="Kürt kanalları":http-user-agent="",Kurdsat TV
+https://iko-live.akamaized.net/KurdsatTV/master_3.m3u8
+#EXTINF:-1 tvg-name="Kurdistan 24 TV"tvg-id="kurdistan24.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8TYVIVoy5lA673oy_IGt6WZe6k5BC7eeB8w&s"group-title="Kürt kanalları":http-user-agent="",Kurdistan 24 TV
+https://d1x82nydcxndze.cloudfront.net/live/index_720p25.m3u8
+#EXTINF:-1 tvg-name="Farmoda TV"tvg-id="Farmoda.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFyiZ-y5m5BemyqfwDIRdlo3OIS0Asc-IsSQ&s"group-title="Kürt kanalları":http-user-agent="",Farmoda TV
+https://avr.host247.net/live/FarmodaTV/chunklist_w1158226440.m3u8
+#EXTINF:-1 tvg-name="Waar TV"tvg-id="waar.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlS-RgnjJ8i5o2PTbjhgLDIR6CI5csY-_APQ&s"group-title="Kürt kanalları":http-user-agent="",Waar TV
+https://live.kwikmotion.com/waarmedialive/waarmedia.smil/waarmediapublish/waarmedia_source/chunks.m3u8
+#EXTINF:-1 tvg-name="Ronahi Tv"tvg-id="Ronahi.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg1VAByT_0zNpCl7tBW3Xj7dgt4nK8ZM0rEw&s"group-title="Kürt kanalları":http-user-agent="",Ronahi Tv
+https://iko-streamline-live1.akamaized.net/RonahiTV/master_2.m3u8
+#EXTINF:-1 tvg-name="JİN TV"tvg-id="jintv.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGcjfVDGw89Z2FjCtJJPbdG4ri9q2XUxbJjA&s"group-title="Kürt kanalları":http-user-agent="",Jin TV
+https://live.jintv.org/medialive/jintv.m3u8
+#EXTINF:-1 tvg-name="Kurdistan TV"tvg-id="kurdistan.tv"tvg-logo="https://home.hccnet.nl/t.amerongen/Kurdistan%20TV_bestanden/kurdistantv.jpg"group-title="Kürt kanalları":http-user-agent="",Kurdistan TV
+https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist_w346396580_b1700000_sleng_t64MTA4MHA=.m3u8
+#EXTINF:-1 tvg-name="Rudaw TV"tvg-id="rudaw.tv"tvg-logo="https://photos.smugmug.com/Rudaw-logo/i-7WVWZvk/0/KpP92MzbzGV2SX3ftc2J6RdbjN27V7GGc6hhgG2FZ/L/unnamed-L.png"group-title="Kürt kanalları":http-user-agent="",Rudaw TV
+https://svs.itworkscdn.net/rudawlive/rudawlive.smil/rudawpublish/rudawtv_source/chunks.m3u8
+#EXTINF:-1 tvg-name="Sterk TV"tvg-id="sterktv1.tv"tvg-logo="https://play-lh.googleusercontent.com/bg_LPoDCexA-1a_LFnJaHlRgevNAXpeNUv0WEWQcdRjzCCfau3bbv-kDKyQqOrlNT8w"group-title="Kürt kanalları":http-user-agent="",Sterk TV
+https://5dab1db4b25fe.streamlock.net/sterk/sterktv/chunklist_w38707371.m3u8
+#EXTINF:-1 tvg-name="NRT tv"tvg-id="nrt.tv"tvg-logo="https://yt3.googleusercontent.com/6G1XrscolP3Iy2xrzCwslNuKjbU1FapyJTf_sErJ1AW_kmS2z55lqoFL7wOKqPhhDcEtQnu4xjM=s900-c-k-c0x00ffffff-no-rj"group-title="Kürt kanalları":http-user-agent="",NRT tv
+https://media.streambrothers.com:1936/8226/8226/chunklist_w1134271812.m3u8
+#EXTINF:-1 tvg-name="Payam TV"tvg-id="payam.tv"tvg-logo="https://yt3.googleusercontent.com/p5kL_ggAuIcCfsKrXSVFPn896pIm9NRfc5oRD-7ijD3CsI7qgjrJFi0EgKV4CNkX_Q7gJeWE=s900-c-k-c0x00ffffff-no-rj"group-title="Kürt kanalları":http-user-agent="",Payam TV
+https://media2.streambrothers.com:1936/8218/8218/chunklist_w1886713773.m3u8
+#EXTINF:-1 tvg-name="Med Muzik"tvg-id="MedMuzik.tr"tvg-logo="https://qanawat.taghtia.com/assets/channels/med-muzik.png"group-title="Kürt kanalları":http-user-agent="",Med Muzik
+http://54.36.110.140/live3/live3.m3u8
+#EXTINF:-1 tvg-name="afarinTV"tvg-id="afarin.tv"tvg-logo="https://cdn6.aptoide.com/imgs/d/2/1/d21a4095367a175e86e5e30f5dd57f5a_icon.png"group-title="Kürt kanalları":http-user-agent="",afarinTV
+https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8
+#EXTINF:-1 tvg-name="Channel 8 Kurdish"tvg-id="Channel8.iq"tvg-logo="https://pbs.twimg.com/profile_images/1745148300179763200/T7diDBW0_200x200.jpg"group-title="Kürt kanalları":http-user-agent="",afarinTV
+https://live.channel8.com/Channel8-Kurdish/index.fmp4.m3u8
+#EXTINF:-1 tvg-name="Kurdsat News"tvg-id="KurdsatNews.iq"tvg-logo="https://ikomg.com/wp-content/uploads/2023/12/Images-for-web-37-800x470.png"group-title="Kürt kanalları":http-user-agent="",Kurdsat News
+https://iko-streamline-live1.akamaized.net/KurdsatNews/master.m3u8
+#EXTINF:-1 tvg-name="KurdMax Show"tvg-id="KurdMaxShow.iq"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKTdj-meyrQcly_wEVQBbHSc9YtqyQlzfMig&s"group-title="Kürt kanalları":http-user-agent="",KurdMax Show
+https://6476e46b58f91.streamlock.net/liveTrans/SHOW1/playlist.m3u8
+#EXTINF:-1 tvg-name="Mixkurdy"tvg-id="Mixkurdy.iq"tvg-logo="https://logowik.com/content/uploads/images/mix-tv1850.logowik.com.webp"group-title="Kürt kanalları":http-user-agent="",Mixkurdy
+https://avr.host247.net/live/Mix-kurdy/playlist.m3u8
+#EXTINF:-1 tvg-name="Eman tv"tvg-id="Eman.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCXPfuPDzUfjCfYVDt-Ud_-_OiY1eMrjtlQg&s"group-title="Kürt kanalları":http-user-agent="",Eman tv
+https://avr.host247.net/live/emantv/playlist.m3u8

@@ -1,29 +1,99 @@
-// api/upload.js
+// api/upload.js  (ESM)
+
 import { IncomingForm } from "formidable";
 import fs from "fs";
 import { Buffer } from "buffer";
 
+// ---- Vercel ayarı: form-data'yı kendimiz parse edeceğiz
 export const config = {
-  api: {
-    bodyParser: false, // multipart/form-data için kapat
-  },
+  api: { bodyParser: false },
 };
 
-const MAX_BYTES = 60 * 1024 * 1024; // 60MB üstünü reddet (istemci 50MB öneriyor)
-
+// ---- küçük yardımcılar
 function json(res, status, data) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.end(JSON.stringify(data));
 }
 
+function setCORS(res) {
+  // İstersen * yerine tam domainini yaz: https://barisha.vercel.app
+  res.setHeader("Access-Control-Allow-Origin", "https://barisha.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 function sanitizeSegment(s, fallback = "anon") {
-  // Güvenli klasör/rumuz için basit temizlik
-  const out = (s || "").toString().trim().replace(/[^\w\-\.]/gi, "_").slice(0, 80);
+  const out = (s || "")
+    .toString()
+    .trim()
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    .slice(0, 80);
   return out || fallback;
 }
 
+const MAX_BYTES = 60 * 1024 * 1024; // 60MB üstünü reddet (istemci için 50MB öner)
+const GITHUB_API = "https://api.github.com";
+
+async function getFileSha(owner, repo, path, branch, token) {
+  const url = `${GITHUB_API}/repos/${owner}/${repo}/contents/${encodeURIComponent(
+    path
+  )}?ref=${encodeURIComponent(branch)}`;
+
+  const r = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "User-Agent": "vercel-upload-edge",
+    },
+  });
+
+  if (r.status === 404) return null;
+  if (!r.ok) {
+    throw new Error(`SHA sorgu hatası: ${r.status}`);
+  }
+  const j = await r.json();
+  return j.sha || null;
+}
+
+async function putFile(owner, repo, path, branch, token, contentB64, message, sha) {
+  const url = `${GITHUB_API}/repos/${owner}/${repo}/contents/${encodeURIComponent(
+    path
+  )}`;
+  const body = {
+    message,
+    content: contentB64,
+    branch,
+    committer: { name: "Barisha Uploader", email: "uploader@vercel.local" },
+  };
+  if (sha) body.sha = sha;
+
+  const r = await fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+      "User-Agent": "vercel-upload-edge",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!r.ok) {
+    const t = await r.text().catch(() => "");
+    throw new Error(`GitHub PUT hatası: ${r.status} ${t}`);
+  }
+  return r.json();
+}
+
+// ---- ana handler
 export default async function handler(req, res) {
+  setCORS(res);
+
+  // Preflight
+  if (req.method === "OPTIONS") return res.status(200).end();
+
+  // Sadece POST
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return json(res, 405, { ok: false, error: "Method Not Allowed" });
@@ -36,70 +106,61 @@ export default async function handler(req, res) {
   }
 
   try {
+    // formidable ile form verisini al
     const { fields, files } = await new Promise((resolve, reject) => {
       const form = new IncomingForm({ multiples: false, maxFileSize: MAX_BYTES });
-      form.parse(req, (err, fields, files) => (err ? reject(err) : resolve({ fields, files })));
+      form.parse(req, (err, flds, fls) => (err ? reject(err) : resolve({ fields: flds, files: fls })));
     });
 
-    const owner  = sanitizeSegment(fields.owner);
-    const repo   = sanitizeSegment(fields.repo);
+    const owner = sanitizeSegment(fields.owner || "barisha-app");
+    const repo  = sanitizeSegment(fields.repo  || "Barisha");
     const branch = sanitizeSegment(fields.branch || "main");
-    const root   = sanitizeSegment(fields.root || "Ziyaret");
-    const rawNick= sanitizeSegment(fields.nick || "anon");
+    const root = sanitizeSegment(fields.root || "Ziyaret");
+    const nick = sanitizeSegment(fields.nick || "anon");
 
-    const file = files.file;
-    if (!file) return json(res, 400, { ok: false, error: "no_file" });
-
-    // Vercel + formidable: "filepath" (v3) veya "path" (v2) olabilir
-    const filepath = file.filepath || file.path;
-    const originalName = sanitizeSegment(file.originalFilename || file.name || "upload.bin", "upload.bin");
-
-    // Dosyayı oku ve base64'e çevir
-    const fileBuffer = await fs.promises.readFile(filepath);
-    const contentB64 = Buffer.from(fileBuffer).toString("base64");
-
-    // GitHub path
-    const ghPath = `${root}/${rawNick}/${originalName}`;
-
-    // Contents API: PUT /repos/{owner}/{repo}/contents/{path}
-    const ghUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(ghPath)}`;
-    const payload = {
-      message: `upload ${originalName} via /api/upload`,
-      content: contentB64,
-      branch,
-    };
-
-    const ghRes = await fetch(ghUrl, {
-      method: "PUT",
-      headers: {
-        "Authorization": `token ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/vnd.github+json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const ghJson = await ghRes.json();
-
-    if (!ghRes.ok) {
-      console.error("GitHub PUT error", ghRes.status, ghJson);
-      // Eğer dosya zaten varsa (409): istersen burada önce GET ile sha alıp update yapabilirsin.
-      return json(res, ghRes.status, { ok: false, error: "github_error", detail: ghJson });
+    // Tek dosya bekliyoruz: input name="file"
+    const fileObj = files.file;
+    if (!fileObj) {
+      return json(res, 400, { ok: false, error: "no_file" });
     }
 
-    // Başarılı
+    // formidable v3 -> fileObj.filepath
+    const filePath = Array.isArray(fileObj) ? fileObj[0].filepath : fileObj.filepath;
+    const fileName = Array.isArray(fileObj) ? sanitizeSegment(fileObj[0].originalFilename) : sanitizeSegment(fileObj.originalFilename);
+
+    // Dosyayı oku (buffer)
+    const buf = await fs.promises.readFile(filePath);
+    if (buf.byteLength > MAX_BYTES) {
+      return json(res, 413, { ok: false, error: "too_large" });
+    }
+
+    const relPath = `${root}/${nick}/${fileName}`; // Ziyaret/<rumuz>/<dosya>
+    const sha = await getFileSha(owner, repo, relPath, branch, token);
+    const message = sha
+      ? `update: ${relPath}`
+      : `upload: ${relPath}`;
+
+    const resJson = await putFile(
+      owner,
+      repo,
+      relPath,
+      branch,
+      token,
+      buf.toString("base64"),
+      message,
+      sha || undefined
+    );
+
     return json(res, 200, {
       ok: true,
-      path: ghPath,
-      size: file.size,
-      content_url: ghJson.content?.html_url || null,
-      download_url: ghJson.content?.download_url || null,
+      path: relPath,
+      size: buf.byteLength,
+      content: resJson.content,
+      commit: resJson.commit?.sha,
+      html_url: resJson.content?.html_url,
     });
   } catch (err) {
-    console.error("UPLOAD ERROR", err);
-    if (String(err)?.includes("maxFileSize")) {
-      return json(res, 413, { ok: false, error: "file_too_large", max: MAX_BYTES });
-    }
-    return json(res, 500, { ok: false, error: "server_error" });
+    console.error(err);
+    return json(res, 500, { ok: false, error: "upload_failed", detail: String(err?.message || err) });
   }
 }

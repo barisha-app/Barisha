@@ -104,6 +104,9 @@
         border-radius: 16px;
         padding: 15px;
         margin-bottom: 20px;
+        position: sticky;
+        top: 90px;
+        z-index: 100;
       }
       
       .input-group-text {
@@ -255,6 +258,54 @@
         transform: translateY(-2px);
       }
       
+      /* Pagination Styles */
+      .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+      
+      .pagination {
+        display: flex;
+        gap: 8px;
+      }
+      
+      .page-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .page-link {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 8px;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+      
+      .page-link:hover {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+      }
+      
+      .page-item.active .page-link {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+        color: white;
+      }
+      
+      .page-item.disabled .page-link {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
       /* Animations */
       @keyframes float {
         0% { transform: translateY(0px); }
@@ -308,6 +359,11 @@
       @media (max-width: 768px) {
         .social-icon {
           display: none !important;
+        }
+        
+        .pagination {
+          flex-wrap: wrap;
+          justify-content: center;
         }
       }
     </style>
@@ -385,7 +441,7 @@
             <div class="col-lg-10">
               <h2 class="mb-2 floating">📂 Dosya Arşivi</h2>
               <p class="mb-4 muted-sm floating" style="animation-delay: 0.3s;">
-                Bu sayfada ki dosyalar Barisha'ya aittir. izinsiz başka yerlerde yayınlanması yasaktır.
+                Bu sayfadaki dosyalar Barisha'ya aittir. İzinsiz başka yerlerde yayınlanması yasaktır.
               </p>
             </div>
 
@@ -437,6 +493,9 @@
             <div class="col-lg-10 mt-3">
               <div id="listArea" class="list group"></div>
               <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
+
+              <!-- Sayfalama -->
+              <div id="pagination" class="pagination-container"></div>
 
               <div id="status" class="mt-3 muted-sm">
                 <span class="spinner-sm me-2"></span> Dosyalar yükleniyor...
@@ -559,6 +618,7 @@
       const REPO   = "Barisha"; 
       const BRANCH = "main";
       const FOLDER = "dosyalar";
+      const ITEMS_PER_PAGE = 5; // Sayfa başına dosya sayısı
 
       const API_LIST   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
       const API_COMMITS = (path) =>
@@ -570,13 +630,17 @@
       const clearBtn = document.getElementById("clearBtn");
       const btnList = document.getElementById("btnList");
       const btnGrid = document.getElementById("btnGrid");
+      const paginationEl = document.getElementById("pagination");
 
       const listArea = document.getElementById("listArea");
       const gridArea = document.getElementById("gridArea");
       const statusEl = document.getElementById("status");
 
       let allFiles = [];
+      let filteredFiles = [];
       let view = "list";
+      let currentPage = 1;
+      let totalPages = 1;
 
       const groups = {
         docs: ["pdf","doc","docx","xls","xlsx","csv","ppt","pptx"],
@@ -646,18 +710,18 @@
             });
           }
 
-          render();
+          applyFilters();
         } catch (e) {
           console.error(e);
           statusEl.textContent = "Dosyalar yüklenemedi. GitHub API sınırı veya ağ hatası olabilir.";
         }
       }
 
-      function applyFilters(files) {
+      function applyFilters() {
         const q = qEl.value.trim().toLowerCase();
         const groupKey = extEl.value;
 
-        let filtered = files.filter(f => {
+        filteredFiles = allFiles.filter(f => {
           const matchQ = !q || f.name.toLowerCase().includes(q);
           let matchGroup = true;
           if (groupKey !== "*") {
@@ -668,14 +732,111 @@
         });
 
         switch (sortEl.value) {
-          case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
-          case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
-          case "date-desc": filtered.sort((a,b)=> (b.date?.getTime()||0) - (a.date?.getTime()||0)); break;
-          case "date-asc":  filtered.sort((a,b)=> (a.date?.getTime()||0) - (b.date?.getTime()||0)); break;
-          case "size-desc": filtered.sort((a,b)=> (b.size||0) - (a.size||0)); break;
-          case "size-asc":  filtered.sort((a,b)=> (a.size||0) - (b.size||0)); break;
+          case "name-asc":  filteredFiles.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
+          case "name-desc": filteredFiles.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
+          case "date-desc": filteredFiles.sort((a,b)=> (b.date?.getTime()||0) - (a.date?.getTime()||0)); break;
+          case "date-asc":  filteredFiles.sort((a,b)=> (a.date?.getTime()||0) - (b.date?.getTime()||0)); break;
+          case "size-desc": filteredFiles.sort((a,b)=> (b.size||0) - (a.size||0)); break;
+          case "size-asc":  filteredFiles.sort((a,b)=> (a.size||0) - (b.size||0)); break;
         }
-        return filtered;
+        
+        // Sayfa sayısını hesapla
+        totalPages = Math.ceil(filteredFiles.length / ITEMS_PER_PAGE);
+        if (totalPages === 0) totalPages = 1;
+        
+        // Geçerli sayfayı sınırla
+        if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+        
+        renderPagination();
+        render();
+      }
+
+      function getCurrentPageFiles() {
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+        return filteredFiles.slice(startIndex, endIndex);
+      }
+
+      function renderPagination() {
+        if (filteredFiles.length <= ITEMS_PER_PAGE) {
+          paginationEl.innerHTML = '';
+          return;
+        }
+        
+        let paginationHTML = '<ul class="pagination">';
+        
+        // Önceki sayfa butonu
+        if (currentPage > 1) {
+          paginationHTML += `
+            <li class="page-item">
+              <a class="page-link" href="#" data-page="${currentPage - 1}">
+                <i class="bi-chevron-left"></i>
+              </a>
+            </li>
+          `;
+        } else {
+          paginationHTML += `
+            <li class="page-item disabled">
+              <span class="page-link">
+                <i class="bi-chevron-left"></i>
+              </span>
+            </li>
+          `;
+        }
+        
+        // Sayfa numaraları
+        const startPage = Math.max(1, currentPage - 2);
+        const endPage = Math.min(totalPages, startPage + 4);
+        
+        for (let i = startPage; i <= endPage; i++) {
+          if (i === currentPage) {
+            paginationHTML += `
+              <li class="page-item active">
+                <span class="page-link">${i}</span>
+              </li>
+            `;
+          } else {
+            paginationHTML += `
+              <li class="page-item">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+              </li>
+            `;
+          }
+        }
+        
+        // Sonraki sayfa butonu
+        if (currentPage < totalPages) {
+          paginationHTML += `
+            <li class="page-item">
+              <a class="page-link" href="#" data-page="${currentPage + 1}">
+                <i class="bi-chevron-right"></i>
+              </a>
+            </li>
+          `;
+        } else {
+          paginationHTML += `
+            <li class="page-item disabled">
+              <span class="page-link">
+                <i class="bi-chevron-right"></i>
+              </span>
+            </li>
+          `;
+        }
+        
+        paginationHTML += '</ul>';
+        paginationEl.innerHTML = paginationHTML;
+        
+        // Sayfa değiştirme olaylarını ekle
+        document.querySelectorAll('.page-link[data-page]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage = parseInt(link.getAttribute('data-page'));
+            applyFilters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        });
       }
 
       function copyToClipboard(text, btn) {
@@ -750,18 +911,18 @@
       }
 
       function render() {
-        const filtered = applyFilters(allFiles);
+        const currentFiles = getCurrentPageFiles();
 
         listArea.innerHTML = "";
-        filtered.forEach(f => listArea.appendChild(itemListRow(f)));
+        currentFiles.forEach(f => listArea.appendChild(itemListRow(f)));
 
         gridArea.innerHTML = "";
-        filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
+        currentFiles.forEach(f => gridArea.appendChild(itemGridCard(f)));
 
-        if (!filtered.length) {
+        if (!filteredFiles.length) {
           statusEl.textContent = "Eşleşen dosya yok.";
         } else {
-          statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
+          statusEl.textContent = `Toplam ${filteredFiles.length} dosya bulundu. Sayfa ${currentPage}/${totalPages}`;
         }
 
         if (view === "list") {
@@ -777,14 +938,27 @@
         }
       }
 
-      qEl.addEventListener("input", render);
-      extEl.addEventListener("change", render);
-      sortEl.addEventListener("change", render);
+      qEl.addEventListener("input", () => {
+        currentPage = 1;
+        applyFilters();
+      });
+      
+      extEl.addEventListener("change", () => {
+        currentPage = 1;
+        applyFilters();
+      });
+      
+      sortEl.addEventListener("change", () => {
+        currentPage = 1;
+        applyFilters();
+      });
+      
       clearBtn.addEventListener("click", ()=>{
         qEl.value = "";
         extEl.value = "*";
         sortEl.value = "name-asc";
-        render();
+        currentPage = 1;
+        applyFilters();
       });
 
       btnList.addEventListener("click", ()=> { view = "list"; render(); });

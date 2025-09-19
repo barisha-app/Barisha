@@ -29,11 +29,12 @@
         background-color: var(--dark-color);
         color: white;
         height: 100%; /* Eklendi: Body yüksekliği */
+        padding-top: 80px; /* Eklendi: Header yüksekliği kadar üst boşluk */
       }
       
       /* Header Styles */
       .site-header {
-        background: rgba(18, 18, 18, 0.85);
+        background: rgba(18, 18, 18, 0.95);
         backdrop-filter: blur(10px);
         padding: 15px 0;
         position: fixed;
@@ -42,6 +43,8 @@
         width: 100%;
         z-index: 1000;
         transition: all 0.3s ease;
+        height: 80px; /* Header yüksekliği sabitlendi */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
       }
       
       .site-header.scrolled {
@@ -77,7 +80,7 @@
         position: relative;
         overflow: visible; /* Değiştirildi: hidden -> visible */
         min-height: auto; /* Değiştirildi: 100vh -> auto */
-        padding-top: 100px;
+        padding-top: 20px; /* Azaltıldı */
         padding-bottom: 50px;
       }
       
@@ -332,6 +335,14 @@
         
         .sidebar, .files-container {
           width: 100%;
+        }
+        
+        body {
+          padding-top: 70px; /* Mobilde daha az üst boşluk */
+        }
+        
+        .site-header {
+          height: 70px; /* Mobilde daha kısa header */
         }
       }
       

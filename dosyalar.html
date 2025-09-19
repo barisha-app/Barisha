@@ -435,7 +435,7 @@
 
             <!-- İçerik -->
             <div class="col-lg-10 mt-3">
-              <div id="listArea" class="list group"></div>
+              <div id="listArea" class="list-group"></div>
               <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
 
               <div id="status" class="mt-3 muted-sm">
@@ -555,15 +555,18 @@
         });
       });
 
+      // GitHub API bilgileri
       const OWNER  = "barisha-app";
       const REPO   = "Barisha"; 
       const BRANCH = "main";
       const FOLDER = "dosyalar";
 
+      // API URL'leri
       const API_LIST   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
       const API_COMMITS = (path) =>
         `https://api.github.com/repos/${OWNER}/${REPO}/commits?path=${encodeURIComponent(path)}&per_page=1`;
 
+      // DOM elementleri
       const qEl = document.getElementById("q");
       const extEl = document.getElementById("extFilter");
       const sortEl = document.getElementById("sortBy");
@@ -575,9 +578,11 @@
       const gridArea = document.getElementById("gridArea");
       const statusEl = document.getElementById("status");
 
+      // Global değişkenler
       let allFiles = [];
       let view = "list";
 
+      // Dosya türleri grupları
       const groups = {
         docs: ["pdf","doc","docx","xls","xlsx","csv","ppt","pptx"],
         image: ["png","jpg","jpeg","gif","webp","svg"],
@@ -587,6 +592,7 @@
         playlist: ["m3u","m3u8","txt"]
       };
 
+      // Dosya ikonları
       function iconFor(name) {
         const ext = name.split(".").pop()?.toLowerCase() || "";
         if (groups.image.includes(ext)) return "bi-file-image";
@@ -601,6 +607,7 @@
         return "bi-file-earmark";
       }
 
+      // Boyut formatlama
       function humanSize(bytes) {
         if (bytes == null) return "";
         const units = ["B","KB","MB","GB","TB"];
@@ -610,10 +617,17 @@
         return n.toFixed(fixed) + " " + units[i];
       }
 
+      // Raw dosya URL'si
       function rawURL(path) {
         return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
       }
 
+      // Download URL'si
+      function downloadURL(path) {
+        return `https://github.com/${OWNER}/${REPO}/raw/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
+      }
+
+      // Commit tarihini getir
       async function fetchCommitDate(path) {
         try {
           const res = await fetch(API_COMMITS(path), { headers: { "Accept": "application/vnd.github+json" } });
@@ -626,22 +640,26 @@
         }
       }
 
+      // Dosyaları yükle
       async function load() {
         try {
           statusEl.innerHTML = '<span class="spinner-sm me-2"></span> Dosyalar yükleniyor...';
           const res = await fetch(API_LIST, { headers: { "Accept": "application/vnd.github+json" } });
           if (!res.ok) throw new Error("list-api");
           const data = await res.json();
+          
+          // Sadece dosyaları filtrele
           const files = data.filter(i => i.type === "file");
-
+          
+          // Tüm dosyalar için bilgileri topla
           for (const f of files) {
             const date = await fetchCommitDate(f.path);
             allFiles.push({
               name: f.name,
               size: f.size,
               path: f.path,
-              url: `${FOLDER}/${encodeURIComponent(f.name)}`,
-              raw: rawURL(f.path),
+              downloadUrl: downloadURL(f.path),
+              rawUrl: rawURL(f.path),
               date
             });
           }
@@ -653,6 +671,7 @@
         }
       }
 
+      // Filtreleri uygula
       function applyFilters(files) {
         const q = qEl.value.trim().toLowerCase();
         const groupKey = extEl.value;
@@ -667,6 +686,7 @@
           return matchQ && matchGroup;
         });
 
+        // Sıralama
         switch (sortEl.value) {
           case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
           case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
@@ -678,6 +698,7 @@
         return filtered;
       }
 
+      // Panoya kopyala
       function copyToClipboard(text, btn) {
         navigator.clipboard.writeText(text).then(()=>{
           btn.innerHTML = '<i class="bi-clipboard-check"></i>';
@@ -689,6 +710,7 @@
         });
       }
 
+      // Liste görünümü için satır oluştur
       function itemListRow(f) {
         const row = document.createElement("div");
         row.className = "list-group-item d-flex justify-content-between align-items-center download-card";
@@ -708,18 +730,19 @@
         const right = document.createElement("div");
         right.className = "d-flex align-items-center gap-2";
         right.innerHTML = `
-          <a class="btn btn-sm btn-light pill" href="${f.url}" download><i class="bi-download me-1"></i>İndir</a>
-          <a class="btn btn-sm btn-outline-light pill" href="${f.raw}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+          <a class="btn btn-sm btn-light pill" href="${f.downloadUrl}" download="${f.name}"><i class="bi-download me-1"></i>İndir</a>
+          <a class="btn btn-sm btn-outline-light pill" href="${f.rawUrl}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
           <button class="btn btn-sm btn-outline-light pill" title="Bağlantıyı kopyala"><i class="bi-clipboard"></i></button>
         `;
         const copyBtn = right.querySelector("button");
-        copyBtn.addEventListener("click", ()=> copyToClipboard(location.origin + location.pathname.replace(/[^/]*$/,"") + f.url, copyBtn));
+        copyBtn.addEventListener("click", ()=> copyToClipboard(f.downloadUrl, copyBtn));
 
         row.appendChild(left);
         row.appendChild(right);
         return row;
       }
 
+      // Izgara görünümü için kart oluştur
       function itemGridCard(f) {
         const col = document.createElement("div");
         col.className = "col";
@@ -736,34 +759,39 @@
               ${f.date ? new Date(f.date).toLocaleDateString() : "Tarih yok"} • ${humanSize(f.size)}
             </div>
             <div class="d-flex gap-2">
-              <a class="btn btn-sm btn-light pill" href="${f.url}" download><i class="bi-download me-1"></i>İndir</a>
-              <a class="btn btn-sm btn-outline-light pill" href="${f.raw}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+              <a class="btn btn-sm btn-light pill" href="${f.downloadUrl}" download="${f.name}"><i class="bi-download me-1"></i>İndir</a>
+              <a class="btn btn-sm btn-outline-light pill" href="${f.rawUrl}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
               <button class="btn btn-sm btn-outline-light pill" title="Kopyala"><i class="bi-clipboard"></i></button>
             </div>
           </div>
         `;
         const copyBtn = card.querySelector("button");
-        copyBtn.addEventListener("click", ()=> copyToClipboard(location.origin + location.pathname.replace(/[^/]*$/,"") + f.url, copyBtn));
+        copyBtn.addEventListener("click", ()=> copyToClipboard(f.downloadUrl, copyBtn));
 
         col.appendChild(card);
         return col;
       }
 
+      // Görünümü render et
       function render() {
         const filtered = applyFilters(allFiles);
 
+        // Liste görünümü
         listArea.innerHTML = "";
         filtered.forEach(f => listArea.appendChild(itemListRow(f)));
 
+        // Izgara görünümü
         gridArea.innerHTML = "";
         filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
 
+        // Durum mesajı
         if (!filtered.length) {
           statusEl.textContent = "Eşleşen dosya yok.";
         } else {
           statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
         }
 
+        // Görünümü ayarla
         if (view === "list") {
           listArea.style.display = "";
           gridArea.style.display = "none";
@@ -777,6 +805,7 @@
         }
       }
 
+      // Event listeners
       qEl.addEventListener("input", render);
       extEl.addEventListener("change", render);
       sortEl.addEventListener("change", render);
@@ -790,6 +819,7 @@
       btnList.addEventListener("click", ()=> { view = "list"; render(); });
       btnGrid.addEventListener("click", ()=> { view = "grid"; render(); });
 
+      // Sayfa yüklendiğinde dosyaları getir
       load();
     </script>
   </body>

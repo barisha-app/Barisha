@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -11,26 +10,399 @@
 
         <!-- CSS FILES -->                
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
         
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
         <link href="css/bootstrap-icons.css" rel="stylesheet">
-
         <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
         
-<!--
-
-Tooplate 2136 Kool Form Pack
-
-https://www.tooplate.com/view/2136-kool-form-pack
-
-Bootstrap 5 Form Pack Template
-
--->
+        <style>
+            :root {
+                --primary-color: #6a11cb;
+                --secondary-color: #2575fc;
+                --accent-color: #ff416c;
+                --dark-color: #121212;
+                --light-color: #f8f9fa;
+            }
+            
+            body {
+                font-family: 'Poppins', sans-serif;
+                overflow-x: hidden;
+            }
+            
+            /* Header Styles */
+            .site-header {
+                background: rgba(18, 18, 18, 0.85);
+                backdrop-filter: blur(10px);
+                padding: 15px 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                transition: all 0.3s ease;
+            }
+            
+            .site-header.scrolled {
+                background: rgba(18, 18, 18, 0.95);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            }
+            
+            .site-header-text {
+                text-decoration: none;
+                font-family: 'Unbounded', cursive;
+                font-weight: 700;
+                font-size: 1.8rem;
+                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: all 0.3s ease;
+            }
+            
+            .site-header-text:hover {
+                transform: scale(1.05);
+            }
+            
+            .site-header-text i {
+                font-size: 2rem;
+                margin-right: 10px;
+                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            .social-icon-item {
+                margin: 0 10px;
+            }
+            
+            .social-icon-link {
+                color: white;
+                font-size: 1.2rem;
+                transition: all 0.3s ease;
+            }
+            
+            .social-icon-link:hover {
+                color: var(--accent-color);
+                transform: translateY(-3px);
+            }
+            
+            .custom-btn {
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                border: none;
+                border-radius: 50px;
+                padding: 10px 25px;
+                color: white;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+            }
+            
+            .custom-btn:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+                transition: all 0.5s ease;
+                z-index: -1;
+                border-radius: 50px;
+            }
+            
+            .custom-btn:hover:before {
+                width: 100%;
+            }
+            
+            .custom-btn:hover {
+                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+                transform: translateY(-3px);
+            }
+            
+            .custom-border-btn {
+                background: transparent;
+                border: 2px solid var(--primary-color);
+                color: white;
+            }
+            
+            .custom-border-btn:before {
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            }
+            
+            .offcanvas-icon {
+                color: white;
+                font-size: 1.8rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .offcanvas-icon:hover {
+                color: var(--accent-color);
+            }
+            
+            /* Offcanvas Menu */
+            .offcanvas {
+                background: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+            }
+            
+            .offcanvas-header .btn-close {
+                color: white;
+                background: transparent;
+                opacity: 0.8;
+                transition: all 0.3s ease;
+            }
+            
+            .offcanvas-header .btn-close:hover {
+                opacity: 1;
+                transform: rotate(90deg);
+            }
+            
+            .offcanvas-body ul {
+                list-style: none;
+                padding: 0;
+            }
+            
+            .offcanvas-body ul li {
+                margin: 25px 0;
+                text-align: center;
+            }
+            
+            .offcanvas-body ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 1.5rem;
+                font-weight: 600;
+                position: relative;
+                padding: 5px 0;
+                transition: all 0.3s ease;
+            }
+            
+            .offcanvas-body ul li a:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+                transition: all 0.3s ease;
+            }
+            
+            .offcanvas-body ul li a:hover {
+                color: var(--accent-color);
+            }
+            
+            .offcanvas-body ul li a:hover:after {
+                width: 100%;
+            }
+            
+            /* Modal Styles */
+            .modal-content {
+                background: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+            
+            .modal-header {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .custom-form input {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 50px;
+                color: white;
+                padding: 12px 25px;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+            }
+            
+            .custom-form input:focus {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+            }
+            
+            .custom-form button {
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                border: none;
+                border-radius: 50px;
+                padding: 12px 25px;
+                color: white;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+            
+            .custom-form button:hover {
+                background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+            }
+            
+            /* Hero Section */
+            .hero-section {
+                height: 100vh;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .video-wrap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+            }
+            
+            .video-wrap:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, rgba(106, 17, 203, 0.7), rgba(37, 117, 252, 0.7));
+                mix-blend-mode: overlay;
+            }
+            
+            .custom-video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .hero-section .container {
+                position: relative;
+                z-index: 2;
+            }
+            
+            .hero-section small {
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 1rem;
+                letter-spacing: 1px;
+                display: block;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+            }
+            
+            .hero-section h1 {
+                font-family: 'Unbounded', cursive;
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: 30px;
+                background: linear-gradient(45deg, white, #e0e0e0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            /* Countdown Styles */
+            .countdown {
+                margin-top: 30px;
+                justify-content: center;
+            }
+            
+            .countdown-item {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 0 10px;
+                min-width: 100px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            }
+            
+            .countdown-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+            
+            .countdown-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 5px;
+                font-family: 'Unbounded', cursive;
+            }
+            
+            .countdown-text {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            
+            /* Animations */
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+            
+            .floating {
+                animation: float 5s ease-in-out infinite;
+            }
+            
+            /* Responsive Adjustments */
+            @media (max-width: 992px) {
+                .hero-section h1 {
+                    font-size: 2.5rem;
+                }
+                
+                .countdown-item {
+                    min-width: 80px;
+                    padding: 15px;
+                    margin: 0 5px;
+                }
+                
+                .countdown-title {
+                    font-size: 2rem;
+                }
+                
+                .site-header-text {
+                    font-size: 1.5rem;
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .hero-section h1 {
+                    font-size: 2rem;
+                }
+                
+                .countdown-item {
+                    min-width: 70px;
+                    padding: 10px;
+                    margin: 0 5px;
+                }
+                
+                .countdown-title {
+                    font-size: 1.5rem;
+                }
+                
+                .social-icon {
+                    display: none !important;
+                }
+            }
+            
+            /* Particle Effects */
+            #particles-js {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+        </style>
     </head>
     
     <body>
@@ -142,35 +514,34 @@ Bootstrap 5 Form Pack Template
 
 
             <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div id="particles-js"></div>
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg-6 col-12 mx-auto">
-                            <small>web si̇temi̇z yapim aşamasinda. 
-                            <a rel="nofollow" target="_blank" href="https://www.pexels.com/video/digital-projection-of-the-earth-mass-in-blue-lights-3129957/"> </a></small>
-                            <!-- please set the date time in the init.js file -->
+                        <div class="col-lg-6 col-12 mx-auto text-center">
+                            <small class="floating">web si̇temi̇z yapim aşamasinda.</small>
                             
-                          <h1 class="text-white mt-2 mb-4 pb-2">
+                            <h1 class="text-white mt-2 mb-4 pb-2 floating" style="animation-delay: 0.5s;">
                                 YAPIM AŞAMASINDA!
                             </h1>
 
                              <ul class="countdown d-flex flex-wrap align-items-center">
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1s;">
                                     <h2 class="countdown-title days">45</h2>
                                     <span class="countdown-text">Gün</span>
                                </li>
 
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.2s;">
                                     <h2 class="countdown-title hours">10</h2>
                                     <span class="countdown-text">Saat</span>
                                </li>
 
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.4s;">
                                     <h2 class="countdown-title minutes">15</h2>
                                     <span class="countdown-text">DAkika</span>
                                </li>
 
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.6s;">
                                     <h2 class="countdown-title seconds">34</h2>
                                     <span class="countdown-text">Saniye</span>
                                </li>     
@@ -182,7 +553,6 @@ Bootstrap 5 Form Pack Template
                 <div class="video-wrap">
                     <video autoplay="" loop="" muted="" class="custom-video" poster="">
                         <source src="videos/video.mp4" type="video/mp4">
-
                         Tarayıcınız video etiketini desteklemiyor.
                     </video>
                 </div>
@@ -194,21 +564,110 @@ Bootstrap 5 Form Pack Template
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/countdown.js"></script>
         <script src="js/init.js"></script>
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        
+        <script>
+            // Header scroll effect
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 50) {
+                    $('.site-header').addClass('scrolled');
+                } else {
+                    $('.site-header').removeClass('scrolled');
+                }
+            });
+            
+            // Initialize particles.js
+            document.addEventListener('DOMContentLoaded', function() {
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": {
+                            "value": 80,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            }
+                        },
+                        "opacity": {
+                            "value": 0.5,
+                            "random": false,
+                            "anim": {
+                                "enable": false,
+                                "speed": 1,
+                                "opacity_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 40,
+                                "size_min": 0.1,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": true,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 2,
+                            "direction": "none",
+                            "random": false,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 1200
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "grab"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "push"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 140,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+            });
+        </script>
 
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

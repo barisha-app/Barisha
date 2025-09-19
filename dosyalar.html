@@ -430,50 +430,6 @@
               </p>
             </div>
 
-            <!-- Araç Çubuğu -->
-            <div class="col-lg-10">
-              <div class="toolbar d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center floating" style="animation-delay: 0.6s;">
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi-search"></i></span>
-                  <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
-                </div>
-
-                <div class="d-flex gap-2 flex-grow-1 flex-lg-grow-0">
-                  <select id="extFilter" class="form-select">
-                    <option value="*">Tüm uzantılar</option>
-                    <option value="docs">Belgeler (pdf, doc[x], xls[x], ppt[x])</option>
-                    <option value="image">Görseller (png, jpg, webp, svg)</option>
-                    <option value="audio">Ses (mp3, wav, m4a, flac)</option>
-                    <option value="video">Video (mp4, mkv, mov, webm)</option>
-                    <option value="archive">Arşiv (zip, rar, 7z, tar.gz)</option>
-                    <option value="playlist">Listeler (m3u, m3u8, txt)</option>
-                  </select>
-
-                  <select id="sortBy" class="form-select">
-                    <option value="name-asc">Ada göre (A→Z)</option>
-                    <option value="name-desc">Ada göre (Z→A)</option>
-                    <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
-                    <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
-                    <option value="size-desc">Boyut (Büyük→Küçük)</option>
-                    <option value="size-asc">Boyut (Küçük→Büyük)</option>
-                  </select>
-
-                  <div class="btn-group view-toggle" role="group" aria-label="Görünüm">
-                    <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
-                      <i class="bi-list-ul"></i>
-                    </button>
-                    <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
-                      <i class="bi-grid-3x3-gap"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <button id="clearBtn" class="btn btn-outline-light">
-                  Temizle
-                </button>
-              </div>
-            </div>
-
             <!-- İçerik - Yeni Düzen -->
             <div class="col-lg-12 mt-3">
               <div class="content-wrapper">
@@ -487,8 +443,56 @@
                   </div>
                 </div>
                 
-                <!-- Dosya bilgileri (sol taraf) -->
+                <!-- Dosya bilgileri ve filtreleme (sol taraf) -->
                 <div class="sidebar">
+                  <!-- Filtreleme Araç Çubuğu -->
+                  <h4 class="mb-3">🔍 Dosya Filtreleme</h4>
+                  <div class="toolbar d-flex flex-column gap-2 align-items-stretch floating" style="animation-delay: 0.6s;">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi-search"></i></span>
+                      <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
+                    </div>
+
+                    <div class="d-flex gap-2 flex-grow-1">
+                      <select id="extFilter" class="form-select">
+                        <option value="*">Tüm uzantılar</option>
+                        <option value="docs">Belgeler (pdf, doc[x], xls[x], ppt[x])</option>
+                        <option value="image">Görseller (png, jpg, webp, svg)</option>
+                        <option value="audio">Ses (mp3, wav, m4a, flac)</option>
+                        <option value="video">Video (mp4, mkv, mov, webm)</option>
+                        <option value="archive">Arşiv (zip, rar, 7z, tar.gz)</option>
+                        <option value="playlist">Listeler (m3u, m3u8, txt)</option>
+                      </select>
+
+                      <select id="sortBy" class="form-select">
+                        <option value="name-asc">Ada göre (A→Z)</option>
+                        <option value="name-desc">Ada göre (Z→A)</option>
+                        <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
+                        <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
+                        <option value="size-desc">Boyut (Büyük→Küçük)</option>
+                        <option value="size-asc">Boyut (Küçük→Büyük)</option>
+                      </select>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                      <div class="btn-group view-toggle w-100" role="group" aria-label="Görünüm">
+                        <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
+                          <i class="bi-list-ul"></i>
+                        </button>
+                        <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
+                          <i class="bi-grid-3x3-gap"></i>
+                        </button>
+                      </div>
+
+                      <button id="clearBtn" class="btn btn-outline-light">
+                        Temizle
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <hr class="my-3">
+                  
+                  <!-- İstatistikler -->
                   <h4 class="mb-3">📊 Dosya İstatistikleri</h4>
                   <div id="fileStats">
                     <p class="mb-2"><i class="bi bi-file-earmark-text me-2"></i> Toplam Dosya: <span id="totalFiles">0</span></p>

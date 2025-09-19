@@ -28,6 +28,7 @@
         overflow-x: hidden;
         background-color: var(--dark-color);
         color: white;
+        height: 100%; /* Eklendi: Body yüksekliği */
       }
       
       /* Header Styles */
@@ -71,11 +72,11 @@
         -webkit-text-fill-color: transparent;
       }
       
-      /* Hero Section */
+      /* Hero Section - DÜZENLENDİ */
       .hero-bg {
         position: relative;
-        overflow: hidden;
-        min-height: 100vh;
+        overflow: visible; /* Değiştirildi: hidden -> visible */
+        min-height: auto; /* Değiştirildi: 100vh -> auto */
         padding-top: 100px;
         padding-bottom: 50px;
       }
@@ -280,14 +281,14 @@
       #listArea .fw-semibold { color: #fff !important; }  /* liste görünümü */
       #gridArea .card-title  { color: #fff !important; }  /* ızgara görünümü */
       
-      /* Particle Effects */
+      /* Particle Effects - DÜZENLENDİ */
       #particles-js {
-        position: absolute;
+        position: fixed; /* Değiştirildi: absolute -> fixed */
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
-        z-index: 1;
+        z-index: -1; /* Değiştirildi: 1 -> -1 */
       }
       
       /* Yeni Düzen: Dosya listesi sağda */

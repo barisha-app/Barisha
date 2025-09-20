@@ -527,22 +527,22 @@
 
                              <ul class="countdown d-flex flex-wrap align-items-center">
                                <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1s;">
-                                    <h2 class="countdown-title days">45</h2>
+                                    <h2 class="countdown-title days">00</h2>
                                     <span class="countdown-text">Gün</span>
                                </li>
 
                                <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.2s;">
-                                    <h2 class="countdown-title hours">10</h2>
+                                    <h2 class="countdown-title hours">00</h2>
                                     <span class="countdown-text">Saat</span>
                                </li>
 
                                <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.4s;">
-                                    <h2 class="countdown-title minutes">15</h2>
+                                    <h2 class="countdown-title minutes">00</h2>
                                     <span class="countdown-text">DAkika</span>
                                </li>
 
                                <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.6s;">
-                                    <h2 class="countdown-title seconds">34</h2>
+                                    <h2 class="countdown-title seconds">00</h2>
                                     <span class="countdown-text">Saniye</span>
                                </li>     
                             </ul>
@@ -562,8 +562,6 @@
         <!-- JAVASCRIPT FILES -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/countdown.js"></script>
-        <script src="js/init.js"></script>
         <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         
         <script>
@@ -667,6 +665,40 @@
                     "retina_detect": true
                 });
             });
+            
+            // Geri sayım fonksiyonu
+            function updateCountdown() {
+                // Hedef tarih: 28 Mart 2026, saat 18:00
+                const targetDate = new Date('March 28, 2026 18:00:00').getTime();
+                
+                // Şu anki zaman
+                const now = new Date().getTime();
+                
+                // Kalan zaman
+                const distance = targetDate - now;
+                
+                // Zaman hesaplamaları
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Değerleri göster
+                document.querySelector('.days').innerHTML = days;
+                document.querySelector('.hours').innerHTML = hours;
+                document.querySelector('.minutes').innerHTML = minutes;
+                document.querySelector('.seconds').innerHTML = seconds;
+                
+                // Süre dolduysa
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.querySelector('.countdown').innerHTML = "<h2 class='text-white'>Süre Doldu!</h2>";
+                }
+            }
+            
+            // Sayacı başlat ve her saniye güncelle
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
         </script>
 
     </body>

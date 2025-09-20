@@ -1,673 +1,964 @@
 <!doctype html>
 <html lang="tr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>BARİSHA | Anasayfa</title>
-
-        <!-- CSS FILES -->                
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-        
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-icons.css" rel="stylesheet">
-        <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
-        
-        <style>
-            :root {
-                --primary-color: #6a11cb;
-                --secondary-color: #2575fc;
-                --accent-color: #ff416c;
-                --dark-color: #121212;
-                --light-color: #f8f9fa;
-            }
-            
-            body {
-                font-family: 'Poppins', sans-serif;
-                overflow-x: hidden;
-            }
-            
-            /* Header Styles */
-            .site-header {
-                background: rgba(18, 18, 18, 0.85);
-                backdrop-filter: blur(10px);
-                padding: 15px 0;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                z-index: 1000;
-                transition: all 0.3s ease;
-            }
-            
-            .site-header.scrolled {
-                background: rgba(18, 18, 18, 0.95);
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            }
-            
-            .site-header-text {
-                text-decoration: none;
-                font-family: 'Unbounded', cursive;
-                font-weight: 700;
-                font-size: 1.8rem;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                transition: all 0.3s ease;
-            }
-            
-            .site-header-text:hover {
-                transform: scale(1.05);
-            }
-            
-            .site-header-text i {
-                font-size: 2rem;
-                margin-right: 10px;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            
-            .social-icon-item {
-                margin: 0 10px;
-            }
-            
-            .social-icon-link {
-                color: white;
-                font-size: 1.2rem;
-                transition: all 0.3s ease;
-            }
-            
-            .social-icon-link:hover {
-                color: var(--accent-color);
-                transform: translateY(-3px);
-            }
-            
-            .custom-btn {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-                border: none;
-                border-radius: 50px;
-                padding: 10px 25px;
-                color: white;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-                z-index: 1;
-            }
-            
-            .custom-btn:before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 0%;
-                height: 100%;
-                background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
-                transition: all 0.5s ease;
-                z-index: -1;
-                border-radius: 50px;
-            }
-            
-            .custom-btn:hover:before {
-                width: 100%;
-            }
-            
-            .custom-btn:hover {
-                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-                transform: translateY(-3px);
-            }
-            
-            .custom-border-btn {
-                background: transparent;
-                border: 2px solid var(--primary-color);
-                color: white;
-            }
-            
-            .custom-border-btn:before {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            }
-            
-            .offcanvas-icon {
-                color: white;
-                font-size: 1.8rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-icon:hover {
-                color: var(--accent-color);
-            }
-            
-            /* Offcanvas Menu */
-            .offcanvas {
-                background: rgba(18, 18, 18, 0.95);
-                backdrop-filter: blur(10px);
-            }
-            
-            .offcanvas-header .btn-close {
-                color: white;
-                background: transparent;
-                opacity: 0.8;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-header .btn-close:hover {
-                opacity: 1;
-                transform: rotate(90deg);
-            }
-            
-            .offcanvas-body ul {
-                list-style: none;
-                padding: 0;
-            }
-            
-            .offcanvas-body ul li {
-                margin: 25px 0;
-                text-align: center;
-            }
-            
-            .offcanvas-body ul li a {
-                color: white;
-                text-decoration: none;
-                font-size: 1.5rem;
-                font-weight: 600;
-                position: relative;
-                padding: 5px 0;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-body ul li a:after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 2px;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-body ul li a:hover {
-                color: var(--accent-color);
-            }
-            
-            .offcanvas-body ul li a:hover:after {
-                width: 100%;
-            }
-            
-            /* Modal Styles */
-            .modal-content {
-                background: rgba(18, 18, 18, 0.95);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: white;
-            }
-            
-            .modal-header {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .custom-form input {
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 50px;
-                color: white;
-                padding: 12px 25px;
-                margin-bottom: 20px;
-                transition: all 0.3s ease;
-            }
-            
-            .custom-form input:focus {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
-            }
-            
-            .custom-form button {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-                border: none;
-                border-radius: 50px;
-                padding: 12px 25px;
-                color: white;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-            
-            .custom-form button:hover {
-                background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-            }
-            
-            /* Hero Section */
-            .hero-section {
-                height: 100vh;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .video-wrap {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-            }
-            
-            .video-wrap:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(45deg, rgba(106, 17, 203, 0.7), rgba(37, 117, 252, 0.7));
-                mix-blend-mode: overlay;
-            }
-            
-            .custom-video {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            
-            .hero-section .container {
-                position: relative;
-                z-index: 2;
-            }
-            
-            .hero-section small {
-                color: rgba(255, 255, 255, 0.8);
-                font-size: 1rem;
-                letter-spacing: 1px;
-                display: block;
-                margin-bottom: 15px;
-                text-transform: uppercase;
-            }
-            
-            .hero-section h1 {
-                font-family: 'Unbounded', cursive;
-                font-size: 3.5rem;
-                font-weight: 700;
-                margin-bottom: 30px;
-                background: linear-gradient(45deg, white, #e0e0e0);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-            
-            /* Countdown Styles */
-            .countdown {
-                margin-top: 30px;
-                justify-content: center;
-            }
-            
-            .countdown-item {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                padding: 20px;
-                margin: 0 10px;
-                min-width: 100px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                transition: all 0.3s ease;
-            }
-            
-            .countdown-item:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            }
-            
-            .countdown-title {
-                font-size: 2.5rem;
-                font-weight: 700;
-                color: white;
-                margin-bottom: 5px;
-                font-family: 'Unbounded', cursive;
-            }
-            
-            .countdown-text {
-                color: rgba(255, 255, 255, 0.7);
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-            
-            /* Animations */
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-            
-            .floating {
-                animation: float 5s ease-in-out infinite;
-            }
-            
-            /* Responsive Adjustments */
-            @media (max-width: 992px) {
-                .hero-section h1 {
-                    font-size: 2.5rem;
-                }
-                
-                .countdown-item {
-                    min-width: 80px;
-                    padding: 15px;
-                    margin: 0 5px;
-                }
-                
-                .countdown-title {
-                    font-size: 2rem;
-                }
-                
-                .site-header-text {
-                    font-size: 1.5rem;
-                }
-            }
-            
-            @media (max-width: 768px) {
-                .hero-section h1 {
-                    font-size: 2rem;
-                }
-                
-                .countdown-item {
-                    min-width: 70px;
-                    padding: 10px;
-                    margin: 0 5px;
-                }
-                
-                .countdown-title {
-                    font-size: 1.5rem;
-                }
-                
-                .social-icon {
-                    display: none !important;
-                }
-            }
-            
-            /* Particle Effects */
-            #particles-js {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 1;
-            }
-        </style>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BARİSHA | Dosya Arşivi</title>
     
-    <body>
+    <!-- CSS FILES -->                
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #6a11cb;
+        --secondary-color: #2575fc;
+        --accent-color: #ff416c;
+        --dark-color: #121212;
+        --light-color: #f8f9fa;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        background-color: var(--dark-color);
+        color: white;
+        height: 100%; /* Eklendi: Body yüksekliği */
+        padding-top: 80px; /* Eklendi: Header yüksekliği kadar üst boşluk */
+      }
+      
+      /* Header Styles */
+      .site-header {
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        height: 80px; /* Header yüksekliği sabitlendi */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header.scrolled {
+        background: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header-text {
+        text-decoration: none;
+        font-family: 'Unbounded', cursive;
+        font-weight: 700;
+        font-size: 1.8rem;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+      }
+      
+      .site-header-text:hover {
+        transform: scale(1.05);
+      }
+      
+      .site-header-text i {
+        font-size: 2rem;
+        margin-right: 10px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      /* Hero Section - DÜZENLENDİ */
+      .hero-bg {
+        position: relative;
+        overflow: visible; /* Değiştirildi: hidden -> visible */
+        min-height: auto; /* Değiştirildi: 100vh -> auto */
+        padding-top: 20px; /* Azaltıldı */
+        padding-bottom: 50px;
+      }
+      
+      .hero-bg:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(106, 17, 203, 0.8), rgba(37, 117, 252, 0.8));
+        z-index: 0;
+      }
+      
+      .hero-section .container {
+        position: relative;
+        z-index: 2;
+      }
+      
+      /* Toolbar Styles */
+      .toolbar {
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .input-group-text {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+      
+      .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: all 0.3s ease;
+      }
+      
+      .form-control:focus, .form-select:focus {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        color: white;
+      }
+      
+      .btn-outline-light {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-outline-light:hover, .btn-outline-light.active {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+        color: white;
+      }
+      
+      /* Card Styles */
+      .download-card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+      
+      .download-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+      }
+      
+      .muted-sm {
+        font-size: 0.92rem;
+        opacity: 0.85;
+      }
+      
+      .grid .download-card .card-body {
+        min-height: 140px;
+      }
+      
+      .grid .card-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .view-toggle .btn {
+        border-radius: 10px;
+      }
+      
+      .pill {
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 0.78rem;
+      }
+      
+      .spinner-sm {
+        width: 1.1rem;
+        height: 1.1rem;
+        border: 0.2rem solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 0.8s linear infinite;
+      }
+      
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      .copy-ok {
+        animation: pop 0.4s ease;
+      }
+      
+      @keyframes pop {
+        0% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+      }
+      
+      /* Buttons */
+      .custom-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 50px;
+        padding: 10px 25px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        text-decoration: none;
+        display: inline-block;
+      }
+      
+      .custom-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        transition: all 0.5s ease;
+        z-index: -1;
+        border-radius: 50px;
+      }
+      
+      .custom-btn:hover:before {
+        width: 100%;
+      }
+      
+      .custom-btn:hover {
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        transform: translateY(-3px);
+        color: white;
+      }
+      
+      .btn-light {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        color: var(--dark-color);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-light:hover {
+        background: white;
+        transform: translateY(-2px);
+      }
+      
+      /* Animations */
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+      
+      .floating {
+        animation: float 5s ease-in-out infinite;
+      }
+      
+      /* List Group Item */
+      .list-group-item {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        margin-bottom: 10px;
+        border-radius: 12px !important;
+      }
+      
+      /* SADECE dosya isimleri beyaz */
+      #listArea .fw-semibold { color: #fff !important; }  /* liste görünümü */
+      #gridArea .card-title  { color: #fff !important; }  /* ızgara görünümü */
+      
+      /* Particle Effects - DÜZENLENDİ */
+      #particles-js {
+        position: fixed; /* Değiştirildi: absolute -> fixed */
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1; /* Değiştirildi: 1 -> -1 */
+      }
+      
+      /* Yeni Düzen: Dosya listesi sağda */
+      .content-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      
+      .sidebar {
+        width: 30%;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .files-container {
+        width: 70%;
+      }
+      
+      /* Filtre bölümünü sağa taşıma için yeni stil */
+      .filter-section {
+        order: 2; /* Sağ tarafa taşır */
+      }
+      
+      .files-section {
+        order: 1; /* Sol tarafa taşır */
+      }
+      
+      /* Responsive Adjustments */
+      @media (max-width: 992px) {
+        .site-header-text {
+          font-size: 1.5rem;
+        }
+        
+        .toolbar {
+          flex-direction: column;
+        }
+        
+        .toolbar > * {
+          margin-bottom: 10px;
+        }
+        
+        .content-wrapper {
+          flex-direction: column;
+        }
+        
+        .sidebar, .files-container {
+          width: 100%;
+        }
+        
+        body {
+          padding-top: 70px; /* Mobilde daha az üst boşluk */
+        }
+        
+        .site-header {
+          height: 70px; /* Mobilde daha kısa header */
+        }
+        
+        /* Mobilde filtre bölümünü üste taşı */
+        .filter-section {
+          order: 1;
+        }
+        
+        .files-section {
+          order: 2;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .social-icon {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <header class="site-header">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-lg-12 col-12 d-flex align-items-center">
+              <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+                <i class="bi-box"></i>
+                <span>BARİSHA</span>
+              </a>
+              
+              <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
+                <span class="text-white me-4 d-none d-lg-block">Bağlantıda kalın</span>
+                <li class="social-icon-item">
+                  <a href="https://www.instagram.com/barisha.tr" class="social-icon-link bi-instagram"></a>
+                </li>
+                <li class="social-icon-item">
+                  <a href="#" class="social-icon-link bi-twitter"></a>
+                </li>
+                <li class="social-icon-item">
+                  <a href="#" class="social-icon-link bi-whatsapp"></a>
+                </li>
+              </ul>
+              
+              <div>
+                <a href="index.html" class="custom-btn custom-border-btn btn">
+                  Ana Sayfa <i class="bi-arrow-right ms-2"></i>
+                </a>
+              </div>
+              
+              <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        <main>
+      <!-- Offcanvas Menu -->
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+        <div class="offcanvas-header">                    
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+          <nav>
+            <ul>
+              <li>
+                <a href="login.html">YAKINDA</a>
+              </li>
+              <li>
+                <a href="ziyaretdosya.html">Ziyaretçi Forum</a>
+              </li>
+              <li>
+                <a href="password-reset.html">YAKINDA</a>
+              </li>
+              <li>
+                <a href="dosyalar.html">Dosyalar</a>
+              </li>
+              <li>
+                <a href="contact.html">İletişim Formu</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
 
-            <header class="site-header">
-                <div class="container">
-                    <div class="row justify-content-between">
+      <section class="hero-section hero-bg d-flex justify-content-center align-items-center">
+        <div id="particles-js"></div>
+        <div class="container">
+          <div class="row justify-content-center text-center">
+            <div class="col-lg-10">
+              <h2 class="mb-2 floating">📂 Dosya Arşivi</h2>
+              <p class="mb-4 muted-sm floating" style="animation-delay: 0.3s;">
+                Bu sayfada ki dosyalar Barisha'ya aittir. izinsiz başka yerlerde yayınlanması yasaktır.
+              </p>
+            </div>
 
-                        <div class="col-lg-12 col-12 d-flex align-items-center">
-                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
-                                <i class="bi-box"></i>
+            <!-- İçerik - Yeni Düzen -->
+            <div class="col-lg-12 mt-3">
+              <div class="content-wrapper">
+                <!-- Dosya listesi (sol taraf) -->
+                <div class="files-container files-section">
+                  <div id="listArea" class="list-group"></div>
+                  <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
 
-                                <span>
-                                    BARİSHA
-                                </span>
-                            </a>
-
-                            <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
-                                <span class="text-white me-4 d-none d-lg-block">Bağlantıda kalın</span>
-
-                                <li class="social-icon-item">
-                                    <a href="https://www.instagram.com/barisha.tr" class="social-icon-link bi-instagram"></a>
-                                </li>
-
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-twitter"></a>
-                                </li>
-
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-whatsapp"></a>
-                                </li>
-                            </ul>
-
-                            <div>
-                                <a href="#" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">Bana haber ver
-                                    <i class="bi-arrow-right ms-2"></i>
-                                </a>
-                            </div>
-
-                            <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
-
-                        </div>
-
-                    </div>
-                </div>
-            </header>
-
-
-            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
-                <div class="offcanvas-header">                    
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  <div id="status" class="mt-3 muted-sm">
+                    <span class="spinner-sm me-2"></span> Dosyalar yükleniyor...
+                  </div>
                 </div>
                 
-                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
-                    <nav>
-                        <ul>
-                            <li>
-                                <a href="login.html">YAKINDA</a>
-                            </li>
-
-                            <li>
-                                <a href="ziyaretdosya.html">Ziyaretçi Forum</a>
-                            </li>
-
-                            <li>
-                                <a href="password-reset.html">YAKINDA</a>
-                            </li>
-
-                            <li>
-                                <a href="dosyalar.html">Dosyalar</a>
-                            </li>
-
-                            <li>
-                                <a href="contact.html">İletişim Formu</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
-                                <h2 class="modal-title" id="subscribeModalLabel">Güncel kalın</h2>
-
-                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="your@email.com" required="">
-
-                                <button type="submit" class="form-control">Bildir</button>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer justify-content-center">
-                            <p>Kayıt olduğunuzda, Gizlilik Bildirimimizi kabul etmiş olursunuz</p>
-                        </div>
+                <!-- Sağ taraf - Filtreleme ve İstatistikler -->
+                <div class="sidebar filter-section">
+                  <!-- Filtreleme Araç Çubuğu -->
+                  <h4 class="mb-3">🔍 Filtreleme</h4>
+                  <div class="toolbar d-flex flex-column gap-2 align-items-stretch floating" style="animation-delay: 0.6s;">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi-search"></i></span>
+                      <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
                     </div>
-                </div>
-            </div>
 
+                    <div class="d-flex gap-2 flex-grow-1">
+                      <select id="extFilter" class="form-select">
+                        <option value="*">Tüm uzantılar</option>
+                        <option value="docs">Belgeler (pdf, doc[x], xls[x], ppt[x])</option>
+                        <option value="image">Görseller (png, jpg, webp, svg)</option>
+                        <option value="audio">Ses (mp3, wav, m4a, flac)</option>
+                        <option value="video">Video (mp4, mkv, mov, webm)</option>
+                        <option value="archive">Arşiv (zip, rar, 7z, tar.gz)</option>
+                        <option value="playlist">Listeler (m3u, m3u8, txt)</option>
+                      </select>
 
-            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
-                <div id="particles-js"></div>
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12 mx-auto text-center">
-                            <small class="floating">web si̇temi̇z yapim aşamasinda.</small>
-                            
-                            <h1 class="text-white mt-2 mb-4 pb-2 floating" style="animation-delay: 0.5s;">
-                                YAPIM AŞAMASINDA!
-                            </h1>
-
-                             <ul class="countdown d-flex flex-wrap align-items-center">
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1s;">
-                                    <h2 class="countdown-title days">45</h2>
-                                    <span class="countdown-text">Gün</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.2s;">
-                                    <h2 class="countdown-title hours">10</h2>
-                                    <span class="countdown-text">Saat</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.4s;">
-                                    <h2 class="countdown-title minutes">15</h2>
-                                    <span class="countdown-text">DAkika</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.6s;">
-                                    <h2 class="countdown-title seconds">34</h2>
-                                    <span class="countdown-text">Saniye</span>
-                               </li>     
-                            </ul>
-                        </div>
+                      <select id="sortBy" class="form-select">
+                        <option value="name-asc">Ada göre (A→Z)</option>
+                        <option value="name-desc">Ada göre (Z→A)</option>
+                        <option value="date-desc">Tarihe göre (Yeni→Eski)</option>
+                        <option value="date-asc">Tarihe göre (Eski→Yeni)</option>
+                        <option value="size-desc">Boyut (Büyük→Küçük)</option>
+                        <option value="size-asc">Boyut (Küçük→Büyük)</option>
+                      </select>
                     </div>
-                </div>
 
-                <div class="video-wrap">
-                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
-                        <source src="videos/video.mp4" type="video/mp4">
-                        Tarayıcınız video etiketini desteklemiyor.
-                    </video>
-                </div>
-            </section>
-        </main>
+                    <div class="d-flex gap-2">
+                      <div class="btn-group view-toggle w-100" role="group" aria-label="Görünüm">
+                        <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
+                          <i class="bi-list-ul"></i>
+                        </button>
+                        <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
+                          <i class="bi-grid-3x3-gap"></i>
+                        </button>
+                      </div>
 
-        <!-- JAVASCRIPT FILES -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/countdown.js"></script>
-        <script src="js/init.js"></script>
-        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-        
-        <script>
-            // Header scroll effect
-            $(window).scroll(function() {
-                if ($(window).scrollTop() > 50) {
-                    $('.site-header').addClass('scrolled');
-                } else {
-                    $('.site-header').removeClass('scrolled');
+                      <button id="clearBtn" class="btn btn-outline-light">
+                        Temizle
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <hr class="my-3">
+                  
+                  <!-- Dosya İstatistikleri -->
+                  <h4 class="mb-3">📊 Dosya İstatistikleri</h4>
+                  <div id="fileStats">
+                    <p class="mb-2"><i class="bi bi-file-earmark-text me-2"></i> Toplam Dosya: <span id="totalFiles">0</span></p>
+                    <p class="mb-2"><i class="bi bi-hdd me-2"></i> Toplam Boyut: <span id="totalSize">0 B</span></p>
+                    <p class="mb-2"><i class="bi bi-clock-history me-2"></i> Son Güncelleme: <span id="lastUpdate">-</span></p>
+                    
+                    <hr class="my-3">
+                    
+                    <h5 class="mb-2">📂 Dosya Türleri</h5>
+                    <div id="fileTypes" class="small">
+                      <p class="mb-1">Yükleniyor...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <a class="custom-btn btn mt-4 floating" href="index.html" style="animation-delay: 0.9s;">⬅️ Ana Sayfa</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+      // Header scroll effect
+      $(window).scroll(function() {
+        if ($(window).scrollTop() > 50) {
+          $('.site-header').addClass('scrolled');
+        } else {
+          $('.site-header').removeClass('scrolled');
+        }
+      });
+      
+      // Initialize particles.js
+      document.addEventListener('DOMContentLoaded', function() {
+        particlesJS('particles-js', {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#ffffff"
+            },
+            "shape": {
+              "type": "circle",
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              }
+            },
+            "opacity": {
+              "value": 0.5,
+              "random": false,
+              "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 3,
+              "random": true,
+              "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+              }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#ffffff",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 2,
+              "direction": "none",
+              "random": false,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false,
+              "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+              }
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": true,
+                "mode": "grab"
+              },
+              "onclick": {
+                "enable": true,
+                "mode": "push"
+              },
+              "resize": true
+            },
+            "modes": {
+              "grab": {
+                "distance": 140,
+                "line_linked": {
+                  "opacity": 1
                 }
-            });
-            
-            // Initialize particles.js
-            document.addEventListener('DOMContentLoaded', function() {
-                particlesJS('particles-js', {
-                    "particles": {
-                        "number": {
-                            "value": 80,
-                            "density": {
-                                "enable": true,
-                                "value_area": 800
-                            }
-                        },
-                        "color": {
-                            "value": "#ffffff"
-                        },
-                        "shape": {
-                            "type": "circle",
-                            "stroke": {
-                                "width": 0,
-                                "color": "#000000"
-                            }
-                        },
-                        "opacity": {
-                            "value": 0.5,
-                            "random": false,
-                            "anim": {
-                                "enable": false,
-                                "speed": 1,
-                                "opacity_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "size": {
-                            "value": 3,
-                            "random": true,
-                            "anim": {
-                                "enable": false,
-                                "speed": 40,
-                                "size_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "line_linked": {
-                            "enable": true,
-                            "distance": 150,
-                            "color": "#ffffff",
-                            "opacity": 0.4,
-                            "width": 1
-                        },
-                        "move": {
-                            "enable": true,
-                            "speed": 2,
-                            "direction": "none",
-                            "random": false,
-                            "straight": false,
-                            "out_mode": "out",
-                            "bounce": false,
-                            "attract": {
-                                "enable": false,
-                                "rotateX": 600,
-                                "rotateY": 1200
-                            }
-                        }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": {
-                            "onhover": {
-                                "enable": true,
-                                "mode": "grab"
-                            },
-                            "onclick": {
-                                "enable": true,
-                                "mode": "push"
-                            },
-                            "resize": true
-                        },
-                        "modes": {
-                            "grab": {
-                                "distance": 140,
-                                "line_linked": {
-                                    "opacity": 1
-                                }
-                            },
-                            "push": {
-                                "particles_nb": 4
-                            }
-                        }
-                    },
-                    "retina_detect": true
-                });
-            });
-        </script>
+              },
+              "push": {
+                "particles_nb": 4
+              }
+            }
+          },
+          "retina_detect": true
+        });
+      });
 
-    </body>
+      // GitHub API bilgileri
+      const OWNER  = "barisha-app";
+      const REPO   = "Barisha"; 
+      const BRANCH = "main";
+      const FOLDER = "dosyalar";
+
+      // API URL'leri
+      const API_LIST   = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`;
+      const API_COMMITS = (path) =>
+        `https://api.github.com/repos/${OWNER}/${REPO}/commits?path=${encodeURIComponent(path)}&per_page=1`;
+
+      // DOM elementleri
+      const qEl = document.getElementById("q");
+      const extEl = document.getElementById("extFilter");
+      const sortEl = document.getElementById("sortBy");
+      const clearBtn = document.getElementById("clearBtn");
+      const btnList = document.getElementById("btnList");
+      const btnGrid = document.getElementById("btnGrid");
+
+      const listArea = document.getElementById("listArea");
+      const gridArea = document.getElementById("gridArea");
+      const statusEl = document.getElementById("status");
+
+      // İstatistik elementleri
+      const totalFilesEl = document.getElementById("totalFiles");
+      const totalSizeEl = document.getElementById("totalSize");
+      const lastUpdateEl = document.getElementById("lastUpdate");
+      const fileTypesEl = document.getElementById("fileTypes");
+
+      // Global değişkenler
+      let allFiles = [];
+      let view = "list";
+
+      // Dosya türleri grupları
+      const groups = {
+        docs: ["pdf","doc","docx","xls","xlsx","csv","ppt","pptx"],
+        image: ["png","jpg","jpeg","gif","webp","svg"],
+        audio: ["mp3","wav","aac","m4a","flac"],
+        video: ["mp4","mov","mkv","webm"],
+        archive: ["zip","rar","7z","tar","gz","tar.gz"],
+        playlist: ["m3u","m3u8","txt"]
+      };
+
+      // Dosya ikonları
+      function iconFor(name) {
+        const ext = name.split(".").pop()?.toLowerCase() || "";
+        if (groups.image.includes(ext)) return "bi-file-image";
+        if (groups.video.includes(ext)) return "bi-file-earmark-play";
+        if (groups.audio.includes(ext)) return "bi-file-music";
+        if (ext === "pdf") return "bi-file-earmark-pdf";
+        if (["doc","docx","rtf","odt"].includes(ext)) return "bi-file-earmark-word";
+        if (["xls","xlsx","csv","ods"].includes(ext)) return "bi-file-earmark-spreadsheet";
+        if (["ppt","pptx"].includes(ext)) return "bi-file-earmark-ppt";
+        if (groups.archive.includes(ext)) return "bi-file-zip";
+        if (groups.playlist.includes(ext)) return "bi-file-earmark-text";
+        return "bi-file-earmark";
+      }
+
+      // Boyut formatlama
+      function humanSize(bytes) {
+        if (bytes == null) return "";
+        const units = ["B","KB","MB","GB","TB"];
+        let i = 0, n = bytes;
+        while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+        const fixed = n < 10 && i > 0 ? 1 : 0;
+        return n.toFixed(fixed) + " " + units[i];
+      }
+
+      // Raw dosya URL'si
+      function rawURL(path) {
+        return `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
+      }
+
+      // Download URL'si
+      function downloadURL(path) {
+        return `https://github.com/${OWNER}/${REPO}/raw/${BRANCH}/${encodeURIComponent(path).replace(/%2F/g,"/")}`;
+      }
+
+      // Commit tarihini getir
+      async function fetchCommitDate(path) {
+        try {
+          const res = await fetch(API_COMMITS(path), { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("commit-api");
+          const data = await res.json();
+          const iso = data?.[0]?.commit?.committer?.date || data?.[0]?.commit?.author?.date;
+          return iso ? new Date(iso) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      // İstatistikleri güncelle
+      function updateStats(files) {
+        // Toplam dosya sayısı
+        totalFilesEl.textContent = files.length;
+        
+        // Toplam boyut
+        const totalBytes = files.reduce((sum, file) => sum + (file.size || 0), 0);
+        totalSizeEl.textContent = humanSize(totalBytes);
+        
+        // Son güncelleme tarihi
+        const latestDate = files.reduce((latest, file) => {
+          if (!file.date) return latest;
+          return !latest || file.date > latest ? file.date : latest;
+        }, null);
+        
+        lastUpdateEl.textContent = latestDate ? latestDate.toLocaleDateString('tr-TR') : "Bilinmiyor";
+        
+        // Dosya türleri istatistikleri
+        const typeCounts = {};
+        files.forEach(file => {
+          const ext = file.name.split(".").pop()?.toLowerCase() || "diğer";
+          typeCounts[ext] = (typeCounts[ext] || 0) + 1;
+        });
+        
+        // En çok kullanılan 5 uzantı
+        const sortedTypes = Object.entries(typeCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+        
+        fileTypesEl.innerHTML = "";
+        
+        if (sortedTypes.length > 0) {
+          sortedTypes.forEach(([type, count]) => {
+            const percentage = ((count / files.length) * 100).toFixed(1);
+            const p = document.createElement("p");
+            p.className = "mb-1";
+            p.innerHTML = `<span class="badge bg-primary me-1">${type}</span> ${count} dosya (${percentage}%)`;
+            fileTypesEl.appendChild(p);
+          });
+        } else {
+          fileTypesEl.innerHTML = "<p class='mb-1'>Dosya türü bilgisi yok</p>";
+        }
+      }
+
+      // Dosyaları yükle
+      async function load() {
+        try {
+          statusEl.innerHTML = '<span class="spinner-sm me-2"></span> Dosyalar yükleniyor...';
+          const res = await fetch(API_LIST, { headers: { "Accept": "application/vnd.github+json" } });
+          if (!res.ok) throw new Error("list-api");
+          const data = await res.json();
+          
+          // Sadece dosyaları filtrele
+          const files = data.filter(i => i.type === "file");
+          
+          // Tüm dosyalar için bilgileri topla
+          for (const f of files) {
+            const date = await fetchCommitDate(f.path);
+            allFiles.push({
+              name: f.name,
+              size: f.size,
+              path: f.path,
+              downloadUrl: downloadURL(f.path),
+              rawUrl: rawURL(f.path),
+              date
+            });
+          }
+
+          render();
+        } catch (e) {
+          console.error(e);
+          statusEl.textContent = "Dosyalar yüklenemedi. GitHub API sınırı veya ağ hatası olabilir.";
+        }
+      }
+
+      // Filtreleri uygula
+      function applyFilters(files) {
+        const q = qEl.value.trim().toLowerCase();
+        const groupKey = extEl.value;
+
+        let filtered = files.filter(f => {
+          const matchQ = !q || f.name.toLowerCase().includes(q);
+          let matchGroup = true;
+          if (groupKey !== "*") {
+            const ext = f.name.split(".").pop()?.toLowerCase() || "";
+            matchGroup = groups[groupKey]?.includes(ext);
+          }
+          return matchQ && matchGroup;
+        });
+
+        // Sıralama
+        switch (sortEl.value) {
+          case "name-asc":  filtered.sort((a,b)=> a.name.localeCompare(b.name,"tr")); break;
+          case "name-desc": filtered.sort((a,b)=> b.name.localeCompare(a.name,"tr")); break;
+          case "date-desc": filtered.sort((a,b)=> (b.date?.getTime()||0) - (a.date?.getTime()||0)); break;
+          case "date-asc":  filtered.sort((a,b)=> (a.date?.getTime()||0) - (b.date?.getTime()||0)); break;
+          case "size-desc": filtered.sort((a,b)=> (b.size||0) - (a.size||0)); break;
+          case "size-asc":  filtered.sort((a,b)=> (a.size||0) - (b.size||0)); break;
+        }
+        return filtered;
+      }
+
+      // Panoya kopyala
+      function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(()=>{
+          btn.innerHTML = '<i class="bi-clipboard-check"></i>';
+          btn.classList.add("copy-ok");
+          setTimeout(()=>{
+            btn.innerHTML = '<i class="bi-clipboard"></i>';
+            btn.classList.remove("copy-ok");
+          }, 900);
+        });
+      }
+
+      // Liste görünümü için satır oluştur
+      function itemListRow(f) {
+        const row = document.createElement("div");
+        row.className = "list-group-item d-flex justify-content-between align-items-center download-card";
+
+        const left = document.createElement("div");
+        left.className = "d-flex align-items-center gap-3 text-start";
+        left.innerHTML = `
+          <i class="bi ${iconFor(f.name)} fs-4"></i>
+          <div>
+            <div class="fw-semibold">${f.name}</div>
+            <div class="text-white-50 small">
+              ${f.date ? new Date(f.date).toLocaleString() : "Tarih yok"} • ${humanSize(f.size)}
+            </div>
+          </div>
+        `;
+
+        const right = document.createElement("div");
+        right.className = "d-flex align-items-center gap-2";
+        right.innerHTML = `
+          <a class="btn btn-sm btn-light pill" href="${f.downloadUrl}" download="${f.name}"><i class="bi-download me-1"></i>İndir</a>
+          <a class="btn btn-sm btn-outline-light pill" href="${f.rawUrl}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+          <button class="btn btn-sm btn-outline-light pill" title="Bağlantıyı kopyala"><i class="bi-clipboard"></i></button>
+        `;
+        const copyBtn = right.querySelector("button");
+        copyBtn.addEventListener("click", ()=> copyToClipboard(f.downloadUrl, copyBtn));
+
+        row.appendChild(left);
+        row.appendChild(right);
+        return row;
+      }
+
+      // Izgara görünümü için kart oluştur
+      function itemGridCard(f) {
+        const col = document.createElement("div");
+        col.className = "col";
+
+        const card = document.createElement("div");
+        card.className = "card h-100 download-card";
+        card.innerHTML = `
+          <div class="card-body text-start">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi ${iconFor(f.name)} fs-4"></i>
+              <h6 class="card-title mb-0">${f.name}</h6>
+            </div>
+            <div class="text-white-50 small mb-3">
+              ${f.date ? new Date(f.date).toLocaleDateString() : "Tarih yok"} • ${humanSize(f.size)}
+            </div>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-light pill" href="${f.downloadUrl}" download="${f.name}"><i class="bi-download me-1"></i>İndir</a>
+              <a class="btn btn-sm btn-outline-light pill" href="${f.rawUrl}" target="_blank" rel="noopener"><i class="bi-link-45deg me-1"></i>Ham</a>
+              <button class="btn btn-sm btn-outline-light pill" title="Kopyala"><i class="bi-clipboard"></i></button>
+            </div>
+          </div>
+        `;
+        const copyBtn = card.querySelector("button");
+        copyBtn.addEventListener("click", ()=> copyToClipboard(f.downloadUrl, copyBtn));
+
+        col.appendChild(card);
+        return col;
+      }
+
+      // Görünümü render et
+      function render() {
+        const filtered = applyFilters(allFiles);
+
+        // Liste görünümü
+        listArea.innerHTML = "";
+        filtered.forEach(f => listArea.appendChild(itemListRow(f)));
+
+        // Izgara görünümü
+        gridArea.innerHTML = "";
+        filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
+
+        // İstatistikleri güncelle
+        updateStats(filtered);
+
+        // Durum mesajı
+        if (!filtered.length) {
+          statusEl.textContent = "Eşleşen dosya yok.";
+        } else {
+          statusEl.textContent = `Toplam ${filtered.length} dosya listelendi.`;
+        }
+
+        // Görünümü ayarla
+        if (view === "list") {
+          listArea.style.display = "";
+          gridArea.style.display = "none";
+          btnList.classList.add("active");
+          btnGrid.classList.remove("active");
+        } else {
+          listArea.style.display = "none";
+          gridArea.style.display = "";
+          btnGrid.classList.add("active");
+          btnList.classList.remove("active");
+        }
+      }
+
+      // Event listeners
+      qEl.addEventListener("input", render);
+      extEl.addEventListener("change", render);
+      sortEl.addEventListener("change", render);
+      clearBtn.addEventListener("click", ()=>{
+        qEl.value = "";
+        extEl.value = "*";
+        sortEl.value = "name-asc";
+        render();
+      });
+
+      btnList.addEventListener("click", ()=> { view = "list"; render(); });
+      btnGrid.addEventListener("click", ()=> { view = "grid"; render(); });
+
+      // Sayfa yüklendiğinde dosyaları getir
+      load();
+    </script>
+  </body>
 </html>

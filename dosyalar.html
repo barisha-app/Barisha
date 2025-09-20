@@ -28,8 +28,8 @@
         overflow-x: hidden;
         background-color: var(--dark-color);
         color: white;
-        height: 100%; /* Eklendi: Body yüksekliği */
-        padding-top: 80px; /* Eklendi: Header yüksekliği kadar üst boşluk */
+        height: 100%;
+        padding-top: 80px;
       }
       
       /* Header Styles */
@@ -43,7 +43,7 @@
         width: 100%;
         z-index: 1000;
         transition: all 0.3s ease;
-        height: 80px; /* Header yüksekliği sabitlendi */
+        height: 80px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
       }
       
@@ -75,12 +75,12 @@
         -webkit-text-fill-color: transparent;
       }
       
-      /* Hero Section - DÜZENLENDİ */
+      /* Hero Section */
       .hero-bg {
         position: relative;
-        overflow: visible; /* Değiştirildi: hidden -> visible */
-        min-height: auto; /* Değiştirildi: 100vh -> auto */
-        padding-top: 20px; /* Azaltıldı */
+        overflow: visible;
+        min-height: auto;
+        padding-top: 20px;
         padding-bottom: 50px;
       }
       
@@ -281,20 +281,20 @@
       }
       
       /* SADECE dosya isimleri beyaz */
-      #listArea .fw-semibold { color: #fff !important; }  /* liste görünümü */
-      #gridArea .card-title  { color: #fff !important; }  /* ızgara görünümü */
+      #listArea .fw-semibold { color: #fff !important; }
+      #gridArea .card-title  { color: #fff !important; }
       
-      /* Particle Effects - DÜZENLENDİ */
+      /* Particle Effects */
       #particles-js {
-        position: fixed; /* Değiştirildi: absolute -> fixed */
+        position: fixed;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
-        z-index: -1; /* Değiştirildi: 1 -> -1 */
+        z-index: -1;
       }
       
-      /* Yeni Düzen: Dosya listesi sağda */
+      /* Yeni Düzen: Dosya listesi */
       .content-wrapper {
         display: flex;
         flex-direction: row;
@@ -315,13 +315,65 @@
         width: 70%;
       }
       
+      /* Dosya görünümü için sınırlı alan */
+      .files-display-area {
+        max-height: 600px;
+        overflow-y: auto;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 20px;
+      }
+      
+      /* Sosyal medya paylaşım butonları */
+      .share-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+      }
+      
+      .share-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: white;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+      
+      .share-btn.whatsapp {
+        background: #25D366;
+      }
+      
+      .share-btn.facebook {
+        background: #3b5998;
+      }
+      
+      .share-btn.instagram {
+        background: #E1306C;
+      }
+      
+      .share-btn.twitter {
+        background: #1DA1F2;
+      }
+      
+      .share-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      
       /* Filtre bölümünü sağa taşıma için yeni stil */
       .filter-section {
-        order: 2; /* Sağ tarafa taşır */
+        order: 2;
       }
       
       .files-section {
-        order: 1; /* Sol tarafa taşır */
+        order: 1;
       }
       
       /* Responsive Adjustments */
@@ -347,11 +399,11 @@
         }
         
         body {
-          padding-top: 70px; /* Mobilde daha az üst boşluk */
+          padding-top: 70px;
         }
         
         .site-header {
-          height: 70px; /* Mobilde daha kısa header */
+          height: 70px;
         }
         
         /* Mobilde filtre bölümünü üste taşı */
@@ -361,6 +413,12 @@
         
         .files-section {
           order: 2;
+        }
+        
+        /* Mobilde 1 sütun */
+        .files-display-area .row-cols-md-2 > * {
+          flex: 0 0 auto;
+          width: 100%;
         }
       }
       
@@ -453,19 +511,38 @@
               <div class="content-wrapper">
                 <!-- Dosya listesi (sol taraf) -->
                 <div class="files-container files-section">
-                  <div id="listArea" class="list-group"></div>
-                  <div id="gridArea" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-1" style="display:none;"></div>
+                  <!-- Dosya görüntüleme alanı (2 sütun x 5 satır) -->
+                  <div class="files-display-area">
+                    <div id="gridArea" class="row row-cols-1 row-cols-md-2 g-3"></div>
+                    <div id="listArea" class="list-group" style="display:none;"></div>
+                  </div>
 
-                  <div id="status" class="mt-3 muted-sm">
+                  <div id="status" class="mt-3 muted-sm text-center">
                     <span class="spinner-sm me-2"></span> Dosyalar yükleniyor...
+                  </div>
+                  
+                  <!-- Sosyal Medya Paylaşım Butonları -->
+                  <div class="share-buttons">
+                    <a href="#" class="share-btn whatsapp" title="WhatsApp'ta paylaş">
+                      <i class="bi-whatsapp"></i>
+                    </a>
+                    <a href="#" class="share-btn facebook" title="Facebook'ta paylaş">
+                      <i class="bi-facebook"></i>
+                    </a>
+                    <a href="#" class="share-btn instagram" title="Instagram'da paylaş">
+                      <i class="bi-instagram"></i>
+                    </a>
+                    <a href="#" class="share-btn twitter" title="Twitter'da paylaş">
+                      <i class="bi-twitter"></i>
+                    </a>
                   </div>
                 </div>
                 
-                <!-- Sağ taraf - Filtreleme ve İstatistikler -->
+                <!-- Sağ taraf - Sadece Filtreleme -->
                 <div class="sidebar filter-section">
                   <!-- Filtreleme Araç Çubuğu -->
                   <h4 class="mb-3">🔍 Filtreleme</h4>
-                  <div class="toolbar d-flex flex-column gap-2 align-items-stretch floating" style="animation-delay: 0.6s;">
+                  <div class="toolbar d-flex flex-column gap-2 align-items-stretch">
                     <div class="input-group">
                       <span class="input-group-text"><i class="bi-search"></i></span>
                       <input id="q" type="text" class="form-control" placeholder="Dosya ara (isim/uzantı)" />
@@ -494,10 +571,10 @@
 
                     <div class="d-flex gap-2">
                       <div class="btn-group view-toggle w-100" role="group" aria-label="Görünüm">
-                        <button id="btnList" class="btn btn-outline-light active" title="Liste görünümü">
+                        <button id="btnList" class="btn btn-outline-light" title="Liste görünümü">
                           <i class="bi-list-ul"></i>
                         </button>
-                        <button id="btnGrid" class="btn btn-outline-light" title="Izgara görünüm">
+                        <button id="btnGrid" class="btn btn-outline-light active" title="Izgara görünüm">
                           <i class="bi-grid-3x3-gap"></i>
                         </button>
                       </div>
@@ -507,27 +584,10 @@
                       </button>
                     </div>
                   </div>
-                  
-                  <hr class="my-3">
-                  
-                  <!-- Dosya İstatistikleri -->
-                  <h4 class="mb-3">📊 Dosya İstatistikleri</h4>
-                  <div id="fileStats">
-                    <p class="mb-2"><i class="bi bi-file-earmark-text me-2"></i> Toplam Dosya: <span id="totalFiles">0</span></p>
-                    <p class="mb-2"><i class="bi bi-hdd me-2"></i> Toplam Boyut: <span id="totalSize">0 B</span></p>
-                    <p class="mb-2"><i class="bi bi-clock-history me-2"></i> Son Güncelleme: <span id="lastUpdate">-</span></p>
-                    
-                    <hr class="my-3">
-                    
-                    <h5 class="mb-2">📂 Dosya Türleri</h5>
-                    <div id="fileTypes" class="small">
-                      <p class="mb-1">Yükleniyor...</p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              <a class="custom-btn btn mt-4 floating" href="index.html" style="animation-delay: 0.9s;">⬅️ Ana Sayfa</a>
+              <a class="custom-btn btn mt-4 floating d-block mx-auto" href="index.html" style="animation-delay: 0.9s; max-width: 200px;">⬅️ Ana Sayfa</a>
             </div>
           </div>
         </div>
@@ -663,15 +723,9 @@
       const gridArea = document.getElementById("gridArea");
       const statusEl = document.getElementById("status");
 
-      // İstatistik elementleri
-      const totalFilesEl = document.getElementById("totalFiles");
-      const totalSizeEl = document.getElementById("totalSize");
-      const lastUpdateEl = document.getElementById("lastUpdate");
-      const fileTypesEl = document.getElementById("fileTypes");
-
       // Global değişkenler
       let allFiles = [];
-      let view = "list";
+      let view = "grid"; // Varsayılan görünüm ızgara
 
       // Dosya türleri grupları
       const groups = {
@@ -731,48 +785,15 @@
         }
       }
 
-      // İstatistikleri güncelle
-      function updateStats(files) {
-        // Toplam dosya sayısı
-        totalFilesEl.textContent = files.length;
+      // Sosyal medya paylaşım linkleri oluştur
+      function setupShareButtons() {
+        const currentUrl = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent("BARİSHA Dosya Arşivi - Ücretsiz Dosya İndirme");
         
-        // Toplam boyut
-        const totalBytes = files.reduce((sum, file) => sum + (file.size || 0), 0);
-        totalSizeEl.textContent = humanSize(totalBytes);
-        
-        // Son güncelleme tarihi
-        const latestDate = files.reduce((latest, file) => {
-          if (!file.date) return latest;
-          return !latest || file.date > latest ? file.date : latest;
-        }, null);
-        
-        lastUpdateEl.textContent = latestDate ? latestDate.toLocaleDateString('tr-TR') : "Bilinmiyor";
-        
-        // Dosya türleri istatistikleri
-        const typeCounts = {};
-        files.forEach(file => {
-          const ext = file.name.split(".").pop()?.toLowerCase() || "diğer";
-          typeCounts[ext] = (typeCounts[ext] || 0) + 1;
-        });
-        
-        // En çok kullanılan 5 uzantı
-        const sortedTypes = Object.entries(typeCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5);
-        
-        fileTypesEl.innerHTML = "";
-        
-        if (sortedTypes.length > 0) {
-          sortedTypes.forEach(([type, count]) => {
-            const percentage = ((count / files.length) * 100).toFixed(1);
-            const p = document.createElement("p");
-            p.className = "mb-1";
-            p.innerHTML = `<span class="badge bg-primary me-1">${type}</span> ${count} dosya (${percentage}%)`;
-            fileTypesEl.appendChild(p);
-          });
-        } else {
-          fileTypesEl.innerHTML = "<p class='mb-1'>Dosya türü bilgisi yok</p>";
-        }
+        document.querySelector('.share-btn.whatsapp').href = `https://wa.me/?text=${title}%20${currentUrl}`;
+        document.querySelector('.share-btn.facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        document.querySelector('.share-btn.instagram').href = `https://www.instagram.com/barisha.tr`; // Instagram doğrudan paylaşım desteklemiyor
+        document.querySelector('.share-btn.twitter').href = `https://twitter.com/intent/tweet?text=${title}&url=${currentUrl}`;
       }
 
       // Dosyaları yükle
@@ -800,6 +821,7 @@
           }
 
           render();
+          setupShareButtons(); // Paylaşım butonlarını ayarla
         } catch (e) {
           console.error(e);
           statusEl.textContent = "Dosyalar yüklenemedi. GitHub API sınırı veya ağ hatası olabilir.";
@@ -918,9 +940,6 @@
         // Izgara görünümü
         gridArea.innerHTML = "";
         filtered.forEach(f => gridArea.appendChild(itemGridCard(f)));
-
-        // İstatistikleri güncelle
-        updateStats(filtered);
 
         // Durum mesajı
         if (!filtered.length) {

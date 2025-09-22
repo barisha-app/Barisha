@@ -1180,16 +1180,16 @@
         // Başlık
         doc.setFontSize(20);
         doc.setTextColor(106, 17, 203);
-        doc.text('BARİSHA - SİPARİŞ DETAYI', 105, 20, { align: 'center' });
+        doc.text('BARiSHA - SiPARiS DETAYI', 105, 20, { align: 'center' });
         
         // Tarih
         doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
-        doc.text(`Sipariş Tarihi: ${new Date().toLocaleString('tr-TR')}`, 14, 30);
+        doc.text(`Siparib Tarihi: ${new Date().toLocaleString('tr-TR')}`, 14, 30);
         
         // Müşteri bilgileri
         doc.setFontSize(14);
-        doc.text('Sipariş Detayları:', 14, 45);
+        doc.text('Siparis Detaylari:', 14, 45);
         
         // Tablo başlıkları
         const headers = [['Ürün', 'Beden', 'Renk', 'Adet', 'Fiyat', 'Toplam']];
@@ -1228,7 +1228,7 @@
         const finalY = doc.lastAutoTable.finalY + 20;
         doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
-        doc.text('İletişim için: 0530 304 29 50', 14, finalY);
+        doc.text('iletisim icin: barisha@yaani.com', 14, finalY);
         doc.text('WhatsApp: 0530 304 29 50', 14, finalY + 7);
         
         return doc;

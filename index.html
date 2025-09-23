@@ -31,6 +31,22 @@
         min-height: 100vh;
       }
       
+      /* Page Transition */
+      .page-transition {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        z-index: 9999;
+        transition: left 0.6s ease-in-out;
+      }
+      
+      .page-transition.active {
+        left: 0;
+      }
+      
       /* Header Styles */
       .site-header {
         background: rgba(18, 18, 18, 0.95);
@@ -74,6 +90,113 @@
         -webkit-text-fill-color: transparent;
       }
       
+      /* Search Box Styles */
+      .search-container {
+        position: relative;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      
+      .search-box {
+        position: relative;
+      }
+      
+      .search-box input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 25px;
+        padding: 12px 45px 12px 20px;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+      
+      .search-box input:focus {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        color: white;
+      }
+      
+      .search-box button {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .search-box button:hover {
+        color: var(--accent-color);
+      }
+      
+      .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        margin-top: 5px;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        z-index: 1000;
+      }
+      
+      .search-result-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .search-result-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+      
+      .search-prediction {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9em;
+        margin-left: 5px;
+      }
+      
+      /* Sepet ikonu */
+      .cart-icon {
+        position: relative;
+        margin-left: 15px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+      }
+      
+      .cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--accent-color);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: bold;
+      }
+      
       .custom-btn {
         background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         border: none;
@@ -111,7 +234,9 @@
 
       /* Hero Section */
       .hero-section {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+        background-size: cover;
+        background-position: center;
         padding: 120px 0 80px;
         text-align: center;
         position: relative;
@@ -135,8 +260,18 @@
       }
 
       /* Countdown Styles */
+      .countdown-container {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 600px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
       .countdown {
-        margin-top: 30px;
+        margin-top: 20px;
         justify-content: center;
       }
       
@@ -147,7 +282,6 @@
         padding: 20px;
         margin: 0 10px;
         min-width: 100px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease;
       }
@@ -172,8 +306,8 @@
         letter-spacing: 1px;
       }
 
-      /* Product Preview Section */
-      .preview-section {
+      /* Product Grid Section */
+      .products-section {
         padding: 80px 0;
       }
       
@@ -196,7 +330,26 @@
         font-size: 1.1rem;
       }
       
-      .product-card {
+      /* Product Columns */
+      .product-column {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        height: 100%;
+      }
+      
+      .column-title {
+        font-family: 'Unbounded', cursive;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+      
+      /* Large Product Cards */
+      .product-card-large {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 1rem;
         background: rgba(255, 255, 255, 0.05);
@@ -204,29 +357,29 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: white;
         overflow: hidden;
-        height: 100%;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
+        cursor: pointer;
       }
       
-      .product-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      .product-card-large:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
       }
       
-      .product-image {
-        height: 200px;
+      .product-image-large {
+        height: 180px;
         overflow: hidden;
         position: relative;
       }
       
-      .product-image img {
+      .product-image-large img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.5s ease;
       }
       
-      .product-card:hover .product-image img {
+      .product-card-large:hover .product-image-large img {
         transform: scale(1.1);
       }
       
@@ -242,11 +395,11 @@
         font-weight: 600;
       }
       
-      .product-info {
+      .product-info-large {
         padding: 20px;
       }
       
-      .product-title {
+      .product-title-large {
         font-size: 1.2rem;
         font-weight: 600;
         margin-bottom: 10px;
@@ -255,7 +408,7 @@
         overflow: hidden;
       }
       
-      .product-price {
+      .product-price-large {
         font-size: 1.3rem;
         font-weight: 700;
         color: var(--accent-color);
@@ -275,76 +428,112 @@
         font-weight: 600;
       }
       
-      .view-more-btn {
-        text-align: center;
-        margin-top: 40px;
+      /* Small Product List */
+      .product-list-small {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .product-item-small {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .product-item-small:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+      }
+      
+      .product-item-small:last-child {
+        border-bottom: none;
+      }
+      
+      .product-image-small {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+      
+      .product-image-small img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .product-info-small {
+        flex: 1;
+      }
+      
+      .product-title-small {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: white;
+      }
+      
+      .product-price-small {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent-color);
+      }
+      
+      .view-details-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .view-details-btn:hover {
+        background: var(--primary-color);
+        transform: scale(1.05);
       }
 
-      /* About Section */
-      .about-section {
+      /* Promotions Section */
+      .promotions-section {
         padding: 80px 0;
         background: rgba(255, 255, 255, 0.02);
       }
       
-      .about-content {
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      
-      .about-content h2 {
-        font-family: 'Unbounded', cursive;
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      
-      .about-content p {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.8);
-        margin-bottom: 30px;
-      }
-      
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
-      }
-      
-      .feature-card {
-        background: rgba(255, 255, 255, 0.05);
+      .promotion-banner {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 40px;
         border-radius: 15px;
-        padding: 30px;
         text-align: center;
+        margin-bottom: 25px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease;
+        cursor: pointer;
       }
       
-      .feature-card:hover {
+      .promotion-banner:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       }
       
-      .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        display: block;
-      }
-      
-      .feature-card h3 {
-        font-size: 1.3rem;
+      .promotion-banner h3 {
+        font-family: 'Unbounded', cursive;
+        font-size: 1.8rem;
         margin-bottom: 15px;
-        color: white;
       }
       
-      .feature-card p {
-        font-size: 0.95rem;
-        color: rgba(255, 255, 255, 0.7);
+      .promotion-banner p {
+        font-size: 1.1rem;
         margin-bottom: 0;
+        opacity: 0.9;
       }
 
       /* Footer */
@@ -442,13 +631,16 @@
           font-size: 2rem;
         }
         
-        .features-grid {
-          grid-template-columns: 1fr;
+        .product-column {
+          margin-bottom: 30px;
         }
       }
     </style>
 </head>
 <body>
+    <!-- Page Transition -->
+    <div class="page-transition" id="pageTransition"></div>
+
     <!-- Particles Background -->
     <div id="particles-js"></div>
 
@@ -462,9 +654,24 @@
                         <span>BARİSHOP</span>
                     </a>
                     
+                    <!-- Arama Kutusu -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Ürün ara...">
+                            <button><i class="bi-search"></i></button>
+                            <div class="search-results" id="searchResults"></div>
+                        </div>
+                    </div>
+                    
                     <div class="d-flex gap-3 align-items-center">
+                        <!-- Sepet İkonu -->
+                        <a href="#" class="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="bi-cart3"></i>
+                            <span class="cart-badge" id="cartCount">0</span>
+                        </a>
+                        
                         <a href="urunler.html" class="custom-btn btn">
-                            <i class="bi-bag me-2"></i>Alışverişe Başla
+                            <i class="bi-bag me-2"></i>Tüm Ürünler
                         </a>
                     </div>
                 </div>
@@ -480,22 +687,25 @@
                     <h1>BARİSHOP'A HOŞGELDİNİZ!</h1>
                     <p class="lead">Türkiye'nin en güvenilir teknoloji mağazası yakında hizmetinizde. Sitemiz yapım aşamasındadır.</p>
                     
-                    <div class="countdown d-flex flex-wrap align-items-center justify-content-center">
-                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
-                            <h2 class="countdown-title days">00</h2>
-                            <span class="countdown-text">Gün</span>
-                        </div>
-                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
-                            <h2 class="countdown-title hours">00</h2>
-                            <span class="countdown-text">Saat</span>
-                        </div>
-                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
-                            <h2 class="countdown-title minutes">00</h2>
-                            <span class="countdown-text">Dakika</span>
-                        </div>
-                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
-                            <h2 class="countdown-title seconds">00</h2>
-                            <span class="countdown-text">Saniye</span>
+                    <div class="countdown-container">
+                        <h3 class="text-center mb-4">⏳ Sitemiz Açılıyor!</h3>
+                        <div class="countdown d-flex flex-wrap align-items-center justify-content-center">
+                            <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                                <h2 class="countdown-title days">00</h2>
+                                <span class="countdown-text">Gün</span>
+                            </div>
+                            <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                                <h2 class="countdown-title hours">00</h2>
+                                <span class="countdown-text">Saat</span>
+                            </div>
+                            <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                                <h2 class="countdown-title minutes">00</h2>
+                                <span class="countdown-text">Dakika</span>
+                            </div>
+                            <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                                <h2 class="countdown-title seconds">00</h2>
+                                <span class="countdown-text">Saniye</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -503,80 +713,73 @@
         </div>
     </section>
 
-    <!-- En Çok Tıklanan Ürünler -->
-    <section class="preview-section">
+    <!-- Ürün Grid Section -->
+    <section class="products-section">
         <div class="container">
             <div class="section-title">
-                <h2>🔥 En Çok Tıklanan Ürünler</h2>
-                <p>Sizden gelen yoğun ilgi gören popüler ürünlerimiz</p>
+                <h2>🚀 Öne Çıkan Ürünler</h2>
+                <p>En popüler ve indirimli ürünlerimiz</p>
             </div>
             
-            <div class="row" id="popularProducts">
-                <!-- Popüler ürünler buraya eklenecek -->
-            </div>
-            
-            <div class="view-more-btn">
-                <a href="urunler.html" class="custom-btn btn">
-                    <i class="bi-arrow-right me-2"></i>Tüm Ürünleri Gör
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Fırsat Ürünleri -->
-    <section class="preview-section" style="background: rgba(255, 255, 255, 0.02);">
-        <div class="container">
-            <div class="section-title">
-                <h2>💥 Fırsat Ürünleri</h2>
-                <p>En çok fiyatı düşen ve kampanyalı ürünler</p>
-            </div>
-            
-            <div class="row" id="discountProducts">
-                <!-- İndirimli ürünler buraya eklenecek -->
-            </div>
-            
-            <div class="view-more-btn">
-                <a href="urunler.html" class="custom-btn btn">
-                    <i class="bi-arrow-right me-2"></i>Diğer Fırsatları Gör
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hakkımızda -->
-    <section class="about-section">
-        <div class="container">
-            <div class="about-content">
-                <h2>BARİSHOP Hakkında</h2>
-                <p>
-                    BARİSHOP olarak, teknoloji tutkunlarına en kaliteli ürünleri en uygun fiyatlarla sunmayı hedefliyoruz. 
-                    Müşteri memnuniyetini ön planda tutarak, güvenilir alışveriş deneyimi sunmak için buradayız.
-                </p>
-                <p>
-                    Sitemiz şu anda aktif olarak geliştirilmektedir. Yakında tam donanımlı alışveriş deneyimi ile 
-                    hizmetinizde olacağız. Gelişmelerden haberdar olmak için bizi takip etmeye devam edin.
-                </p>
+            <div class="row">
+                <!-- Sol Sütun: En Çok İndirim -->
+                <div class="col-lg-4 mb-4">
+                    <div class="product-column">
+                        <h3 class="column-title">🔥 En Çok İndirim</h3>
+                        <div id="discountProducts">
+                            <!-- En çok indirimli ürünler buraya eklenecek -->
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <span class="feature-icon">🚚</span>
-                        <h3>Hızlı Kargo</h3>
-                        <p>1000 TL ve üzeri alışverişlerde ücretsiz kargo imkanı</p>
+                <!-- Orta Sütun: En Çok Görüntülenen -->
+                <div class="col-lg-4 mb-4">
+                    <div class="product-column">
+                        <h3 class="column-title">👁️ En Çok Görüntülenen</h3>
+                        <div id="popularProducts">
+                            <!-- En çok görüntülenen ürünler buraya eklenecek -->
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">🔒</span>
-                        <h3>Güvenli Alışveriş</h3>
-                        <p>%100 güvenli ödeme ve SSL sertifikası</p>
+                </div>
+                
+                <!-- Sağ Sütun: En Çok Satan -->
+                <div class="col-lg-4 mb-4">
+                    <div class="product-column">
+                        <h3 class="column-title">💰 En Çok Satan</h3>
+                        <ul class="product-list-small" id="bestSellingProducts">
+                            <!-- En çok satan ürünler buraya eklenecek -->
+                        </ul>
                     </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">💬</span>
-                        <h3>7/24 Destek</h3>
-                        <p>WhatsApp üzerinden kesintisiz müşteri hizmetleri</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kampanyalar Section -->
+    <section class="promotions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>🎯 Özel Kampanyalar</h2>
+                <p>Kaçırmamanız gereken fırsatlar</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="promotion-banner">
+                        <h3>🚚 Kargo Bedava!</h3>
+                        <p>1000 TL ve üzeri alışverişlerde kargo bedava</p>
                     </div>
-                    <div class="feature-card">
-                        <span class="feature-icon">↩️</span>
-                        <h3>Kolay İade</h3>
-                        <p>14 gün içinde ücretsiz iade ve değişim</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="promotion-banner" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <h3>🎁 %10 İndirim</h3>
+                        <p>İlk siparişinizde özel indirim fırsatı</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="promotion-banner" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                        <h3>💬 WhatsApp İndirimi</h3>
+                        <p>WhatsApp'tan sipariş verene ekstra %5 indirim</p>
                     </div>
                 </div>
             </div>
@@ -594,18 +797,18 @@
                 <div class="footer-column">
                     <h3>Hızlı Bağlantılar</h3>
                     <ul>
-                        <li><a href="index.html">Ana Sayfa</a></li>
-                        <li><a href="urunler.html">BARISHOP</a></li>
-                        <li><a href="dosyalar.html">DOSYALAR</a></li>
+                        <li><a href="index.html" class="page-link">Ana Sayfa</a></li>
+                        <li><a href="urunler.html" class="page-link">BARISHOP</a></li>
+                        <li><a href="dosyalar.html" class="page-link">DOSYALAR</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Müşteri Hizmetleri</h3>
                     <ul>
-                        <li><a href="sss.html">Sıkça Sorulan Sorular</a></li>
-                        <li><a href="iade-degisim.html">İade ve Değişim</a></li>
-                        <li><a href="kargo-takip.html">Kargo Takibi</a></li>
-                        <li><a href="iletisim.html">İletişim</a></li>
+                        <li><a href="sss.html" class="page-link">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="iade-degisim.html" class="page-link">İade ve Değişim</a></li>
+                        <li><a href="kargo-takip.html" class="page-link">Kargo Takibi</a></li>
+                        <li><a href="iletisim.html" class="page-link">İletişim</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -623,6 +826,28 @@
             </div>
         </div>
     </footer>
+
+    <!-- Sepet Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel"><i class="bi-cart3 me-2"></i>Alışveriş Sepetim</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="cart-empty text-center py-5">
+                        <i class="bi-cart-x display-1 text-muted"></i>
+                        <p class="mt-3">Sepetinizde ürün bulunmamaktadır.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Alışverişe Devam Et</button>
+                    <button type="button" class="btn btn-primary">Siparişi Tamamla</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -667,154 +892,226 @@
 
         // Geri sayım fonksiyonu
         function updateCountdown() {
-            // Hedef tarih: 28 Mart 2026, saat 18:00
             const targetDate = new Date('March 28, 2026 18:00:00').getTime();
-            
-            // Şu anki zaman
             const now = new Date().getTime();
-            
-            // Kalan zaman
             const distance = targetDate - now;
             
-            // Zaman hesaplamaları
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            // Değerleri göster (2 haneli format)
             document.querySelector('.days').innerHTML = days.toString().padStart(2, '0');
             document.querySelector('.hours').innerHTML = hours.toString().padStart(2, '0');
             document.querySelector('.minutes').innerHTML = minutes.toString().padStart(2, '0');
             document.querySelector('.seconds').innerHTML = seconds.toString().padStart(2, '0');
             
-            // Süre dolduysa
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 document.querySelector('.countdown').innerHTML = "<h2 class='text-white'>Süre Doldu! Sitemiz aktif.</h2>";
             }
         }
 
-        // Popüler ürünler (urunler.html'den en çok tıklananlar)
-        const popularProducts = [
-            {
-                id: 1,
-                name: "iPhone 14 Pro 128GB",
-                price: 34999,
-                originalPrice: 36999,
-                discountPercent: 5,
-                image: "https://resim.epey.com/802356/s_apple-iphone-14-pro-1.png",
-                category: "telefon"
-            },
-            {
-                id: 2,
-                name: "Samsung Galaxy S23 256GB",
-                price: 24999,
-                originalPrice: 26999,
-                discountPercent: 7,
-                image: "https://resim.epey.com/845148/b_samsung-galaxy-s23-2.png",
-                category: "telefon"
-            },
-            {
-                id: 3,
-                name: "MacBook Air M2 13\"",
-                price: 29999,
-                originalPrice: 31999,
-                discountPercent: 6,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661",
-                category: "bilgisayar"
-            },
-            {
-                id: 4,
-                name: "Sony WH-1000XM4",
-                price: 5999,
-                originalPrice: 6499,
-                discountPercent: 8,
-                image: "https://images.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000",
-                category: "kulaklik"
-            }
+        // Ürün verileri
+        const products = [
+            { id: 1, name: "iPhone 14 Pro 128GB", price: 34999, originalPrice: 36999, discountPercent: 5, 
+              image: "https://resim.epey.com/802356/s_apple-iphone-14-pro-1.png", category: "telefon", views: 1500, sales: 200 },
+            { id: 2, name: "Samsung Galaxy S23 256GB", price: 24999, originalPrice: 26999, discountPercent: 7, 
+              image: "https://resim.epey.com/845148/b_samsung-galaxy-s23-2.png", category: "telefon", views: 1200, sales: 180 },
+            { id: 3, name: "MacBook Air M2 13\"", price: 29999, originalPrice: 31999, discountPercent: 6, 
+              image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661", category: "bilgisayar", views: 900, sales: 150 },
+            { id: 4, name: "Sony WH-1000XM4", price: 5999, originalPrice: 6499, discountPercent: 8, 
+              image: "https://images.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000", category: "kulaklik", views: 800, sales: 120 },
+            { id: 5, name: "Apple Watch Series 8", price: 8999, originalPrice: 9499, discountPercent: 5, 
+              image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313", category: "saat", views: 700, sales: 100 },
+            { id: 6, name: "PlayStation 5 Standard", price: 14999, originalPrice: 15999, discountPercent: 6, 
+              image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$", category: "konsol", views: 1100, sales: 160 },
+            { id: 7, name: "iPad Air 5. Nesil", price: 12999, originalPrice: 13999, discountPercent: 7, 
+              image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1645065730655", category: "tablet", views: 600, sales: 90 },
+            { id: 8, name: "Xiaomi Redmi Note 12", price: 7999, originalPrice: 8999, discountPercent: 11, 
+              image: "https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1677570749.02675728.png", category: "telefon", views: 950, sales: 140 }
         ];
 
-        // İndirimli ürünler
-        const discountProducts = [
-            {
-                id: 5,
-                name: "Apple Watch Series 8",
-                price: 8999,
-                originalPrice: 9499,
-                discountPercent: 5,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313",
-                category: "saat"
-            },
-            {
-                id: 6,
-                name: "PlayStation 5 Standard",
-                price: 14999,
-                originalPrice: 15999,
-                discountPercent: 6,
-                image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$",
-                category: "konsol"
-            },
-            {
-                id: 7,
-                name: "iPad Air 5. Nesil",
-                price: 12999,
-                originalPrice: 13999,
-                discountPercent: 7,
-                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1645065730655",
-                category: "tablet"
-            },
-            {
-                id: 8,
-                name: "Xiaomi Redmi Note 12",
-                price: 7999,
-                originalPrice: 8999,
-                discountPercent: 11,
-                image: "https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1677570749.02675728.png",
-                category: "telefon"
-            }
-        ];
-
-        // Ürün kartı oluşturma fonksiyonu
-        function createProductCard(product) {
-            return `
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="product-card">
-                        <div class="product-image">
+        // Ürün yükleme fonksiyonları
+        function loadDiscountProducts() {
+            const container = document.getElementById('discountProducts');
+            const discountProducts = [...products]
+                .sort((a, b) => b.discountPercent - a.discountPercent)
+                .slice(0, 3);
+            
+            discountProducts.forEach(product => {
+                container.innerHTML += `
+                    <div class="product-card-large" data-id="${product.id}">
+                        <div class="product-image-large">
                             <img src="${product.image}" alt="${product.name}">
-                            ${product.discountPercent > 0 ? 
-                                `<div class="product-badge">%${product.discountPercent} İndirim</div>` : 
-                                `<div class="product-badge">Popüler</div>`
-                            }
+                            <div class="product-badge">%${product.discountPercent} İndirim</div>
                         </div>
-                        <div class="product-info">
-                            <h3 class="product-title">${product.name}</h3>
-                            ${product.originalPrice ? `
-                                <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                                <div class="product-price">${product.price.toFixed(2)} TL</div>
-                                <div class="discount-percent">%${product.discountPercent} indirim</div>
-                            ` : `
-                                <div class="product-price">${product.price.toFixed(2)} TL</div>
-                            `}
+                        <div class="product-info-large">
+                            <h3 class="product-title-large">${product.name}</h3>
+                            <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
+                            <div class="product-price-large">${product.price.toFixed(2)} TL</div>
+                            <button class="view-details-btn mt-2 w-100">İncele</button>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            });
         }
 
-        // Ürünleri yükle
-        function loadProducts() {
-            const popularContainer = document.getElementById('popularProducts');
-            const discountContainer = document.getElementById('discountProducts');
+        function loadPopularProducts() {
+            const container = document.getElementById('popularProducts');
+            const popularProducts = [...products]
+                .sort((a, b) => b.views - a.views)
+                .slice(0, 3);
             
-            // Popüler ürünleri yükle
             popularProducts.forEach(product => {
-                popularContainer.innerHTML += createProductCard(product);
+                container.innerHTML += `
+                    <div class="product-card-large" data-id="${product.id}">
+                        <div class="product-image-large">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div class="product-badge">${product.views} Görüntüleme</div>
+                        </div>
+                        <div class="product-info-large">
+                            <h3 class="product-title-large">${product.name}</h3>
+                            <div class="product-price-large">${product.price.toFixed(2)} TL</div>
+                            <button class="view-details-btn mt-2 w-100">İncele</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function loadBestSellingProducts() {
+            const container = document.getElementById('bestSellingProducts');
+            const bestSelling = [...products]
+                .sort((a, b) => b.sales - a.sales)
+                .slice(0, 5);
+            
+            bestSelling.forEach(product => {
+                container.innerHTML += `
+                    <li class="product-item-small" data-id="${product.id}">
+                        <div class="product-image-small">
+                            <img src="${product.image}" alt="${product.name}">
+                        </div>
+                        <div class="product-info-small">
+                            <div class="product-title-small">${product.name}</div>
+                            <div class="product-price-small">${product.price.toFixed(2)} TL</div>
+                        </div>
+                        <button class="view-details-btn">İncele</button>
+                    </li>
+                `;
+            });
+        }
+
+        // Arama fonksiyonu
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                // Ürünleri filtrele
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(query)
+                );
+                
+                // Tahmin oluştur
+                const prediction = products.find(product => 
+                    product.name.toLowerCase().startsWith(query)
+                );
+                
+                // Sonuçları göster
+                searchResults.innerHTML = '';
+                
+                if (filteredProducts.length === 0) {
+                    searchResults.innerHTML = '<div class="search-result-item">Ürün bulunamadı</div>';
+                } else {
+                    filteredProducts.forEach(product => {
+                        const item = document.createElement('div');
+                        item.className = 'search-result-item';
+                        item.innerHTML = `
+                            ${product.name}
+                            ${prediction && prediction.id === product.id ? 
+                                `<span class="search-prediction">- ${product.name.slice(query.length)}</span>` : ''
+                            }
+                        `;
+                        item.addEventListener('click', function() {
+                            searchInput.value = product.name;
+                            searchResults.style.display = 'none';
+                            // Ürün detayına git
+                            showProductDetails(product.id);
+                        });
+                        searchResults.appendChild(item);
+                    });
+                }
+                
+                searchResults.style.display = 'block';
             });
             
-            // İndirimli ürünleri yükle
-            discountProducts.forEach(product => {
-                discountContainer.innerHTML += createProductCard(product);
+            // Dışarı tıklayınca kapat
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        // Ürün detayı göster
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Sayfa geçiş efekti
+                const transition = document.getElementById('pageTransition');
+                transition.classList.add('active');
+                
+                setTimeout(() => {
+                    // Ürünler sayfasına yönlendir (ürün ID'si ile)
+                    window.location.href = `urunler.html?product=${productId}`;
+                }, 600);
+            }
+        }
+
+        // Sayfa geçiş efekti
+        function setupPageTransitions() {
+            const links = document.querySelectorAll('.page-link');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    const transition = document.getElementById('pageTransition');
+                    transition.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 600);
+                });
+            });
+            
+            // Ürün kartlarına tıklama
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.product-card-large') || e.target.closest('.product-item-small')) {
+                    const productCard = e.target.closest('[data-id]');
+                    if (productCard) {
+                        const productId = parseInt(productCard.dataset.id);
+                        showProductDetails(productId);
+                    }
+                }
+                
+                // İncele butonlarına tıklama
+                if (e.target.classList.contains('view-details-btn')) {
+                    const productCard = e.target.closest('[data-id]');
+                    if (productCard) {
+                        const productId = parseInt(productCard.dataset.id);
+                        showProductDetails(productId);
+                    }
+                }
             });
         }
 
@@ -822,7 +1119,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateCountdown();
             const countdownInterval = setInterval(updateCountdown, 1000);
-            loadProducts();
+            
+            loadDiscountProducts();
+            loadPopularProducts();
+            loadBestSellingProducts();
+            setupSearch();
+            setupPageTransitions();
         });
 
         // Header scroll effect

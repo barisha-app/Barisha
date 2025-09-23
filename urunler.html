@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BARİSHA | Premium Teknoloji Mağazası</title>
+    <title>BARİSHOP | Premium Teknoloji Mağazası</title>
     
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,9 +78,14 @@
         -webkit-text-fill-color: transparent;
       }
       
-      .search-box {
+      /* Arama Kutusu Stilleri */
+      .search-container {
         position: relative;
         max-width: 400px;
+      }
+      
+      .search-box {
+        position: relative;
       }
       
       .search-box input {
@@ -114,6 +119,44 @@
       
       .search-box button:hover {
         color: var(--accent-color);
+      }
+      
+      .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        margin-top: 5px;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        z-index: 1000;
+      }
+      
+      .search-result-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+      }
+      
+      .search-result-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+      
+      .search-prediction {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9em;
+        margin-left: 5px;
       }
       
       .social-icon-item {
@@ -164,6 +207,16 @@
       .custom-btn:hover {
         box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
         transform: translateY(-3px);
+      }
+      
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        color: white;
+      }
+      
+      .btn-outline:hover {
+        background: var(--primary-color);
       }
       
       .custom-border-btn {
@@ -463,11 +516,15 @@
         display: flex;
         justify-content: center;
         gap: 8px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 20px;
+        margin: 0 20px;
       }
       
       .image-nav-dot {
-        width: 10px;
-        height: 10px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.5);
         cursor: pointer;
@@ -476,7 +533,7 @@
       
       .image-nav-dot.active {
         background: white;
-        transform: scale(1.2);
+        transform: scale(1.3);
       }
       
       .product-info {
@@ -520,6 +577,15 @@
         overflow: hidden;
       }
       
+      .product-actions {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .product-actions .btn {
+        flex: 1;
+      }
+      
       /* Filter Styles */
       .filter-section {
         background: rgba(255, 255, 255, 0.05);
@@ -549,6 +615,14 @@
         background: rgba(255, 255, 255, 0.1);
         border-color: var(--primary-color);
         box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        color: white;
+      }
+      
+      .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      
+      .form-label {
         color: white;
       }
       
@@ -764,16 +838,47 @@
         overflow: hidden;
         margin-bottom: 20px;
         cursor: pointer;
+        position: relative;
       }
       
       .modal-product-image img {
         width: 100%;
         height: auto;
         transition: transform 0.3s ease;
+        max-height: 400px;
+        object-fit: contain;
       }
       
       .modal-product-image:hover img {
-        transform: scale(1.05);
+        transform: scale(1.02);
+      }
+      
+      .zoom-controls {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 10px;
+      }
+      
+      .zoom-btn {
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+      }
+      
+      .zoom-btn:hover {
+        background: var(--primary-color);
+        transform: scale(1.1);
       }
       
       .modal-product-thumbnails {
@@ -781,6 +886,7 @@
         gap: 10px;
         margin-top: 15px;
         flex-wrap: wrap;
+        justify-content: center;
       }
       
       .modal-product-thumb {
@@ -791,11 +897,13 @@
         cursor: pointer;
         opacity: 0.6;
         transition: all 0.3s ease;
+        border: 2px solid transparent;
       }
       
       .modal-product-thumb:hover, .modal-product-thumb.active {
         opacity: 1;
-        border: 2px solid var(--primary-color);
+        border-color: var(--primary-color);
+        transform: scale(1.05);
       }
       
       .modal-product-thumb img {
@@ -829,12 +937,26 @@
         justify-content: center;
         align-items: center;
         padding: 0;
+        position: relative;
       }
       
       .image-modal img {
         max-width: 100%;
         max-height: 80vh;
         object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+      
+      .image-zoom-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 20px;
+        border-radius: 25px;
       }
       
       /* Animations */
@@ -876,8 +998,12 @@
           height: 70px;
         }
         
-        .search-box {
+        .search-container {
           max-width: 300px;
+        }
+        
+        .product-actions {
+          flex-direction: column;
         }
       }
       
@@ -915,6 +1041,10 @@
         .categories-grid {
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
+        
+        .search-container {
+          max-width: 250px;
+        }
       }
       
       @media (max-width: 576px) {
@@ -934,906 +1064,868 @@
         .promotion-banner h2 {
           font-size: 1.8rem;
         }
+        
+        .search-container {
+          max-width: 200px;
+        }
       }
     </style>
 </head>
 <body>
-    <!-- Giriş kontrolü (isteğe bağlı) -->
-    <!--
-    <script>
-      if (!localStorage.getItem('techshop_authenticated')) {
-          window.location.href = 'login.html';
-      }
-    </script>
-    -->
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
 
-    <main>
-      <!-- Particles Background -->
-      <div id="particles-js"></div>
-
-      <!-- Header -->
-      <header class="site-header">
+    <!-- Header -->
+    <header class="site-header">
         <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-12 col-12 d-flex align-items-center justify-content-between">
-              <a class="site-header-text d-flex align-items-center" href="index.html">
-                <i class="bi-cpu"></i>
-                <span>BARİSHOP</span>
-              </a>
-              
-              <!-- Arama Kutusu -->
-              <div class="search-box mx-4">
-                <input type="text" placeholder="Ürün ara...">
-                <button><i class="bi-search"></i></button>
-              </div>
-              
-              <ul class="social-icon d-flex align-items-center d-none d-lg-flex">
-                <span class="text-white me-3">Bizi takip edin</span>
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-instagram"></a>
-                </li>
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-twitter"></a>
-                </li>
-                <li class="social-icon-item">
-                  <a href="#" class="social-icon-link bi-facebook"></a>
-                </li>
-              </ul>
-              
-              <div class="d-flex gap-3 align-items-center">
-                <!-- Sepet İkonu -->
-                <a href="#" class="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal">
-                  <i class="bi-cart3"></i>
-                  <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                
-                <a href="#categories" class="custom-btn custom-border-btn btn d-none d-md-block">
-                  Kategoriler <i class="bi-arrow-down ms-2"></i>
-                </a>
-                
-                <!-- Çıkış butonu (giriş sistemi aktifse) -->
-                <!--
-                <button class="btn btn-logout" id="logoutBtn">
-                  <i class="bi-box-arrow-right me-1"></i>Çıkış
-                </button>
-                -->
-              </div>
-              
-              <a class="bi-list offcanvas-icon ms-3" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-12 d-flex align-items-center justify-content-between">
+                    <a class="site-header-text d-flex align-items-center" href="index.html">
+                        <i class="bi-cpu"></i>
+                        <span>BARİSHOP</span>
+                    </a>
+                    
+                    <!-- Arama Kutusu -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Ürün ara...">
+                            <button><i class="bi-search"></i></button>
+                            <div class="search-results" id="searchResults"></div>
+                        </div>
+                    </div>
+                    
+                    <ul class="social-icon d-flex align-items-center d-none d-lg-flex">
+                        <span class="text-white me-3">Bizi takip edin</span>
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link bi-instagram"></a>
+                        </li>
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link bi-twitter"></a>
+                        </li>
+                        <li class="social-icon-item">
+                            <a href="#" class="social-icon-link bi-facebook"></a>
+                        </li>
+                    </ul>
+                    
+                    <div class="d-flex gap-3 align-items-center">
+                        <!-- Sepet İkonu -->
+                        <a href="#" class="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="bi-cart3"></i>
+                            <span class="cart-badge" id="cartCount">0</span>
+                        </a>
+                        
+                        <a href="#categories" class="custom-btn custom-border-btn btn d-none d-md-block">
+                            Kategoriler <i class="bi-arrow-down ms-2"></i>
+                        </a>
+                    </div>
+                    
+                    <a class="bi-list offcanvas-icon ms-3" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+                </div>
             </div>
-          </div>
         </div>
-      </header>
+    </header>
 
-      <!-- Offcanvas Menu -->
-      <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
         <div class="offcanvas-header">                    
-          <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         
         <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
-          <nav>
-            <ul>
-              <li><a href="https://barisha-app.github.io/Barisha">Ana Sayfa</a></li>
-              <li><a href="#categories">Kategoriler</a></li>
-              <li><a href="#products">Ürünler</a></li>
-              <li><a href="#promotions">Kampanyalar</a></li>
-              <li><a href="https://barisha-app.github.io/Barisha/contact.html">İletişim</a></li>
-            </ul>
-          </nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="#categories">Kategoriler</a></li>
+                    <li><a href="#products">Ürünler</a></li>
+                    <li><a href="#promotions">Kampanyalar</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
+    </div>
 
-      <!-- Hero Section -->
-      <section class="hero-section">
+    <!-- Hero Section -->
+    <section class="hero-section">
         <div class="video-wrap">
-          <video autoplay loop muted class="custom-video" poster="">
-            <source src="https://cdn.pixabay.com/video/2023/02/21/159322-804939017_large.mp4" type="video/mp4">
-            Tarayıcınız video etiketini desteklemiyor.
-          </video>
+            <video autoplay loop muted class="custom-video" poster="">
+                <source src="https://cdn.pixabay.com/video/2023/02/21/159322-804939017_large.mp4" type="video/mp4">
+                Tarayıcınız video etiketini desteklemiyor.
+            </video>
         </div>
         
         <div class="container">
-          <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-              <small class="floating">TÜRKİYE'NİN EN İYİ TEKNOLOJİ MAĞAZASI</small>
-              <h1 class="floating" style="animation-delay: 0.2s;">Teknoloji Alışverişin Yeni Adresi</h1>
-              <p class="floating" style="animation-delay: 0.4s;">
-                En yeni teknoloji ürünlerini uygun fiyatlarla bulabileceğiniz güvenilir alışveriş platformu
-              </p>
-              <a href="#products" class="custom-btn btn floating" style="animation-delay: 0.6s;">
-                Hemen Alışverişe Başla <i class="bi-arrow-right ms-2"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Kategoriler -->
-      <section id="categories" class="categories-section">
-        <div class="container">
-          <div class="section-title">
-            <h2>Kategoriler</h2>
-            <p>İlgi alanınıza göre keşfedin</p>
-          </div>
-          <div class="categories-grid">
-            <a href="#" class="category-card" data-category="telefon">
-              <span class="category-icon">📱</span>
-              <h3>Akıllı Telefonlar</h3>
-              <p>En yeni modeller</p>
-            </a>
-            <a href="#" class="category-card" data-category="bilgisayar">
-              <span class="category-icon">💻</span>
-              <h3>Bilgisayarlar</h3>
-              <p>Oyun ve iş istasyonları</p>
-            </a>
-            <a href="#" class="category-card" data-category="kulaklik">
-              <span class="category-icon">🎧</span>
-              <h3>Kulaklıklar</h3>
-              <p>Wireless ve profesyonel</p>
-            </a>
-            <a href="#" class="category-card" data-category="saat">
-              <span class="category-icon">⌚</span>
-              <h3>Akıllı Saatler</h3>
-              <p>Spor ve sağlık takibi</p>
-            </a>
-            <a href="#" class="category-card" data-category="tv">
-              <span class="category-icon">📺</span>
-              <h3>Televizyonlar</h3>
-              <p>4K ve Smart TV'ler</p>
-            </a>
-            <a href="#" class="category-card" data-category="konsol">
-              <span class="category-icon">🎮</span>
-              <h3>Oyun Konsolları</h3>
-              <p>PS5, Xbox ve daha fazlası</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Ürünler -->
-      <section id="products" class="products-section">
-        <div class="container">
-          <div class="section-title">
-            <h2>Popüler Ürünler</h2>
-            <p>En çok satılan teknoloji ürünleri</p>
-          </div>
-
-          <!-- Filtreleme Bölümü -->
-          <div class="row mb-5">
-            <div class="col-12">
-              <div class="filter-section">
-                <h3 class="filter-title">Ürünleri Filtrele</h3>
-                <div class="row">
-                  <div class="col-md-4 mb-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Ürün adı ara...">
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <select class="form-select" id="categoryFilter">
-                      <option value="">Tüm Kategoriler</option>
-                      <option value="telefon">Akıllı Telefonlar</option>
-                      <option value="bilgisayar">Bilgisayarlar</option>
-                      <option value="kulaklik">Kulaklıklar</option>
-                      <option value="saat">Akıllı Saatler</option>
-                      <option value="tv">Televizyonlar</option>
-                      <option value="konsol">Oyun Konsolları</option>
-                    </select>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <select class="form-select" id="priceFilter">
-                      <option value="">Fiyat Aralığı</option>
-                      <option value="0-5000">0-5.000 TL</option>
-                      <option value="5000-10000">5.000-10.000 TL</option>
-                      <option value="10000-20000">10.000-20.000 TL</option>
-                      <option value="20000+">20.000+ TL</option>
-                    </select>
-                  </div>
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <small class="floating">TÜRKİYE'NİN EN İYİ TEKNOLOJİ MAĞAZASI</small>
+                    <h1 class="floating" style="animation-delay: 0.2s;">Teknoloji Alışverişin Yeni Adresi</h1>
+                    <p class="floating" style="animation-delay: 0.4s;">
+                        En yeni teknoloji ürünlerini uygun fiyatlarla bulabileceğiniz güvenilir alışveriş platformu
+                    </p>
+                    <a href="#products" class="custom-btn btn floating" style="animation-delay: 0.6s;">
+                        Hemen Alışverişe Başla <i class="bi-arrow-right ms-2"></i>
+                    </a>
                 </div>
-              </div>
             </div>
-          </div>
-          
-          <!-- Ürünler Grid -->
-          <div class="row" id="productGrid">
-            <!-- Ürünler JavaScript ile buraya eklenecek -->
-          </div>
         </div>
-      </section>
+    </section>
 
-      <!-- Kampanyalar -->
-      <section id="promotions" class="promotions-section">
+    <!-- Kategoriler -->
+    <section id="categories" class="categories-section">
         <div class="container">
-          <div class="section-title">
-            <h2>Özel Kampanyalar</h2>
-            <p>Fırsatları kaçırmayın</p>
-          </div>
-          
-          <div class="promotion-banner">
-            <h2>Kargo Bedava!</h2>
-            <p>1000 TL ve üzeri alışverişlerde kargo bedava</p>
-          </div>
-          
-          <div class="promotion-banner" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
-            <h2>İlk Alışverişe Özel %10 İndirim</h2>
-            <p>İlk siparişinizde ILKFIRSAT10 koduyla %10 indirim</p>
-          </div>
-          
-          <div class="promotion-banner" style="background: linear-gradient(135deg, #25D366, #128C7E);">
-            <h2>WhatsApp Sipariş Özel İndirimi</h2>
-            <p>WhatsApp üzerinden sipariş verene ekstra %5 indirim</p>
-          </div>
+            <div class="section-title">
+                <h2>Kategoriler</h2>
+                <p>İlgi alanınıza göre keşfedin</p>
+            </div>
+            <div class="categories-grid">
+                <a href="#" class="category-card" data-category="telefon">
+                    <span class="category-icon">📱</span>
+                    <h3>Akıllı Telefonlar</h3>
+                    <p>En yeni modeller</p>
+                </a>
+                <a href="#" class="category-card" data-category="bilgisayar">
+                    <span class="category-icon">💻</span>
+                    <h3>Bilgisayarlar</h3>
+                    <p>Oyun ve iş istasyonları</p>
+                </a>
+                <a href="#" class="category-card" data-category="kulaklik">
+                    <span class="category-icon">🎧</span>
+                    <h3>Kulaklıklar</h3>
+                    <p>Wireless ve profesyonel</p>
+                </a>
+                <a href="#" class="category-card" data-category="saat">
+                    <span class="category-icon">⌚</span>
+                    <h3>Akıllı Saatler</h3>
+                    <p>Spor ve sağlık takibi</p>
+                </a>
+                <a href="#" class="category-card" data-category="tv">
+                    <span class="category-icon">📺</span>
+                    <h3>Televizyonlar</h3>
+                    <p>4K ve Smart TV'ler</p>
+                </a>
+                <a href="#" class="category-card" data-category="konsol">
+                    <span class="category-icon">🎮</span>
+                    <h3>Oyun Konsolları</h3>
+                    <p>PS5, Xbox ve daha fazlası</p>
+                </a>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <!-- Footer -->
-      <footer id="footer">
+    <!-- Ürünler -->
+    <section id="products" class="products-section">
         <div class="container">
-          <div class="footer-content">
-            <div class="footer-column">
-              <h3>BARİSHOP</h3>
-              <p>Teknoloji alışverişinde güvenilir adres. En yeni ürünler, en uygun fiyatlarla.</p>
-              <div class="mt-3">
-                <a href="#" class="social-icon-link bi-instagram me-3"></a>
-                <a href="#" class="social-icon-link bi-twitter me-3"></a>
-                <a href="#" class="social-icon-link bi-facebook"></a>
-              </div>
+            <div class="section-title">
+                <h2>Popüler Ürünler</h2>
+                <p>En çok satılan teknoloji ürünleri</p>
             </div>
-            <div class="footer-column">
-              <h3>Hızlı Bağlantılar</h3>
-              <ul>
-                <li><a href="https://barisha-app.github.io/Barisha/urunler.html#">Ana Sayfa</a></li>
-                <li><a href="#categories">Kategoriler</a></li>
-                <li><a href="#products">Ürünler</a></li>
-                <li><a href="#promotions">Kampanyalar</a></li>
-              </ul>
-            </div>
-            <div class="footer-column">
-              <h3>Müşteri Hizmetleri</h3>
-              <ul>
-                <li><a href="https://barisha-app.github.io/Barisha/sss.html">Sıkça Sorulan Sorular</a></li>
-                <li><a href="https://barisha-app.github.io/Barisha/iade-degisim.html">İade ve Değişim</a></li>
-                <li><a href="https://barisha-app.github.io/Barisha/kargo-takip.html">Kargo Takibi</a></li>
-                <li><a href="https://barisha-app.github.io/Barisha/iletisim.html">İletişim</a></li>
-              </ul>
-            </div>
-            <div class="footer-column">
-              <h3>İletişim</h3>
-              <ul>
-                <li><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
-                <li><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
-                <li><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
-                <li><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
-              </ul>
-            </div>
-          </div>
-          <div class="copyright">
-            <p>&copy; 2025 BariShop. Tüm hakları saklıdır. | BARİSHA Tasarımı ile</p>
-          </div>
-        </div>
-      </footer>
 
-      <!-- Sepet Modal -->
-      <div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+            <!-- Filtreleme Bölümü -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="filter-section">
+                        <h3 class="filter-title">Ürünleri Filtrele</h3>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="searchFilter" class="form-label">Ürün Ara</label>
+                                <input type="text" class="form-control" id="searchFilter" placeholder="Ürün adı ara...">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="categoryFilter" class="form-label">Kategori</label>
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="">Tüm Kategoriler</option>
+                                    <option value="telefon">Akıllı Telefonlar</option>
+                                    <option value="bilgisayar">Bilgisayarlar</option>
+                                    <option value="kulaklik">Kulaklıklar</option>
+                                    <option value="saat">Akıllı Saatler</option>
+                                    <option value="tv">Televizyonlar</option>
+                                    <option value="konsol">Oyun Konsolları</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="priceFilter" class="form-label">Fiyat Aralığı</label>
+                                <select class="form-select" id="priceFilter">
+                                    <option value="">Tüm Fiyatlar</option>
+                                    <option value="0-5000">0-5.000 TL</option>
+                                    <option value="5000-10000">5.000-10.000 TL</option>
+                                    <option value="10000-20000">10.000-20.000 TL</option>
+                                    <option value="20000+">20.000+ TL</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ürünler Grid -->
+            <div class="row" id="productGrid">
+                <!-- Ürünler JavaScript ile buraya eklenecek -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Kampanyalar -->
+    <section id="promotions" class="promotions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Özel Kampanyalar</h2>
+                <p>Fırsatları kaçırmayın</p>
+            </div>
+            
+            <div class="promotion-banner">
+                <h2>Kargo Bedava!</h2>
+                <p>1000 TL ve üzeri alışverişlerde kargo bedava</p>
+            </div>
+            
+            <div class="promotion-banner" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                <h2>İlk Alışverişe Özel %10 İndirim</h2>
+                <p>İlk siparişinizde ILKFIRSAT10 koduyla %10 indirim</p>
+            </div>
+            
+            <div class="promotion-banner" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+                <h2>WhatsApp Sipariş Özel İndirimi</h2>
+                <p>WhatsApp üzerinden sipariş verene ekstra %5 indirim</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BARİSHOP</h3>
+                    <p>Teknoloji alışverişinde güvenilir adres. En yeni ürünler, en uygun fiyatlarla.</p>
+                    <div class="mt-3">
+                        <a href="#" class="social-icon-link bi-instagram me-3"></a>
+                        <a href="#" class="social-icon-link bi-twitter me-3"></a>
+                        <a href="#" class="social-icon-link bi-facebook"></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="#categories">Kategoriler</a></li>
+                        <li><a href="#products">Ürünler</a></li>
+                        <li><a href="#promotions">Kampanyalar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Müşteri Hizmetleri</h3>
+                    <ul>
+                        <li><a href="sss.html">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="iade-degisim.html">İade ve Değişim</a></li>
+                        <li><a href="kargo-takip.html">Kargo Takibi</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul>
+                        <li><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
+                        <li><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
+                        <li><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
+                        <li><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 BariShop. Tüm hakları saklıdır. | BARİSHA Tasarımı ile</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sepet Modal -->
+    <div class="modal fade cart-modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="cartModalLabel"><i class="bi-cart3 me-2"></i>Alışveriş Sepetim</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel"><i class="bi-cart3 me-2"></i>Alışveriş Sepetim</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItemsContainer">
+                        <!-- Sepet öğeleri buraya eklenecek -->
+                    </div>
+                    <div class="cart-total">
+                        Toplam: <span id="cartTotal">0.00</span> TL
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Alışverişe Devam Et</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn">Siparişi Tamamla</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <div id="cartItemsContainer">
-                <!-- Sepet öğeleri buraya eklenecek -->
-              </div>
-              <div class="cart-total">
-                Toplam: <span id="cartTotal">0.00</span> TL
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Alışverişe Devam Et</button>
-              <button type="button" class="btn btn-primary" id="checkoutBtn">Siparişi Tamamla</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Ürün Detay Modal -->
-      <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <!-- Ürün Detay Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="productModalLabel">Ürün Detayları</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="modal-product-image" data-bs-toggle="modal" data-bs-target="#imageModal">
-                    <img id="modalMainImage" src="" alt="Ürün görseli">
-                  </div>
-                  <div class="modal-product-thumbnails" id="modalThumbnails">
-                    <!-- JavaScript ile eklenecek -->
-                  </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Ürün Detayları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="col-md-6">
-                  <h3 id="modalProductTitle" class="product-title"></h3>
-                  <div id="modalProductPrices"></div>
-                  <p id="modalProductDesc" class="product-description"></p>
-                  
-                  <form id="orderForm">
-                    <div class="mb-3">
-                      <label for="productCode" class="form-label">Ürün Kodu</label>
-                      <input type="text" class="form-control" id="productCode" required readonly>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="modal-product-image">
+                                <img id="modalMainImage" src="" alt="Ürün görseli">
+                                <div class="zoom-controls">
+                                    <button class="zoom-btn" onclick="zoomImage(1.2)">+</button>
+                                    <button class="zoom-btn" onclick="zoomImage(0.8)">-</button>
+                                    <button class="zoom-btn" onclick="resetZoom()"><i class="bi-arrow-clockwise"></i></button>
+                                </div>
+                            </div>
+                            <div class="modal-product-thumbnails" id="modalThumbnails">
+                                <!-- JavaScript ile eklenecek -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 id="modalProductTitle" class="product-title"></h3>
+                            <div id="modalProductPrices"></div>
+                            <p id="modalProductDesc" class="product-description"></p>
+                            
+                            <form id="orderForm">
+                                <div class="mb-3">
+                                    <label for="productCode" class="form-label">Ürün Kodu</label>
+                                    <input type="text" class="form-control" id="productCode" required readonly>
+                                </div>
+                                <div id="productFilters">
+                                    <!-- Dinamik filtreler buraya eklenecek -->
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productQuantity" class="form-label">Adet</label>
+                                    <input type="number" class="form-control" id="productQuantity" min="1" value="1" required>
+                                </div>
+                            </form>
+                            
+                            <div class="product-actions mt-4">
+                                <button type="button" class="btn btn-outline" id="viewDetailsBtn">
+                                    <i class="bi-eye me-2"></i> İncele
+                                </button>
+                                <button type="button" class="custom-btn btn" id="addToCartBtn">
+                                    <i class="bi-cart-plus me-2"></i> Sepete Ekle
+                                </button>
+                            </div>
+                            
+                            <div class="whatsapp-confirm mt-4">
+                                <div class="whatsapp-icon">
+                                    <i class="bi-whatsapp"></i>
+                                </div>
+                                <h5>WhatsApp Üzerinden İletişime Geçin</h5>
+                                <p>Sipariş vermek ve detaylı bilgi almak için WhatsApp üzerinden iletişime geçebilirsiniz.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                      <label for="productVariant" class="form-label">Varyant</label>
-                      <select class="form-select" id="productVariant" required>
-                        <option value="">Varyant seçiniz</option>
-                        <option value="128GB">128GB</option>
-                        <option value="256GB">256GB</option>
-                        <option value="512GB">512GB</option>
-                        <option value="1TB">1TB</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="productColor" class="form-label">Renk</label>
-                      <select class="form-select" id="productColor" required>
-                        <option value="">Renk seçiniz</option>
-                        <option value="Siyah">Siyah</option>
-                        <option value="Beyaz">Beyaz</option>
-                        <option value="Mavi">Mavi</option>
-                        <option value="Kırmızı">Kırmızı</option>
-                        <option value="Mor">Mor</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="productQuantity" class="form-label">Adet</label>
-                      <input type="number" class="form-control" id="productQuantity" min="1" value="1" required>
-                    </div>
-                  </form>
-                  
-                  <div class="whatsapp-confirm">
-                    <div class="whatsapp-icon">
-                      <i class="bi-whatsapp"></i>
-                    </div>
-                    <h5>WhatsApp Üzerinden İletişime Geçin</h5>
-                    <p>Sipariş vermek ve detaylı bilgi almak için WhatsApp üzerinden iletişime geçebilirsiniz.</p>
-                  </div>
                 </div>
-              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-              <button type="button" class="btn btn-primary" id="addToCartBtn">
-                <i class="bi-cart-plus me-2"></i> Sepete Ekle
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Büyük Görsel Modal -->
-      <div class="modal fade image-modal" id="imageModal" tabindex="-1" aria-hidden="true">
+    <!-- Büyük Görsel Modal -->
+    <div class="modal fade image-modal" id="imageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Ürün Görseli</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ürün Görseli</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="fullSizeImage" src="" alt="Büyük ürün görseli">
+                    <div class="image-zoom-controls">
+                        <button class="zoom-btn" onclick="zoomFullImage(1.2)">+</button>
+                        <button class="zoom-btn" onclick="zoomFullImage(0.8)">-</button>
+                        <button class="zoom-btn" onclick="resetFullZoom()"><i class="bi-arrow-clockwise"></i></button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-              <img id="fullSizeImage" src="" alt="Büyük ürün görseli">
-            </div>
-          </div>
         </div>
-      </div>
-    </main>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <script>
-      // jsPDF kullanımı için
-      window.jsPDF = window.jspdf.jsPDF;
-      
-      // Çıkış butonu işlevi (giriş sistemi aktifse)
-      /*
-      document.getElementById('logoutBtn').addEventListener('click', function() {
-          localStorage.removeItem('techshop_authenticated');
-          window.location.href = 'login.html';
-      });
-      */
-    
-      // Header scroll effect
-      $(window).scroll(function() {
-        if ($(window).scrollTop() > 50) {
-          $('.site-header').addClass('scrolled');
-        } else {
-          $('.site-header').removeClass('scrolled');
-        }
-      });
-      
-      // Initialize particles.js
-      document.addEventListener('DOMContentLoaded', function() {
-        particlesJS('particles-js', {
-          "particles": {
-            "number": {
-              "value": 80,
-              "density": {
-                "enable": true,
-                "value_area": 800
-              }
-            },
-            "color": {
-              "value": "#ffffff"
-            },
-            "shape": {
-              "type": "circle",
-              "stroke": {
-                "width": 0,
-                "color": "#000000"
-              }
-            },
-            "opacity": {
-              "value": 0.5,
-              "random": false,
-              "anim": {
-                "enable": false,
-                "speed": 1,
-                "opacity_min": 0.1,
-                "sync": false
-              }
-            },
-            "size": {
-              "value": 3,
-              "random": true,
-              "anim": {
-                "enable": false,
-                "speed": 40,
-                "size_min": 0.1,
-                "sync": false
-              }
-            },
-            "line_linked": {
-              "enable": true,
-              "distance": 150,
-              "color": "#ffffff",
-              "opacity": 0.4,
-              "width": 1
-            },
-            "move": {
-              "enable": true,
-              "speed": 2,
-              "direction": "none",
-              "random": false,
-              "straight": false,
-              "out_mode": "out",
-              "bounce": false,
-              "attract": {
-                "enable": false,
-                "rotateX": 600,
-                "rotateY": 1200
-              }
+        // jsPDF kullanımı için
+        window.jsPDF = window.jspdf.jsPDF;
+        
+        // Header scroll effect
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('.site-header').addClass('scrolled');
+            } else {
+                $('.site-header').removeClass('scrolled');
             }
-          },
-          "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-              "onhover": {
-                "enable": true,
-                "mode": "grab"
-              },
-              "onclick": {
-                "enable": true,
-                "mode": "push"
-              },
-              "resize": true
-            },
-            "modes": {
-              "grab": {
-                "distance": 140,
-                "line_linked": {
-                  "opacity": 1
+        });
+        
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5 },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out"
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    }
                 }
-              },
-              "push": {
-                "particles_nb": 4
-              }
-            }
-          },
-          "retina_detect": true
-        });
-      });
-
-      // Ürün verileri (BARİSHA ürünleri)
-      const products = [
-        {
-          id: 1,
-          name: "iPhone 14 Pro",
-          originalPrice: 36999,
-          discountPercent: 5,
-          price: 34999,
-          description: "Apple'ın en yeni flagship telefonu. Dynamic Island, 48MP kamera ve A16 Bionic çip.",
-          category: "telefon",
-          images: [
-            "https://resim.epey.com/802356/s_apple-iphone-14-pro-1.png",
-            "https://resim.epey.com/802356/s_apple-iphone-14-pro-2.jpg",
-            "https://resim.epey.com/802356/b_apple-iphone-14-pro-3.png",
-            "https://resim.epey.com/802356/s_apple-iphone-14-pro-4.jpg",
-            "https://resim.epey.com/802356/s_apple-iphone-14-pro-5.jpg",     
-            "https://www.epey.com/akilli-telefonlar/apple-iphone-14-pro-resimleri.html#rtab1916143"
-          ],
-          code: "TS-IP14P"
-        },
-        {
-          id: 2,
-          name: "Samsung Galaxy S23",
-          originalPrice: 26999,
-          discountPercent: 7,
-          price: 24999,
-          description: "Samsung'un amiral gemisi telefonu. Snapdragon 8 Gen 2 ve 120Hz ekran.",
-          category: "telefon",
-          images: [
-            "https://resim.epey.com/845148/b_samsung-galaxy-s23-2.png",
-            "https://resim.epey.com/845148/b_samsung-galaxy-s23-10.jpg",
-            "https://resim.epey.com/845148/b_samsung-galaxy-s23-19.jpg"
-          ],
-          code: "TS-SGS23256"
-        },
-        {
-          id: 3,
-          name: "MacBook Air M2 13\"",
-          originalPrice: 31999,
-          discountPercent: 6,
-          price: 29999,
-          description: "Apple M2 çipli ince ve hafif dizüstü bilgisayar. 18 saat pil ömrü.",
-          category: "bilgisayar",
-          images: [
-            "https://via.placeholder.com/400x300/555/fff?text=MacBook+Air+M2",
-            "https://via.placeholder.com/400x300/777/fff?text=Klavye",
-            "https://via.placeholder.com/400x300/999/fff?text=Yan+Görünüm"
-          ],
-          code: "TS-MBA13M2"
-        },
-        {
-          id: 4,
-          name: "Sony WH-1000XM4 Kulaklık",
-          originalPrice: 6499,
-          discountPercent: 8,
-          price: 5999,
-          description: "Gürültü önleyici premium kulaklık. 30 saat pil ömrü ve dokunmatik kontrol.",
-          category: "kulaklik",
-          images: [
-            "https://via.placeholder.com/400x300/000/fff?text=WH-1000XM4",
-            "https://via.placeholder.com/400x300/333/fff?text=Kulaklık+İçi",
-            "https://via.placeholder.com/400x300/666/fff?text=Taşıma+Kılıfı"
-          ],
-          code: "TS-SONYXM4"
-        },
-        {
-          id: 5,
-          name: "Apple Watch Series 8 45mm",
-          originalPrice: 9499,
-          discountPercent: 5,
-          price: 8999,
-          description: "Apple'ın en yeni akıllı saati. Kan oksijeni ölçümü ve sıcaklık sensörü.",
-          category: "saat",
-          images: [
-            "https://via.placeholder.com/400x300/ff2255/fff?text=Watch+Series+8",
-            "https://via.placeholder.com/400x300/ff4477/fff?text=Kasa+Arka",
-            "https://via.placeholder.com/400x300/ff6699/fff?text=Kordon"
-          ],
-          code: "TS-AWS845"
-        },
-        {
-          id: 6,
-          name: "PlayStation 5 Standard",
-          originalPrice: 15999,
-          discountPercent: 6,
-          price: 14999,
-          description: "Sony'nin yeni nesil oyun konsolu. 4K gaming ve ultra hızlı SSD.",
-          category: "konsol",
-          images: [
-            "https://via.placeholder.com/400x300/0055ff/fff?text=PS5+Standard",
-            "https://via.placeholder.com/400x300/0077ff/fff?text=Konsol+Dikey",
-            "https://via.placeholder.com/400x300/0099ff/fff?text=Kumanda"
-          ],
-          code: "TS-PS5STD"
-        }
-      ];
-
-      // Sepet işlemleri
-      let cart = JSON.parse(localStorage.getItem('techshop_cart')) || [];
-      
-      // Sepeti güncelle
-      function updateCart() {
-        localStorage.setItem('techshop_cart', JSON.stringify(cart));
-        document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
-        renderCartItems();
-      }
-      
-      // Sepet öğelerini render et
-      function renderCartItems() {
-        const cartContainer = document.getElementById('cartItemsContainer');
-        const cartTotal = document.getElementById('cartTotal');
-        
-        if (cart.length === 0) {
-          cartContainer.innerHTML = '<div class="cart-empty"><i class="bi-cart-x"></i><p>Sepetinizde ürün bulunmamaktadır.</p></div>';
-          cartTotal.textContent = '0.00';
-          return;
-        }
-        
-        let total = 0;
-        cartContainer.innerHTML = '';
-        
-        cart.forEach((item, index) => {
-          const itemTotal = item.price * item.quantity;
-          total += itemTotal;
-          
-          const cartItem = document.createElement('div');
-          cartItem.className = 'cart-item';
-          cartItem.innerHTML = `
-            <div class="cart-item-info">
-              <div class="cart-item-title">${item.name}</div>
-              <div class="cart-item-details">Varyant: ${item.variant}, Renk: ${item.color}, Kod: ${item.code}</div>
-            </div>
-            <div class="cart-item-price">${itemTotal.toFixed(2)} TL</div>
-            <div class="cart-item-quantity">
-              <button class="quantity-btn decrease-btn" data-index="${index}">-</button>
-              <span class="quantity-value">${item.quantity}</span>
-              <button class="quantity-btn increase-btn" data-index="${index}">+</button>
-            </div>
-            <button class="remove-from-cart" data-index="${index}">
-              <i class="bi-trash"></i>
-            </button>
-          `;
-          
-          cartContainer.appendChild(cartItem);
-        });
-        
-        cartTotal.textContent = total.toFixed(2);
-        
-        // Sepet olay dinleyicileri
-        document.querySelectorAll('.decrease-btn').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const index = parseInt(this.dataset.index);
-            if (cart[index].quantity > 1) {
-              cart[index].quantity--;
-              updateCart();
-            }
-          });
-        });
-        
-        document.querySelectorAll('.increase-btn').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const index = parseInt(this.dataset.index);
-            cart[index].quantity++;
-            updateCart();
-          });
-        });
-        
-        document.querySelectorAll('.remove-from-cart').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const index = parseInt(this.dataset.index);
-            cart.splice(index, 1);
-            updateCart();
-          });
-        });
-      }
-      
-      // PDF oluştur
-      function generatePDF() {
-        const doc = new jsPDF();
-        
-        // Başlık
-        doc.setFontSize(20);
-        doc.setTextColor(106, 17, 203);
-        doc.text('BARiSHA - SiPARiS DETAYI', 105, 20, { align: 'center' });
-        
-        // Tarih
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Siparis Tarihi: ${new Date().toLocaleString('tr-TR')}`, 14, 30);
-        
-        // Müşteri bilgileri
-        doc.setFontSize(14);
-        doc.text('Siparis Detayları:', 14, 45);
-        
-        // Tablo başlıkları
-        const headers = [['Ürün', 'Varyant', 'Renk', 'Adet', 'Fiyat', 'Toplam']];
-        
-        // Tablo verileri
-        const data = cart.map(item => [
-          item.name,
-          item.variant,
-          item.color,
-          item.quantity.toString(),
-          `${item.price.toFixed(2)} TL`,
-          `${(item.price * item.quantity).toFixed(2)} TL`
-        ]);
-        
-        // Toplam satırı
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        data.push(['', '', '', '', 'TOPLAM:', `${total.toFixed(2)} TL`]);
-        
-        // Tablo oluştur
-        doc.autoTable({
-          startY: 50,
-          head: headers,
-          body: data,
-          theme: 'grid',
-          styles: { fontSize: 10, cellPadding: 3 },
-          headStyles: { fillColor: [106, 17, 203] },
-          footStyles: { fillColor: [37, 117, 252] },
-          didDrawPage: function(data) {
-            // Sayfa numarası
-            doc.setFontSize(10);
-            doc.text(`Sayfa ${doc.internal.getNumberOfPages()}`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, { align: 'center' });
-          }
-        });
-        
-        // İletişim bilgileri
-        const finalY = doc.lastAutoTable.finalY + 20;
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text('İletişim için: barisha@yaani.com', 14, finalY);
-        doc.text('WhatsApp: 0530 304 29 50', 14, finalY + 7);
-        
-        return doc;
-      }
-      
-      // WhatsApp'a gönder
-      function sendToWhatsApp() {
-        const doc = generatePDF();
-        const pdfOutput = doc.output('datauristring');
-        
-        // PDF'i indir
-        doc.save('BARiSHOP-siparis.pdf');
-        
-        // WhatsApp mesajını hazırla
-        let message = "Merhaba, BARİSHOP'tan aşağıdaki ürünleri sipariş vermek istiyorum:%0A%0A";
-        
-        cart.forEach(item => {
-          message += `- ${item.name} (Varyant: ${item.variant}, Renk: ${item.color}, Adet: ${item.quantity})%0A`;
-        });
-        
-        message += `%0AToplam Tutar: ${cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)} TL%0A%0A`;
-        message += "Sipariş detayları PDF olarak ekte gönderilmiştir.";
-        
-        // WhatsApp'a yönlendir
-        window.open(`https://wa.me/905303042950?text=${message}`, '_blank');
-        
-        // Sepeti temizle
-        cart = [];
-        updateCart();
-      }
-      
-      // Ürünleri grid'e yükle
-      function loadProducts() {
-        const productGrid = document.getElementById('productGrid');
-        productGrid.innerHTML = '';
-        
-        products.forEach(product => {
-          const col = document.createElement('div');
-          col.className = 'col-md-6 col-lg-4 mb-4';
-          
-          col.innerHTML = `
-            <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-              <div class="product-image" data-bs-toggle="modal" data-bs-target="#productModal">
-                <img src="${product.images[0]}" alt="${product.name}">
-                <div class="product-badge">Yeni</div>
-                ${product.discountPercent > 0 ? `<div class="discount-badge">%${product.discountPercent} İndirim</div>` : ''}
-                <div class="product-image-nav">
-                  ${product.images.map((img, index) => 
-                    `<div class="image-nav-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
-                  ).join('')}
-                </div>
-              </div>
-              <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                ${product.discountPercent > 0 ? `
-                  <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                  <div class="product-price">${product.price.toFixed(2)} TL</div>
-                  <div class="discount-percent">%${product.discountPercent} indirim</div>
-                ` : `<div class="product-price">${product.price.toFixed(2)} TL</div>`}
-                <p class="product-description">${product.description}</p>
-                <button class="custom-btn btn w-100 buy-btn" data-bs-toggle="modal" data-bs-target="#productModal">
-                  İncele ve Satın Al
-                </button>
-              </div>
-            </div>
-          `;
-          
-          productGrid.appendChild(col);
-        });
-        
-        // Görsel navigasyon etkinleştirme
-        document.querySelectorAll('.product-card').forEach(card => {
-          const images = card.querySelectorAll('.product-image img');
-          const dots = card.querySelectorAll('.image-nav-dot');
-          
-          dots.forEach((dot, index) => {
-            dot.addEventListener('click', (e) => {
-              e.stopPropagation();
-              // Aktif dot'u güncelle
-              dots.forEach(d => d.classList.remove('active'));
-              dot.classList.add('active');
-              
-              // Görseli değiştir
-              images[0].src = products.find(p => p.id == card.dataset.id).images[index];
             });
-          });
         });
-        
-        // Satın al butonlarına tıklama
-        document.querySelectorAll('.buy-btn').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const productId = this.closest('.product-card').dataset.id;
-            const product = products.find(p => p.id == productId);
+
+        // Ürün verileri (BARİSHA ürünleri)
+        const products = [
+            {
+                id: 1,
+                name: "iPhone 14 Pro",
+                originalPrice: 36999,
+                discountPercent: 5,
+                price: 34999,
+                description: "Apple'ın en yeni flagship telefonu. Dynamic Island, 48MP kamera ve A16 Bionic çip.",
+                category: "telefon",
+                images: [
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-model-select-202209-6-1inch?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-deeppurple?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-gold?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533"
+                ],
+                code: "TS-IP14P",
+                filters: {
+                    "Kapasite": ["128GB", "256GB", "512GB", "1TB"],
+                    "Renk": ["Deep Purple", "Gold", "Silver", "Space Black"]
+                }
+            },
+            {
+                id: 2,
+                name: "Samsung Galaxy S23",
+                originalPrice: 26999,
+                discountPercent: 7,
+                price: 24999,
+                description: "Samsung'un amiral gemisi telefonu. Snapdragon 8 Gen 2 ve 120Hz ekran.",
+                category: "telefon",
+                images: [
+                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgdmid-thumb-534866569?$264_264_PNG$",
+                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgdtur-thumb-534866541?$264_264_PNG$",
+                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgttur-thumb-534866527?$264_264_PNG$"
+                ],
+                code: "TS-SGS23256",
+                filters: {
+                    "Kapasite": ["256GB", "512GB"],
+                    "Renk": ["Phantom Black", "Cream", "Green", "Lavender"]
+                }
+            },
+            {
+                id: 3,
+                name: "MacBook Air M2 13\"",
+                originalPrice: 31999,
+                discountPercent: 6,
+                price: 29999,
+                description: "Apple M2 çipli ince ve hafif dizüstü bilgisayar. 18 saat pil ömrü.",
+                category: "bilgisayar",
+                images: [
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-silver-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289491",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289606"
+                ],
+                code: "TS-MBA13M2",
+                filters: {
+                    "Kapasite": ["256GB SSD", "512GB SSD", "1TB SSD"],
+                    "Renk": ["Space Gray", "Silver", "Gold", "Midnight"]
+                }
+            },
+            {
+                id: 4,
+                name: "Sony WH-1000XM4 Kulaklık",
+                originalPrice: 6499,
+                discountPercent: 8,
+                price: 5999,
+                description: "Gürültü önleyici premium kulaklık. 30 saat pil ömrü ve dokunmatik kontrol.",
+                category: "kulaklik",
+                images: [
+                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000",
+                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0b?fmt=pjpeg&wid=1000&hei=1000",
+                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0c?fmt=pjpeg&wid=1000&hei=1000"
+                ],
+                code: "TS-SONYXM4",
+                filters: {
+                    "Renk": ["Siyah", "Gümüş", "Platin"]
+                }
+            },
+            {
+                id: 5,
+                name: "Apple Watch Series 8 45mm",
+                originalPrice: 9499,
+                discountPercent: 5,
+                price: 8999,
+                description: "Apple'ın en yeni akıllı saati. Kan oksijeni ölçümü ve sıcaklık sensörü.",
+                category: "saat",
+                images: [
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-starlight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963340",
+                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-silver-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963357"
+                ],
+                code: "TS-AWS845",
+                filters: {
+                    "Kasa Boyutu": ["41mm", "45mm"],
+                    "Renk": ["Midnight", "Starlight", "Silver", "Product Red"],
+                    "Kordon": ["Spor Kordon", "Deri Kordon", "Milanese Loop"]
+                }
+            },
+            {
+                id: 6,
+                name: "PlayStation 5 Standard",
+                originalPrice: 15999,
+                discountPercent: 6,
+                price: 14999,
+                description: "Sony'nin yeni nesil oyun konsolu. 4K gaming ve ultra hızlı SSD.",
+                category: "konsol",
+                images: [
+                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$",
+                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-with-dualsense-front-product-thumbnail-01-en-14sep21?$1600px--t$",
+                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-with-dualsense-back-product-thumbnail-01-en-14sep21?$1600px--t$"
+                ],
+                code: "TS-PS5STD",
+                filters: {
+                    "Model": ["Standard", "Digital Edition"],
+                    "Paket": ["Konsol Only", "Konsol + Oyun", "Konsol + Kumanda"]
+                }
+            }
+        ];
+
+        // Sepet işlemleri
+        let cart = JSON.parse(localStorage.getItem('techshop_cart')) || [];
+        let currentZoom = 1;
+        let fullImageZoom = 1;
+
+        // Zoom fonksiyonları
+        function zoomImage(factor) {
+            const img = document.getElementById('modalMainImage');
+            currentZoom *= factor;
+            img.style.transform = `scale(${currentZoom})`;
+        }
+
+        function resetZoom() {
+            const img = document.getElementById('modalMainImage');
+            currentZoom = 1;
+            img.style.transform = 'scale(1)';
+        }
+
+        function zoomFullImage(factor) {
+            const img = document.getElementById('fullSizeImage');
+            fullImageZoom *= factor;
+            img.style.transform = `scale(${fullImageZoom})`;
+        }
+
+        function resetFullZoom() {
+            const img = document.getElementById('fullSizeImage');
+            fullImageZoom = 1;
+            img.style.transform = 'scale(1)';
+        }
+
+        // Sepeti güncelle
+        function updateCart() {
+            localStorage.setItem('techshop_cart', JSON.stringify(cart));
+            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
+            renderCartItems();
+        }
+
+        // Arama fonksiyonu
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
             
-            if (product) {
-              // Modal içeriğini doldur
-              document.getElementById('modalProductTitle').textContent = product.name;
-              
-              // Fiyat bilgilerini ayarla
-              const pricesContainer = document.getElementById('modalProductPrices');
-              if (product.discountPercent > 0) {
-                pricesContainer.innerHTML = `
-                  <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                  <div class="product-price">${product.price.toFixed(2)} TL</div>
-                  <div class="discount-percent">%${product.discountPercent} indirim</div>
-                `;
-              } else {
-                pricesContainer.innerHTML = `<div class="product-price">${product.price.toFixed(2)} TL</div>`;
-              }
-              
-              document.getElementById('modalProductDesc').textContent = product.description;
-              document.getElementById('modalMainImage').src = product.images[0];
-              document.getElementById('fullSizeImage').src = product.images[0];
-              document.getElementById('productCode').value = product.code;
-              document.getElementById('productQuantity').value = 1;
-              
-              // Thumbnail'leri oluştur
-              const thumbnailsContainer = document.getElementById('modalThumbnails');
-              thumbnailsContainer.innerHTML = '';
-              
-              product.images.forEach((img, index) => {
-                const thumb = document.createElement('div');
-                thumb.className = 'modal-product-thumb';
-                if (index === 0) thumb.classList.add('active');
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
                 
-                thumb.innerHTML = `<img src="${img}" alt="Thumbnail ${index + 1}">`;
-                thumb.addEventListener('click', function() {
-                  document.querySelectorAll('.modal-product-thumb').forEach(t => t.classList.remove('active'));
-                  this.classList.add('active');
-                  document.getElementById('modalMainImage').src = img;
-                  document.getElementById('fullSizeImage').src = img;
-                });
-                
-                thumbnailsContainer.appendChild(thumb);
-              });
-              
-              // Sepete ekle butonunu ayarla
-              document.getElementById('addToCartBtn').onclick = function() {
-                const variant = document.getElementById('productVariant').value;
-                const color = document.getElementById('productColor').value;
-                const quantity = parseInt(document.getElementById('productQuantity').value);
-                
-                if (!variant || !color) {
-                  alert('Lütfen varyant ve renk bilgilerini seçiniz.');
-                  return;
+                if (query.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
                 }
                 
-                // Sepete ekle
-                const existingItemIndex = cart.findIndex(item => 
-                  item.id === product.id && item.variant === variant && item.color === color
+                // Ürünleri filtrele
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(query)
                 );
                 
-                if (existingItemIndex > -1) {
-                  // Aynı ürün zaten varsa miktarı artır
-                  cart[existingItemIndex].quantity += quantity;
+                // Tahmin oluştur
+                const prediction = products.find(product => 
+                    product.name.toLowerCase().startsWith(query)
+                );
+                
+                // Sonuçları göster
+                searchResults.innerHTML = '';
+                
+                if (filteredProducts.length === 0) {
+                    searchResults.innerHTML = '<div class="search-result-item">Ürün bulunamadı</div>';
                 } else {
-                  // Yeni ürün ekle
-                  cart.push({
+                    filteredProducts.forEach(product => {
+                        const item = document.createElement('div');
+                        item.className = 'search-result-item';
+                        item.innerHTML = `
+                            ${product.name}
+                            ${prediction && prediction.id === product.id ? 
+                                `<span class="search-prediction">- ${product.name.slice(query.length)}</span>` : ''
+                            }
+                        `;
+                        item.addEventListener('click', function() {
+                            searchInput.value = product.name;
+                            searchResults.style.display = 'none';
+                            showProductDetails(product.id);
+                        });
+                        searchResults.appendChild(item);
+                    });
+                }
+                
+                searchResults.style.display = 'block';
+            });
+            
+            // Dışarı tıklayınca kapat
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        // Ürünleri grid'e yükle
+        function loadProducts() {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4 mb-4';
+                
+                col.innerHTML = `
+                    <div class="product-card" data-id="${product.id}" data-category="${product.category}">
+                        <div class="product-image">
+                            <img src="${product.images[0]}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Görsel+Yüklenemedi'">
+                            <div class="product-badge">Yeni</div>
+                            ${product.discountPercent > 0 ? `<div class="discount-badge">%${product.discountPercent} İndirim</div>` : ''}
+                            <div class="product-image-nav">
+                                ${product.images.map((img, index) => 
+                                    `<div class="image-nav-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            ${product.discountPercent > 0 ? `
+                                <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
+                                <div class="product-price">${product.price.toFixed(2)} TL</div>
+                                <div class="discount-percent">%${product.discountPercent} indirim</div>
+                            ` : `<div class="product-price">${product.price.toFixed(2)} TL</div>`}
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-actions">
+                                <button class="btn btn-outline view-btn">
+                                    <i class="bi-eye me-1"></i> İncele
+                                </button>
+                                <button class="custom-btn btn add-to-cart-btn">
+                                    <i class="bi-cart-plus me-1"></i> Sepete Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                productGrid.appendChild(col);
+            });
+            
+            // Görsel navigasyon etkinleştirme
+            document.querySelectorAll('.product-card').forEach(card => {
+                const images = card.querySelectorAll('.product-image img');
+                const dots = card.querySelectorAll('.image-nav-dot');
+                
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Aktif dot'u güncelle
+                        dots.forEach(d => d.classList.remove('active'));
+                        dot.classList.add('active');
+                        
+                        // Görseli değiştir
+                        const product = products.find(p => p.id == card.dataset.id);
+                        images[0].src = product.images[index];
+                    });
+                });
+            });
+            
+            // Buton event listener'ları
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.closest('.product-card').dataset.id;
+                    showProductDetails(parseInt(productId));
+                });
+            });
+            
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.closest('.product-card').dataset.id;
+                    const product = products.find(p => p.id == productId);
+                    addToCartDirectly(product);
+                });
+            });
+        }
+
+        // Ürün detaylarını göster
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Modal içeriğini doldur
+                document.getElementById('modalProductTitle').textContent = product.name;
+                
+                // Fiyat bilgilerini ayarla
+                const pricesContainer = document.getElementById('modalProductPrices');
+                if (product.discountPercent > 0) {
+                    pricesContainer.innerHTML = `
+                        <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
+                        <div class="product-price">${product.price.toFixed(2)} TL</div>
+                        <div class="discount-percent">%${product.discountPercent} indirim</div>
+                    `;
+                } else {
+                    pricesContainer.innerHTML = `<div class="product-price">${product.price.toFixed(2)} TL</div>`;
+                }
+                
+                document.getElementById('modalProductDesc').textContent = product.description;
+                document.getElementById('modalMainImage').src = product.images[0];
+                document.getElementById('fullSizeImage').src = product.images[0];
+                document.getElementById('productCode').value = product.code;
+                document.getElementById('productQuantity').value = 1;
+                
+                // Filtreleri oluştur
+                const filtersContainer = document.getElementById('productFilters');
+                filtersContainer.innerHTML = '';
+                
+                if (product.filters) {
+                    Object.keys(product.filters).forEach(filterName => {
+                        const filterDiv = document.createElement('div');
+                        filterDiv.className = 'mb-3';
+                        filterDiv.innerHTML = `
+                            <label for="filter-${filterName}" class="form-label">${filterName}</label>
+                            <select class="form-select" id="filter-${filterName}" required>
+                                <option value="">Seçiniz</option>
+                                ${product.filters[filterName].map(option => 
+                                    `<option value="${option}">${option}</option>`
+                                ).join('')}
+                            </select>
+                        `;
+                        filtersContainer.appendChild(filterDiv);
+                    });
+                }
+                
+                // Thumbnail'leri oluştur
+                const thumbnailsContainer = document.getElementById('modalThumbnails');
+                thumbnailsContainer.innerHTML = '';
+                
+                product.images.forEach((img, index) => {
+                    const thumb = document.createElement('div');
+                    thumb.className = 'modal-product-thumb';
+                    if (index === 0) thumb.classList.add('active');
+                    
+                    thumb.innerHTML = `<img src="${img}" alt="Thumbnail ${index + 1}" onerror="this.src='https://via.placeholder.com/70x70/333/fff?text=Görsel+Yüklenemedi'">`;
+                    thumb.addEventListener('click', function() {
+                        document.querySelectorAll('.modal-product-thumb').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        document.getElementById('modalMainImage').src = img;
+                        document.getElementById('fullSizeImage').src = img;
+                        resetZoom();
+                    });
+                    
+                    thumbnailsContainer.appendChild(thumb);
+                });
+                
+                // Büyük görsel modal için
+                document.getElementById('modalMainImage').addEventListener('click', function() {
+                    document.getElementById('fullSizeImage').src = this.src;
+                    resetFullZoom();
+                    new bootstrap.Modal(document.getElementById('imageModal')).show();
+                });
+                
+                // Sepete ekle butonunu ayarla
+                document.getElementById('addToCartBtn').onclick = function() {
+                    addToCartFromModal(product);
+                };
+                
+                // Modal'ı aç
+                resetZoom();
+                new bootstrap.Modal(document.getElementById('productModal')).show();
+            }
+        }
+
+        // Sepete doğrudan ekle (ürün listesinden)
+        function addToCartDirectly(product) {
+            // Varsayılan değerlerle sepete ekle
+            const variant = product.filters && Object.keys(product.filters).length > 0 ? 
+                Object.values(product.filters)[0][0] : "Standart";
+            const color = product.filters && product.filters.Renk ? 
+                product.filters.Renk[0] : "Siyah";
+            
+            addToCart(product, variant, color, 1);
+            alert('Ürün sepete eklendi!');
+        }
+
+        // Sepete modal'dan ekle
+        function addToCartFromModal(product) {
+            const filtersContainer = document.getElementById('productFilters');
+            const filterSelects = filtersContainer.querySelectorAll('select');
+            const quantity = parseInt(document.getElementById('productQuantity').value);
+            
+            let variant = "Standart";
+            let color = "Siyah";
+            
+            // Filtre değerlerini al
+            filterSelects.forEach(select => {
+                if (select.value) {
+                    if (select.id.includes('Renk') || select.id.includes('Color')) {
+                        color = select.value;
+                    } else {
+                        variant = select.value;
+                    }
+                }
+            });
+            
+            addToCart(product, variant, color, quantity);
+            
+            // Modal'ı kapat
+            bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+            alert('Ürün sepete eklendi!');
+        }
+
+        // Sepete ekleme fonksiyonu
+        function addToCart(product, variant, color, quantity) {
+            const existingItemIndex = cart.findIndex(item => 
+                item.id === product.id && item.variant === variant && item.color === color
+            );
+            
+            if (existingItemIndex > -1) {
+                // Aynı ürün zaten varsa miktarı artır
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                // Yeni ürün ekle
+                cart.push({
                     id: product.id,
                     name: product.name,
                     price: product.price,
@@ -1841,194 +1933,18 @@
                     color: color,
                     code: product.code,
                     quantity: quantity
-                  });
-                }
-                
-                updateCart();
-                
-                // Modal'ı kapat
-                const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
-                modal.hide();
-                
-                // Bildirim göster
-                alert('Ürün sepete eklendi!');
-              };
-            }
-          });
-        });
-        
-        // Büyük görsel modal için
-        document.querySelectorAll('.modal-product-image').forEach(img => {
-          img.addEventListener('click', function() {
-            document.getElementById('fullSizeImage').src = this.querySelector('img').src;
-          });
-        });
-      }
-      
-      // Filtreleme işlevi
-      function setupFilters() {
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const priceFilter = document.getElementById('priceFilter');
-        
-        function applyFilters() {
-          const searchText = searchInput.value.toLowerCase();
-          const category = categoryFilter.value;
-          const priceRange = priceFilter.value;
-          
-          document.querySelectorAll('.product-card').forEach(card => {
-            const productId = card.dataset.id;
-            const product = products.find(p => p.id == productId);
-            let visible = true;
-            
-            // Arama filtresi
-            if (searchText && !product.name.toLowerCase().includes(searchText)) {
-              visible = false;
+                });
             }
             
-            // Kategori filtresi
-            if (category && product.category !== category) {
-              visible = false;
-            }
-            
-            // Fiyat filtresi
-            if (priceRange) {
-              if (priceRange === '0-5000' && product.price > 5000) visible = false;
-              if (priceRange === '5000-10000' && (product.price < 5000 || product.price > 10000)) visible = false;
-              if (priceRange === '10000-20000' && (product.price < 10000 || product.price > 20000)) visible = false;
-              if (priceRange === '20000+' && product.price < 20000) visible = false;
-            }
-            
-            // Görünürlüğü ayarla
-            card.style.display = visible ? 'block' : 'none';
-            card.closest('.col-md-6').style.display = visible ? 'block' : 'none';
-          });
+            updateCart();
         }
-        
-        searchInput.addEventListener('input', applyFilters);
-        categoryFilter.addEventListener('change', applyFilters);
-        priceFilter.addEventListener('change', applyFilters);
-      }
-      
-      // Kategori kartlarına tıklama
-      function setupCategoryFilters() {
-        document.querySelectorAll('.category-card').forEach(card => {
-          card.addEventListener('click', function(e) {
-            e.preventDefault();
-            const category = this.dataset.category;
-            document.getElementById('categoryFilter').value = category;
-            
-            // Filtreleri uygula
-            const searchInput = document.getElementById('searchInput');
-            const priceFilter = document.getElementById('priceFilter');
-            
-            const searchText = searchInput.value.toLowerCase();
-            const priceRange = priceFilter.value;
-            
-            document.querySelectorAll('.product-card').forEach(card => {
-              const productId = card.dataset.id;
-              const product = products.find(p => p.id == productId);
-              let visible = true;
-              
-              // Kategori filtresi
-              if (product.category !== category) {
-                visible = false;
-              }
-              
-              // Arama filtresi
-              if (searchText && !product.name.toLowerCase().includes(searchText)) {
-                visible = false;
-              }
-              
-              // Fiyat filtresi
-              if (priceRange) {
-                if (priceRange === '0-5000' && product.price > 5000) visible = false;
-                if (priceRange === '5000-10000' && (product.price < 5000 || product.price > 10000)) visible = false;
-                if (priceRange === '10000-20000' && (product.price < 10000 || product.price > 20000)) visible = false;
-                if (priceRange === '20000+' && product.price < 20000) visible = false;
-              }
-              
-              // Görünürlüğü ayarla
-              card.style.display = visible ? 'block' : 'none';
-              card.closest('.col-md-6').style.display = visible ? 'block' : 'none';
-            });
-            
-            // Ürünler bölümüne kaydır
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-          });
+
+        // Sayfa yüklendiğinde çalıştır
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            setupSearch();
+            updateCart();
         });
-      }
-      
-      // Sayfa yüklendiğinde ürünleri yükle
-      document.addEventListener('DOMContentLoaded', function() {
-        loadProducts();
-        setupFilters();
-        setupCategoryFilters();
-        updateCart();
-        
-        // Siparişi tamamla butonu
-        document.getElementById('checkoutBtn').addEventListener('click', function() {
-          if (cart.length === 0) {
-            alert('Sepetinizde ürün bulunmamaktadır.');
-            return;
-          }
-          
-          sendToWhatsApp();
-        });
-        
-        // Arama kutusu işlevselliği
-        document.querySelector('.search-box button').addEventListener('click', function() {
-          const searchText = document.querySelector('.search-box input').value.toLowerCase();
-          if (searchText) {
-            document.getElementById('searchInput').value = searchText;
-            
-            // Filtreleri uygula
-            const categoryFilter = document.getElementById('categoryFilter');
-            const priceFilter = document.getElementById('priceFilter');
-            
-            const category = categoryFilter.value;
-            const priceRange = priceFilter.value;
-            
-            document.querySelectorAll('.product-card').forEach(card => {
-              const productId = card.dataset.id;
-              const product = products.find(p => p.id == productId);
-              let visible = true;
-              
-              // Arama filtresi
-              if (!product.name.toLowerCase().includes(searchText)) {
-                visible = false;
-              }
-              
-              // Kategori filtresi
-              if (category && product.category !== category) {
-                visible = false;
-              }
-              
-              // Fiyat filtresi
-              if (priceRange) {
-                if (priceRange === '0-5000' && product.price > 5000) visible = false;
-                if (priceRange === '5000-10000' && (product.price < 5000 || product.price > 10000)) visible = false;
-                if (priceRange === '10000-20000' && (product.price < 10000 || product.price > 20000)) visible = false;
-                if (priceRange === '20000+' && product.price < 20000) visible = false;
-              }
-              
-              // Görünürlüğü ayarla
-              card.style.display = visible ? 'block' : 'none';
-              card.closest('.col-md-6').style.display = visible ? 'block' : 'none';
-            });
-            
-            // Ürünler bölümüne kaydır
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-        
-        // Enter tuşu ile arama
-        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            document.querySelector('.search-box button').click();
-          }
-        });
-      });
     </script>
 </body>
 </html>

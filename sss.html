@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sıkça Sorulan Sorular - BARİSHA</title>
+    
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #6a11cb;
+        --secondary-color: #2575fc;
+        --accent-color: #ff416c;
+        --dark-color: #121212;
+        --light-color: #f8f9fa;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        background-color: var(--dark-color);
+        color: white;
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      /* Header Styles */
+      .site-header {
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        height: 80px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header.scrolled {
+        background: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header-text {
+        text-decoration: none;
+        font-family: 'Unbounded', cursive;
+        font-weight: 700;
+        font-size: 1.8rem;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+      }
+      
+      .site-header-text:hover {
+        transform: scale(1.05);
+      }
+      
+      .site-header-text i {
+        font-size: 2rem;
+        margin-right: 10px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .custom-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 50px;
+        padding: 10px 25px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .custom-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        transition: all 0.5s ease;
+        z-index: -1;
+        border-radius: 50px;
+      }
+      
+      .custom-btn:hover:before {
+        width: 100%;
+      }
+      
+      .custom-btn:hover {
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        transform: translateY(-3px);
+      }
+
+      /* Hero Section */
+      .faq-hero {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .faq-hero h1 {
+        font-family: 'Unbounded', cursive;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, white, #e0e0e0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .faq-hero p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* FAQ Section */
+      .faq-section {
+        padding: 80px 0;
+      }
+      
+      .faq-category {
+        margin-bottom: 60px;
+      }
+      
+      .faq-category h3 {
+        font-family: 'Unbounded', cursive;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .accordion-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+      
+      .accordion-button {
+        background: transparent;
+        color: white;
+        font-weight: 600;
+        padding: 25px;
+        border: none;
+        font-size: 1.1rem;
+      }
+      
+      .accordion-button:not(.collapsed) {
+        background: rgba(106, 17, 203, 0.2);
+        color: white;
+        box-shadow: none;
+      }
+      
+      .accordion-button:focus {
+        box-shadow: none;
+        border-color: var(--primary-color);
+      }
+      
+      .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+      }
+      
+      .accordion-body {
+        background: rgba(255, 255, 255, 0.02);
+        color: rgba(255, 255, 255, 0.8);
+        padding: 25px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        line-height: 1.8;
+      }
+      
+      .contact-promo {
+        background: rgba(37, 211, 102, 0.1);
+        border: 1px solid rgba(37, 211, 102, 0.3);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        margin-top: 50px;
+      }
+      
+      .whatsapp-icon {
+        color: #25D366;
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      /* Particle Effects */
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .faq-hero h1 {
+          font-size: 2.5rem;
+        }
+        
+        .faq-hero p {
+          font-size: 1.1rem;
+        }
+        
+        .accordion-button {
+          padding: 20px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <a class="site-header-text d-flex align-items-center" href="index.html">
+                        <i class="bi-cpu"></i>
+                        <span>BARİSHOP</span>
+                    </a>
+                    
+                    <div class="d-flex gap-3 align-items-center">
+                        <a href="index.html" class="custom-btn btn">
+                            <i class="bi-house me-2"></i>Ana Sayfa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1>Sıkça Sorulan Sorular</h1>
+                    <p class="lead">Merak ettiğiniz tüm soruların cevaplarını burada bulabilirsiniz. Aradığınızı bulamazsanız bize ulaşmaktan çekinmeyin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <!-- Sipariş Süreci -->
+            <div class="faq-category">
+                <h3>📦 Sipariş Süreci</h3>
+                <div class="accordion" id="orderAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#order1">
+                                Siparişimi nasıl verebilirim?
+                            </button>
+                        </h2>
+                        <div id="order1" class="accordion-collapse collapse show" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                Siparişlerinizi WhatsApp üzerinden verebilirsiniz. Ürünleri sepete ekledikten sonra "Siparişi Tamamla" butonuna tıklayarak PDF formatında sipariş özetinizi WhatsApp'ta bize iletebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order2">
+                                Siparişim ne zaman hazır olur?
+                            </button>
+                        </h2>
+                        <div id="order2" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                Stokta bulunan ürünler için siparişler 1-3 iş günü içinde hazırlanır. Özel üretim gerektiren ürünlerde bu süre 5-7 iş gününe kadar uzayabilir.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order3">
+                                Siparişimi nasıl takip edebilirim?
+                            </button>
+                        </h2>
+                        <div id="order3" class="accordion-collapse collapse" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                Siparişinizin durumunu WhatsApp hattımızdan takip edebilirsiniz. Kargo bilgileri hazır olduğunda size kargo takip numarası iletilir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ödeme ve Fatura -->
+            <div class="faq-category">
+                <h3>💳 Ödeme ve Fatura</h3>
+                <div class="accordion" id="paymentAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#payment1">
+                                Hangi ödeme yöntemlerini kabul ediyorsunuz?
+                            </button>
+                        </h2>
+                        <div id="payment1" class="accordion-collapse collapse show" data-bs-parent="#paymentAccordion">
+                            <div class="accordion-body">
+                                Havale/EFT, kredi kartı ve kapıda ödeme seçeneklerimiz bulunmaktadır. Kurumsal müşterilerimiz için fatura kesilmektedir.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#payment2">
+                                Fatura talep edebilir miyim?
+                            </button>
+                        </h2>
+                        <div id="payment2" class="accordion-collapse collapse" data-bs-parent="#paymentAccordion">
+                            <div class="accordion-body">
+                                Evet, tüm siparişleriniz için fatura kesiyoruz. Fatura bilgilerinizi sipariş sırasında iletebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kargo ve Teslimat -->
+            <div class="faq-category">
+                <h3>🚚 Kargo ve Teslimat</h3>
+                <div class="accordion" id="shippingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#shipping1">
+                                Kargo ücreti ne kadar?
+                            </button>
+                        </h2>
+                        <div id="shipping1" class="accordion-collapse collapse show" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                1000 TL ve üzeri alışverişlerde kargo ücretsizdir. 1000 TL altındaki siparişler için kargo ücreti 50 TL'dir.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#shipping2">
+                                Siparişim ne zaman teslim edilir?
+                            </button>
+                        </h2>
+                        <div id="shipping2" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                İstanbul içi 1-2 iş günü, diğer şehirlere 2-4 iş günü içinde teslimat yapılmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- İade ve Değişim -->
+            <div class="faq-category">
+                <h3>🔄 İade ve Değişim</h3>
+                <div class="accordion" id="returnAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#return1">
+                                İade politikası nedir?
+                            </button>
+                        </h2>
+                        <div id="return1" class="accordion-collapse collapse show" data-bs-parent="#returnAccordion">
+                            <div class="accordion-body">
+                                Ürünleriniz teslimat tarihinden itibaren 14 gün içinde iade edilebilir. Ürünün orijinal ambalajında ve hasarsız olması gerekmektedir.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#return2">
+                                Değişim yapabilir miyim?
+                            </button>
+                        </h2>
+                        <div id="return2" class="accordion-collapse collapse" data-bs-parent="#returnAccordion">
+                            <div class="accordion-body">
+                                Evet, aynı ürünün farklı beden/renk seçeneği ile değişim yapabilirsiniz. Değişim için ürünün kullanılmamış olması gerekmektedir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- İletişim -->
+            <div class="contact-promo">
+                <div class="whatsapp-icon">
+                    <i class="bi-whatsapp"></i>
+                </div>
+                <h3>Hala cevabını bulamadınız mı?</h3>
+                <p>WhatsApp hattımızdan bize ulaşın, size yardımcı olalım.</p>
+                <a href="https://wa.me/905303042950" class="custom-btn btn mt-3">
+                    <i class="bi-whatsapp me-2"></i>WhatsApp'tan Yazın
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BARİSHA</h3>
+                    <p>Teknoloji alışverişinde güvenilir adres. En yeni ürünler, en uygun fiyatlarla.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="sss.html">SSS</a></li>
+                        <li><a href="iade-degisim.html">İade ve Değişim</a></li>
+                        <li><a href="kargo-takip.html">Kargo Takibi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul>
+                        <li><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
+                        <li><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
+                        <li><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
+                        <li><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 BariShop. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Particles.js initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5 },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out"
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    }
+                }
+            });
+        });
+
+        // Header scroll effect
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('.site-header').addClass('scrolled');
+            } else {
+                $('.site-header').removeClass('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

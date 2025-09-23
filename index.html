@@ -1,708 +1,838 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>BARİSHA | Anasayfa</title>
-
-        <!-- CSS FILES -->                
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-        
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-icons.css" rel="stylesheet">
-        <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
-        
-        <style>
-            :root {
-                --primary-color: #6a11cb;
-                --secondary-color: #2575fc;
-                --accent-color: #ff416c;
-                --dark-color: #121212;
-                --light-color: #f8f9fa;
-            }
-            
-            body {
-                font-family: 'Poppins', sans-serif;
-                overflow-x: hidden;
-            }
-            
-            /* Header Styles */
-            .site-header {
-                background: rgba(18, 18, 18, 0.85);
-                backdrop-filter: blur(10px);
-                padding: 15px 0;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                z-index: 1000;
-                transition: all 0.3s ease;
-            }
-            
-            .site-header.scrolled {
-                background: rgba(18, 18, 18, 0.95);
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            }
-            
-            .site-header-text {
-                text-decoration: none;
-                font-family: 'Unbounded', cursive;
-                font-weight: 700;
-                font-size: 1.8rem;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                transition: all 0.3s ease;
-            }
-            
-            .site-header-text:hover {
-                transform: scale(1.05);
-            }
-            
-            .site-header-text i {
-                font-size: 2rem;
-                margin-right: 10px;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            
-            .social-icon-item {
-                margin: 0 10px;
-            }
-            
-            .social-icon-link {
-                color: white;
-                font-size: 1.2rem;
-                transition: all 0.3s ease;
-            }
-            
-            .social-icon-link:hover {
-                color: var(--accent-color);
-                transform: translateY(-3px);
-            }
-            
-            .custom-btn {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-                border: none;
-                border-radius: 50px;
-                padding: 10px 25px;
-                color: white;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-                z-index: 1;
-            }
-            
-            .custom-btn:before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 0%;
-                height: 100%;
-                background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
-                transition: all 0.5s ease;
-                z-index: -1;
-                border-radius: 50px;
-            }
-            
-            .custom-btn:hover:before {
-                width: 100%;
-            }
-            
-            .custom-btn:hover {
-                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-                transform: translateY(-3px);
-            }
-            
-            .custom-border-btn {
-                background: transparent;
-                border: 2px solid var(--primary-color);
-                color: white;
-            }
-            
-            .custom-border-btn:before {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            }
-            
-            .offcanvas-icon {
-                color: white;
-                font-size: 1.8rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-icon:hover {
-                color: var(--accent-color);
-            }
-            
-            /* Offcanvas Menu */
-            .offcanvas {
-                background: rgba(18, 18, 18, 0.95);
-                backdrop-filter: blur(10px);
-            }
-            
-            .offcanvas-header .btn-close {
-                color: white;
-                background: transparent;
-                opacity: 0.8;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-header .btn-close:hover {
-                opacity: 1;
-                transform: rotate(90deg);
-            }
-            
-            .offcanvas-body ul {
-                list-style: none;
-                padding: 0;
-            }
-            
-            .offcanvas-body ul li {
-                margin: 25px 0;
-                text-align: center;
-            }
-            
-            .offcanvas-body ul li a {
-                color: white;
-                text-decoration: none;
-                font-size: 1.5rem;
-                font-weight: 600;
-                position: relative;
-                padding: 5px 0;
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-body ul li a:after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 0;
-                height: 2px;
-                background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-                transition: all 0.3s ease;
-            }
-            
-            .offcanvas-body ul li a:hover {
-                color: var(--accent-color);
-            }
-            
-            .offcanvas-body ul li a:hover:after {
-                width: 100%;
-            }
-            
-            /* Modal Styles */
-            .modal-content {
-                background: rgba(18, 18, 18, 0.95);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: white;
-            }
-            
-            .modal-header {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .custom-form input {
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 50px;
-                color: white;
-                padding: 12px 25px;
-                margin-bottom: 20px;
-                transition: all 0.3s ease;
-            }
-            
-            .custom-form input:focus {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
-            }
-            
-            .custom-form button {
-                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-                border: none;
-                border-radius: 50px;
-                padding: 12px 25px;
-                color: white;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-            
-            .custom-form button:hover {
-                background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-            }
-            
-            /* Hero Section */
-            .hero-section {
-                height: 100vh;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .video-wrap {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-            }
-            
-            .video-wrap:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(45deg, rgba(106, 17, 203, 0.7), rgba(37, 117, 252, 0.7));
-                mix-blend-mode: overlay;
-            }
-            
-            .custom-video {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            
-            .hero-section .container {
-                position: relative;
-                z-index: 2;
-            }
-            
-            .hero-section small {
-                color: rgba(255, 255, 255, 0.8);
-                font-size: 1rem;
-                letter-spacing: 1px;
-                display: block;
-                margin-bottom: 15px;
-                text-transform: uppercase;
-            }
-            
-            .hero-section h1 {
-                font-family: 'Unbounded', cursive;
-                font-size: 3.5rem;
-                font-weight: 700;
-                margin-bottom: 30px;
-                background: linear-gradient(45deg, white, #e0e0e0);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-            
-            /* Countdown Styles */
-            .countdown {
-                margin-top: 30px;
-                justify-content: center;
-            }
-            
-            .countdown-item {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border-radius: 15px;
-                padding: 20px;
-                margin: 0 10px;
-                min-width: 100px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                transition: all 0.3s ease;
-            }
-            
-            .countdown-item:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            }
-            
-            .countdown-title {
-                font-size: 2.5rem;
-                font-weight: 700;
-                color: white;
-                margin-bottom: 5px;
-                font-family: 'Unbounded', cursive;
-            }
-            
-            .countdown-text {
-                color: rgba(255, 255, 255, 0.7);
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-            
-            /* Animations */
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-            
-            .floating {
-                animation: float 5s ease-in-out infinite;
-            }
-            
-            /* Responsive Adjustments */
-            @media (max-width: 992px) {
-                .hero-section h1 {
-                    font-size: 2.5rem;
-                }
-                
-                .countdown-item {
-                    min-width: 80px;
-                    padding: 15px;
-                    margin: 0 5px;
-                }
-                
-                .countdown-title {
-                    font-size: 2rem;
-                }
-                
-                .site-header-text {
-                    font-size: 1.5rem;
-                }
-            }
-            
-            @media (max-width: 768px) {
-                .hero-section h1 {
-                    font-size: 2rem;
-                }
-                
-                .countdown-item {
-                    min-width: 70px;
-                    padding: 10px;
-                    margin: 0 5px;
-                }
-                
-                .countdown-title {
-                    font-size: 1.5rem;
-                }
-                
-                .social-icon {
-                    display: none !important;
-                }
-            }
-            
-            /* Particle Effects */
-            #particles-js {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 1;
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BARİSHOP | Premium Teknoloji Mağazası</title>
     
-    <body>
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #6a11cb;
+        --secondary-color: #2575fc;
+        --accent-color: #ff416c;
+        --dark-color: #121212;
+        --light-color: #f8f9fa;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        background-color: var(--dark-color);
+        color: white;
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      /* Header Styles */
+      .site-header {
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        height: 80px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header.scrolled {
+        background: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header-text {
+        text-decoration: none;
+        font-family: 'Unbounded', cursive;
+        font-weight: 700;
+        font-size: 1.8rem;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+      }
+      
+      .site-header-text:hover {
+        transform: scale(1.05);
+      }
+      
+      .site-header-text i {
+        font-size: 2rem;
+        margin-right: 10px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .custom-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 50px;
+        padding: 10px 25px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .custom-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        transition: all 0.5s ease;
+        z-index: -1;
+        border-radius: 50px;
+      }
+      
+      .custom-btn:hover:before {
+        width: 100%;
+      }
+      
+      .custom-btn:hover {
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        transform: translateY(-3px);
+      }
 
-        <main>
+      /* Hero Section */
+      .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .hero-section h1 {
+        font-family: 'Unbounded', cursive;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, white, #e0e0e0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .hero-section p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+        margin: 0 auto 30px;
+      }
 
-            <header class="site-header">
-                <div class="container">
-                    <div class="row justify-content-between">
+      /* Countdown Styles */
+      .countdown {
+        margin-top: 30px;
+        justify-content: center;
+      }
+      
+      .countdown-item {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 0 10px;
+        min-width: 100px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      
+      .countdown-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+      
+      .countdown-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 5px;
+        font-family: 'Unbounded', cursive;
+      }
+      
+      .countdown-text {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
 
-                        <div class="col-lg-12 col-12 d-flex align-items-center">
-                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
-                                <i class="bi-box"></i>
+      /* Product Preview Section */
+      .preview-section {
+        padding: 80px 0;
+      }
+      
+      .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      
+      .section-title h2 {
+        font-family: 'Unbounded', cursive;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .section-title p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+      }
+      
+      .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        overflow: hidden;
+        height: 100%;
+        margin-bottom: 30px;
+      }
+      
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      
+      .product-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      
+      .product-card:hover .product-image img {
+        transform: scale(1.1);
+      }
+      
+      .product-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      
+      .product-info {
+        padding: 20px;
+      }
+      
+      .product-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: white;
+        height: 50px;
+        overflow: hidden;
+      }
+      
+      .product-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        margin-bottom: 5px;
+      }
+      
+      .original-price {
+        text-decoration: line-through;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+      
+      .discount-percent {
+        color: #25D366;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      
+      .view-more-btn {
+        text-align: center;
+        margin-top: 40px;
+      }
 
-                                <span>
-                                    BARİSHA
-                                </span>
-                            </a>
+      /* About Section */
+      .about-section {
+        padding: 80px 0;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      
+      .about-content {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      .about-content h2 {
+        font-family: 'Unbounded', cursive;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .about-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+      }
+      
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+      
+      .feature-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        display: block;
+      }
+      
+      .feature-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: white;
+      }
+      
+      .feature-card p {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 0;
+      }
 
-                            <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
-                                <span class="text-white me-4 d-none d-lg-block">Bağlantıda kalın</span>
+      /* Footer */
+      footer {
+        background: rgba(18, 18, 18, 0.95);
+        color: white;
+        padding: 60px 0 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+        font-family: 'Unbounded', cursive;
+      }
+      
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+      }
+      
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .footer-column ul li {
+        margin-bottom: 12px;
+      }
+      
+      .footer-column ul li a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      
+      .footer-column ul li a:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+      }
+      
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+      }
 
-                                <li class="social-icon-item">
-                                    <a href="https://www.instagram.com/barisha.tr" class="social-icon-link bi-instagram"></a>
-                                </li>
+      /* Particle Effects */
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
 
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-twitter"></a>
-                                </li>
-
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-whatsapp"></a>
-                                </li>
-                            </ul>
-
-                            <div>
-                                <a href="#" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">Bana haber ver
-                                    <i class="bi-arrow-right ms-2"></i>
-                                </a>
-                            </div>
-
-                            <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
-
-                        </div>
-
-                    </div>
-                </div>
-            </header>
-
-
-            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
-                <div class="offcanvas-header">                    
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                
-                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
-                    <nav>
-                        <ul>
-                            <li>
-                                <a href="#">YAKINDA465</a>
-                            </li>
-
-                            <li>
-                                <a href="ziyaretdosya.html">ZİYARETÇİ FORUM</a>
-                            </li>
-
-                            <li>
-                                <a href="urunler.html">BARİSHOP</a>
-                            </li>
-
-                            <li>
-                                <a href="login.html">DOSYALAR</a>
-                            </li>
-
-                            <li>
-                                <a href="contact.html">İLETİŞİM FORMU</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
-
-            <!-- Modal -->
-            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
-                                <h2 class="modal-title" id="subscribeModalLabel">Güncel kalın</h2>
-
-                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="your@email.com" required="">
-
-                                <button type="submit" class="form-control">Bildir</button>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer justify-content-center">
-                            <p>Kayıt olduğunuzda, Gizlilik Bildirimimizi kabul etmiş olursunuz</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
-                <div id="particles-js"></div>
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12 mx-auto text-center">
-                            <small class="floating">web si̇temi̇z yapim aşamasinda.</small>
-                            
-                            <h1 class="text-white mt-2 mb-4 pb-2 floating" style="animation-delay: 0.5s;">
-                                YAPIM AŞAMASINDA!
-                            </h1>
-
-                             <ul class="countdown d-flex flex-wrap align-items-center">
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1s;">
-                                    <h2 class="countdown-title days">00</h2>
-                                    <span class="countdown-text">Gün</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.2s;">
-                                    <h2 class="countdown-title hours">00</h2>
-                                    <span class="countdown-text">Saat</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.4s;">
-                                    <h2 class="countdown-title minutes">00</h2>
-                                    <span class="countdown-text">DAkika</span>
-                               </li>
-
-                               <li class="countdown-item d-flex flex-column justify-content-center align-items-center floating" style="animation-delay: 1.6s;">
-                                    <h2 class="countdown-title seconds">00</h2>
-                                    <span class="countdown-text">Saniye</span>
-                               </li>     
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="video-wrap">
-                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
-                        <source src="videos/video.mp4" type="video/mp4">
-                        Tarayıcınız video etiketini desteklemiyor.
-                    </video>
-                </div>
-            </section>
-        </main>
-
-        <!-- JAVASCRIPT FILES -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero-section h1 {
+          font-size: 2.5rem;
+        }
         
-        <script>
-            // Header scroll effect
-            $(window).scroll(function() {
-                if ($(window).scrollTop() > 50) {
-                    $('.site-header').addClass('scrolled');
-                } else {
-                    $('.site-header').removeClass('scrolled');
+        .hero-section p {
+          font-size: 1.1rem;
+        }
+        
+        .countdown-item {
+          min-width: 80px;
+          padding: 15px;
+          margin: 0 5px;
+        }
+        
+        .countdown-title {
+          font-size: 2rem;
+        }
+        
+        .section-title h2 {
+          font-size: 2rem;
+        }
+        
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <a class="site-header-text d-flex align-items-center" href="index.html">
+                        <i class="bi-cpu"></i>
+                        <span>BARİSHOP</span>
+                    </a>
+                    
+                    <div class="d-flex gap-3 align-items-center">
+                        <a href="urunler.html" class="custom-btn btn">
+                            <i class="bi-bag me-2"></i>Alışverişe Başla
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1>BARİSHOP'A HOŞGELDİNİZ!</h1>
+                    <p class="lead">Türkiye'nin en güvenilir teknoloji mağazası yakında hizmetinizde. Sitemiz yapım aşamasındadır.</p>
+                    
+                    <div class="countdown d-flex flex-wrap align-items-center justify-content-center">
+                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                            <h2 class="countdown-title days">00</h2>
+                            <span class="countdown-text">Gün</span>
+                        </div>
+                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                            <h2 class="countdown-title hours">00</h2>
+                            <span class="countdown-text">Saat</span>
+                        </div>
+                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                            <h2 class="countdown-title minutes">00</h2>
+                            <span class="countdown-text">Dakika</span>
+                        </div>
+                        <div class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                            <h2 class="countdown-title seconds">00</h2>
+                            <span class="countdown-text">Saniye</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- En Çok Tıklanan Ürünler -->
+    <section class="preview-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>🔥 En Çok Tıklanan Ürünler</h2>
+                <p>Sizden gelen yoğun ilgi gören popüler ürünlerimiz</p>
+            </div>
+            
+            <div class="row" id="popularProducts">
+                <!-- Popüler ürünler buraya eklenecek -->
+            </div>
+            
+            <div class="view-more-btn">
+                <a href="urunler.html" class="custom-btn btn">
+                    <i class="bi-arrow-right me-2"></i>Tüm Ürünleri Gör
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fırsat Ürünleri -->
+    <section class="preview-section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container">
+            <div class="section-title">
+                <h2>💥 Fırsat Ürünleri</h2>
+                <p>En çok fiyatı düşen ve kampanyalı ürünler</p>
+            </div>
+            
+            <div class="row" id="discountProducts">
+                <!-- İndirimli ürünler buraya eklenecek -->
+            </div>
+            
+            <div class="view-more-btn">
+                <a href="urunler.html" class="custom-btn btn">
+                    <i class="bi-arrow-right me-2"></i>Diğer Fırsatları Gör
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hakkımızda -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>BARİSHOP Hakkında</h2>
+                <p>
+                    BARİSHOP olarak, teknoloji tutkunlarına en kaliteli ürünleri en uygun fiyatlarla sunmayı hedefliyoruz. 
+                    Müşteri memnuniyetini ön planda tutarak, güvenilir alışveriş deneyimi sunmak için buradayız.
+                </p>
+                <p>
+                    Sitemiz şu anda aktif olarak geliştirilmektedir. Yakında tam donanımlı alışveriş deneyimi ile 
+                    hizmetinizde olacağız. Gelişmelerden haberdar olmak için bizi takip etmeye devam edin.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <h3>Hızlı Kargo</h3>
+                        <p>1000 TL ve üzeri alışverişlerde ücretsiz kargo imkanı</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <h3>Güvenli Alışveriş</h3>
+                        <p>%100 güvenli ödeme ve SSL sertifikası</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">💬</span>
+                        <h3>7/24 Destek</h3>
+                        <p>WhatsApp üzerinden kesintisiz müşteri hizmetleri</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">↩️</span>
+                        <h3>Kolay İade</h3>
+                        <p>14 gün içinde ücretsiz iade ve değişim</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BARİSHOP</h3>
+                    <p>Teknoloji alışverişinde güvenilir adres. En yeni ürünler, en uygun fiyatlarla.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="urunler.html">BARISHOP</a></li>
+                        <li><a href="dosyalar.html">DOSYALAR</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Müşteri Hizmetleri</h3>
+                    <ul>
+                        <li><a href="sss.html">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="iade-degisim.html">İade ve Değişim</a></li>
+                        <li><a href="kargo-takip.html">Kargo Takibi</a></li>
+                        <li><a href="iletisim.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul>
+                        <li><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
+                        <li><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
+                        <li><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
+                        <li><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 BariShop. Tüm hakları saklıdır. | Site yapım aşamasındadır</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Particles.js initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5 },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out"
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    }
                 }
             });
+        });
+
+        // Geri sayım fonksiyonu
+        function updateCountdown() {
+            // Hedef tarih: 28 Mart 2026, saat 18:00
+            const targetDate = new Date('March 28, 2026 18:00:00').getTime();
             
-            // Initialize particles.js
-            document.addEventListener('DOMContentLoaded', function() {
-                particlesJS('particles-js', {
-                    "particles": {
-                        "number": {
-                            "value": 80,
-                            "density": {
-                                "enable": true,
-                                "value_area": 800
-                            }
-                        },
-                        "color": {
-                            "value": "#ffffff"
-                        },
-                        "shape": {
-                            "type": "circle",
-                            "stroke": {
-                                "width": 0,
-                                "color": "#000000"
-                            }
-                        },
-                        "opacity": {
-                            "value": 0.5,
-                            "random": false,
-                            "anim": {
-                                "enable": false,
-                                "speed": 1,
-                                "opacity_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "size": {
-                            "value": 3,
-                            "random": true,
-                            "anim": {
-                                "enable": false,
-                                "speed": 40,
-                                "size_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "line_linked": {
-                            "enable": true,
-                            "distance": 150,
-                            "color": "#ffffff",
-                            "opacity": 0.4,
-                            "width": 1
-                        },
-                        "move": {
-                            "enable": true,
-                            "speed": 2,
-                            "direction": "none",
-                            "random": false,
-                            "straight": false,
-                            "out_mode": "out",
-                            "bounce": false,
-                            "attract": {
-                                "enable": false,
-                                "rotateX": 600,
-                                "rotateY": 1200
-                            }
-                        }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": {
-                            "onhover": {
-                                "enable": true,
-                                "mode": "grab"
-                            },
-                            "onclick": {
-                                "enable": true,
-                                "mode": "push"
-                            },
-                            "resize": true
-                        },
-                        "modes": {
-                            "grab": {
-                                "distance": 140,
-                                "line_linked": {
-                                    "opacity": 1
-                                }
-                            },
-                            "push": {
-                                "particles_nb": 4
-                            }
-                        }
-                    },
-                    "retina_detect": true
-                });
-            });
+            // Şu anki zaman
+            const now = new Date().getTime();
             
-            // Geri sayım fonksiyonu
-            function updateCountdown() {
-                // Hedef tarih: 28 Mart 2026, saat 18:00
-                const targetDate = new Date('March 28, 2026 18:00:00').getTime();
-                
-                // Şu anki zaman
-                const now = new Date().getTime();
-                
-                // Kalan zaman
-                const distance = targetDate - now;
-                
-                // Zaman hesaplamaları
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                // Değerleri göster
-                document.querySelector('.days').innerHTML = days;
-                document.querySelector('.hours').innerHTML = hours;
-                document.querySelector('.minutes').innerHTML = minutes;
-                document.querySelector('.seconds').innerHTML = seconds;
-                
-                // Süre dolduysa
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    document.querySelector('.countdown').innerHTML = "<h2 class='text-white'>Süre Doldu!</h2>";
-                }
+            // Kalan zaman
+            const distance = targetDate - now;
+            
+            // Zaman hesaplamaları
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Değerleri göster (2 haneli format)
+            document.querySelector('.days').innerHTML = days.toString().padStart(2, '0');
+            document.querySelector('.hours').innerHTML = hours.toString().padStart(2, '0');
+            document.querySelector('.minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.querySelector('.seconds').innerHTML = seconds.toString().padStart(2, '0');
+            
+            // Süre dolduysa
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.countdown').innerHTML = "<h2 class='text-white'>Süre Doldu! Sitemiz aktif.</h2>";
             }
+        }
+
+        // Popüler ürünler (urunler.html'den en çok tıklananlar)
+        const popularProducts = [
+            {
+                id: 1,
+                name: "iPhone 14 Pro 128GB",
+                price: 34999,
+                originalPrice: 36999,
+                discountPercent: 5,
+                image: "https://resim.epey.com/802356/s_apple-iphone-14-pro-1.png",
+                category: "telefon"
+            },
+            {
+                id: 2,
+                name: "Samsung Galaxy S23 256GB",
+                price: 24999,
+                originalPrice: 26999,
+                discountPercent: 7,
+                image: "https://resim.epey.com/845148/b_samsung-galaxy-s23-2.png",
+                category: "telefon"
+            },
+            {
+                id: 3,
+                name: "MacBook Air M2 13\"",
+                price: 29999,
+                originalPrice: 31999,
+                discountPercent: 6,
+                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661",
+                category: "bilgisayar"
+            },
+            {
+                id: 4,
+                name: "Sony WH-1000XM4",
+                price: 5999,
+                originalPrice: 6499,
+                discountPercent: 8,
+                image: "https://images.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000",
+                category: "kulaklik"
+            }
+        ];
+
+        // İndirimli ürünler
+        const discountProducts = [
+            {
+                id: 5,
+                name: "Apple Watch Series 8",
+                price: 8999,
+                originalPrice: 9499,
+                discountPercent: 5,
+                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313",
+                category: "saat"
+            },
+            {
+                id: 6,
+                name: "PlayStation 5 Standard",
+                price: 14999,
+                originalPrice: 15999,
+                discountPercent: 6,
+                image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$",
+                category: "konsol"
+            },
+            {
+                id: 7,
+                name: "iPad Air 5. Nesil",
+                price: 12999,
+                originalPrice: 13999,
+                discountPercent: 7,
+                image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1645065730655",
+                category: "tablet"
+            },
+            {
+                id: 8,
+                name: "Xiaomi Redmi Note 12",
+                price: 7999,
+                originalPrice: 8999,
+                discountPercent: 11,
+                image: "https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1677570749.02675728.png",
+                category: "telefon"
+            }
+        ];
+
+        // Ürün kartı oluşturma fonksiyonu
+        function createProductCard(product) {
+            return `
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}">
+                            ${product.discountPercent > 0 ? 
+                                `<div class="product-badge">%${product.discountPercent} İndirim</div>` : 
+                                `<div class="product-badge">Popüler</div>`
+                            }
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            ${product.originalPrice ? `
+                                <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
+                                <div class="product-price">${product.price.toFixed(2)} TL</div>
+                                <div class="discount-percent">%${product.discountPercent} indirim</div>
+                            ` : `
+                                <div class="product-price">${product.price.toFixed(2)} TL</div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Ürünleri yükle
+        function loadProducts() {
+            const popularContainer = document.getElementById('popularProducts');
+            const discountContainer = document.getElementById('discountProducts');
             
-            // Sayacı başlat ve her saniye güncelle
+            // Popüler ürünleri yükle
+            popularProducts.forEach(product => {
+                popularContainer.innerHTML += createProductCard(product);
+            });
+            
+            // İndirimli ürünleri yükle
+            discountProducts.forEach(product => {
+                discountContainer.innerHTML += createProductCard(product);
+            });
+        }
+
+        // Sayfa yüklendiğinde çalıştır
+        document.addEventListener('DOMContentLoaded', function() {
             updateCountdown();
             const countdownInterval = setInterval(updateCountdown, 1000);
-        </script>
+            loadProducts();
+        });
 
-    </body>
+        // Header scroll effect
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('.site-header').addClass('scrolled');
+            } else {
+                $('.site-header').removeClass('scrolled');
+            }
+        });
+    </script>
+</body>
 </html>
-
-
-

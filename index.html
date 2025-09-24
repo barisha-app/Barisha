@@ -348,86 +348,6 @@
         text-align: center;
       }
       
-      /* Large Product Cards */
-      .product-card-large {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: white;
-        overflow: hidden;
-        margin-bottom: 25px;
-        cursor: pointer;
-      }
-      
-      .product-card-large:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-      }
-      
-      .product-image-large {
-        height: 180px;
-        overflow: hidden;
-        position: relative;
-      }
-      
-      .product-image-large img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-      }
-      
-      .product-card-large:hover .product-image-large img {
-        transform: scale(1.1);
-      }
-      
-      .product-badge {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
-      
-      .product-info-large {
-        padding: 20px;
-      }
-      
-      .product-title-large {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-        color: white;
-        height: 50px;
-        overflow: hidden;
-      }
-      
-      .product-price-large {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--accent-color);
-        margin-bottom: 5px;
-      }
-      
-      .original-price {
-        text-decoration: line-through;
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 1rem;
-        margin-bottom: 5px;
-      }
-      
-      .discount-percent {
-        color: #25D366;
-        font-size: 0.9rem;
-        font-weight: 600;
-      }
-      
       /* Small Product List */
       .product-list-small {
         list-style: none;
@@ -589,6 +509,16 @@
         padding-left: 5px;
       }
       
+      .contact-info li {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .contact-info li:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+      }
+      
       .copyright {
         text-align: center;
         padding-top: 30px;
@@ -726,9 +656,9 @@
                 <div class="col-lg-4 mb-4">
                     <div class="product-column">
                         <h3 class="column-title">🔥 En Çok İndirim</h3>
-                         <div id="discountProducts">
+                        <ul class="product-list-small" id="discountProducts">
                             <!-- En çok indirimli ürünler buraya eklenecek -->
-                        </div>
+                        </ul>
                     </div>
                 </div>
                 
@@ -736,9 +666,9 @@
                 <div class="col-lg-4 mb-4">
                     <div class="product-column">
                         <h3 class="column-title">👁️ En Çok Görüntülenen</h3>
-                        <div id="popularProducts">
+                        <ul class="product-list-small" id="popularProducts">
                             <!-- En çok görüntülenen ürünler buraya eklenecek -->
-                        </div>
+                        </ul>
                     </div>
                 </div>
                 
@@ -813,11 +743,11 @@
                 </div>
                 <div class="footer-column">
                     <h3>İletişim</h3>
-                    <ul>
-                        <li><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
-                        <li><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
-                        <li><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
-                        <li><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
+                    <ul class="contact-info">
+                        <li onclick="window.location.href='tel:08501110850'"><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
+                        <li onclick="window.location.href='mailto:barisha@yaani.com'"><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
+                        <li onclick="window.open('https://wa.me/905303042950', '_blank')"><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
+                        <li onclick="window.open('https://maps.google.com/?q=İstanbul,Türkiye', '_blank')"><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
                     </ul>
                 </div>
             </div>
@@ -937,22 +867,22 @@
             const container = document.getElementById('discountProducts');
             const discountProducts = [...products]
                 .sort((a, b) => b.discountPercent - a.discountPercent)
-                .slice(0, 3);
+                .slice(0, 5);
             
             discountProducts.forEach(product => {
                 container.innerHTML += `
-                    <div class="product-card-large" data-id="${product.id}">
-                        <div class="product-image-large">
+                    <li class="product-item-small" data-id="${product.id}">
+                        <div class="product-image-small">
                             <img src="${product.image}" alt="${product.name}">
-                            <div class="product-badge">%${product.discountPercent} İndirim</div>
                         </div>
-                        <div class="product-info-large">
-                            <h3 class="product-title-large">${product.name}</h3>
-                            <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                            <div class="product-price-large">${product.price.toFixed(2)} TL</div>
-                            <button class="view-details-btn mt-2 w-100">İncele</button>
+                        <div class="product-info-small">
+                            <div class="product-title-small">${product.name}</div>
+                            <div class="original-price" style="text-decoration: line-through; color: rgba(255, 255, 255, 0.5); font-size: 0.8rem;">${product.originalPrice.toFixed(2)} TL</div>
+                            <div class="product-price-small">${product.price.toFixed(2)} TL</div>
+                            <div style="color: #25D366; font-size: 0.8rem; font-weight: 600;">%${product.discountPercent} İndirim</div>
                         </div>
-                    </div>
+                        <button class="view-details-btn">İncele</button>
+                    </li>
                 `;
             });
         }
@@ -961,21 +891,21 @@
             const container = document.getElementById('popularProducts');
             const popularProducts = [...products]
                 .sort((a, b) => b.views - a.views)
-                .slice(0, 3);
+                .slice(0, 5);
             
             popularProducts.forEach(product => {
                 container.innerHTML += `
-                    <div class="product-card-large" data-id="${product.id}">
-                        <div class="product-image-large">
+                    <li class="product-item-small" data-id="${product.id}">
+                        <div class="product-image-small">
                             <img src="${product.image}" alt="${product.name}">
-                            <div class="product-badge">${product.views} Görüntüleme</div>
                         </div>
-                        <div class="product-info-large">
-                            <h3 class="product-title-large">${product.name}</h3>
-                            <div class="product-price-large">${product.price.toFixed(2)} TL</div>
-                            <button class="view-details-btn mt-2 w-100">İncele</button>
+                        <div class="product-info-small">
+                            <div class="product-title-small">${product.name}</div>
+                            <div class="product-price-small">${product.price.toFixed(2)} TL</div>
+                            <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">${product.views} görüntüleme</div>
                         </div>
-                    </div>
+                        <button class="view-details-btn">İncele</button>
+                    </li>
                 `;
             });
         }
@@ -995,6 +925,7 @@
                         <div class="product-info-small">
                             <div class="product-title-small">${product.name}</div>
                             <div class="product-price-small">${product.price.toFixed(2)} TL</div>
+                            <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">${product.sales} satış</div>
                         </div>
                         <button class="view-details-btn">İncele</button>
                     </li>
@@ -1096,7 +1027,7 @@
             
             // Ürün kartlarına tıklama
             document.addEventListener('click', function(e) {
-                if (e.target.closest('.product-card-large') || e.target.closest('.product-item-small')) {
+                if (e.target.closest('.product-item-small')) {
                     const productCard = e.target.closest('[data-id]');
                     if (productCard) {
                         const productId = parseInt(productCard.dataset.id);
@@ -1138,6 +1069,3 @@
     </script>
 </body>
 </html>
-
-
-

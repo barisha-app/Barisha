@@ -13,10 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     
-    <!-- jsPDF kütüphanesi -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    
     <style>
       :root {
         --primary-color: #6a11cb;
@@ -536,6 +532,37 @@
         transform: scale(1.3);
       }
       
+      .nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+      
+      .nav-arrow:hover {
+        background: var(--primary-color);
+        transform: translateY(-50%) scale(1.1);
+      }
+      
+      .nav-arrow.prev {
+        left: 10px;
+      }
+      
+      .nav-arrow.next {
+        right: 10px;
+      }
+      
       .product-info {
         padding: 25px;
       }
@@ -624,6 +651,7 @@
       
       .form-label {
         color: white;
+        font-weight: 600;
       }
       
       /* Promosyon Bölümü */
@@ -1005,6 +1033,11 @@
         .product-actions {
           flex-direction: column;
         }
+        
+        .nav-arrow {
+          width: 35px;
+          height: 35px;
+        }
       }
       
       @media (max-width: 768px) {
@@ -1045,6 +1078,12 @@
         .search-container {
           max-width: 250px;
         }
+        
+        .nav-arrow {
+          width: 30px;
+          height: 30px;
+          font-size: 0.8rem;
+        }
       }
       
       @media (max-width: 576px) {
@@ -1067,6 +1106,12 @@
         
         .search-container {
           max-width: 200px;
+        }
+        
+        .nav-arrow {
+          width: 25px;
+          height: 25px;
+          font-size: 0.7rem;
         }
       }
     </style>
@@ -1447,11 +1492,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="products.js"></script>
     
     <script>
-        // jsPDF kullanımı için
-        window.jsPDF = window.jspdf.jsPDF;
-        
         // Header scroll effect
         $(window).scroll(function() {
             if ($(window).scrollTop() > 50) {
@@ -1497,124 +1540,6 @@
             });
         });
 
-        // Ürün verileri (BARİSHA ürünleri)
-        const products = [
-            {
-                id: 1,
-                name: "iPhone 14 Pro",
-                originalPrice: 36999,
-                discountPercent: 5,
-                price: 34999,
-                description: "Apple'ın en yeni flagship telefonu. Dynamic Island, 48MP kamera ve A16 Bionic çip.",
-                category: "telefon",
-                images: [
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-model-select-202209-6-1inch?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-deeppurple?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-gold?wid=5120&hei=2880&fmt=jpeg&qlt=95&.v=1660753617533"
-                ],
-                code: "TS-IP14P",
-                filters: {
-                    "Kapasite": ["128GB", "256GB", "512GB", "1TB"],
-                    "Renk": ["Deep Purple", "Gold", "Silver", "Space Black"]
-                }
-            },
-            {
-                id: 2,
-                name: "Samsung Galaxy S23",
-                originalPrice: 26999,
-                discountPercent: 7,
-                price: 24999,
-                description: "Samsung'un amiral gemisi telefonu. Snapdragon 8 Gen 2 ve 120Hz ekran.",
-                category: "telefon",
-                images: [
-                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgdmid-thumb-534866569?$264_264_PNG$",
-                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgdtur-thumb-534866541?$264_264_PNG$",
-                    "https://images.samsung.com/is/image/samsung/p6pim/tr/2302/gallery/tr-galaxy-s23-s918-sm-s918bzgttur-thumb-534866527?$264_264_PNG$"
-                ],
-                code: "TS-SGS23256",
-                filters: {
-                    "Kapasite": ["256GB", "512GB"],
-                    "Renk": ["Phantom Black", "Cream", "Green", "Lavender"]
-                }
-            },
-            {
-                id: 3,
-                name: "MacBook Air M2 13\"",
-                originalPrice: 31999,
-                discountPercent: 6,
-                price: 29999,
-                description: "Apple M2 çipli ince ve hafif dizüstü bilgisayar. 18 saat pil ömrü.",
-                category: "bilgisayar",
-                images: [
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-silver-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289491",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289606"
-                ],
-                code: "TS-MBA13M2",
-                filters: {
-                    "Kapasite": ["256GB SSD", "512GB SSD", "1TB SSD"],
-                    "Renk": ["Space Gray", "Silver", "Gold", "Midnight"]
-                }
-            },
-            {
-                id: 4,
-                name: "Sony WH-1000XM4 Kulaklık",
-                originalPrice: 6499,
-                discountPercent: 8,
-                price: 5999,
-                description: "Gürültü önleyici premium kulaklık. 30 saat pil ömrü ve dokunmatik kontrol.",
-                category: "kulaklik",
-                images: [
-                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000",
-                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0b?fmt=pjpeg&wid=1000&hei=1000",
-                    "https://www.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0c?fmt=pjpeg&wid=1000&hei=1000"
-                ],
-                code: "TS-SONYXM4",
-                filters: {
-                    "Renk": ["Siyah", "Gümüş", "Platin"]
-                }
-            },
-            {
-                id: 5,
-                name: "Apple Watch Series 8 45mm",
-                originalPrice: 9499,
-                discountPercent: 5,
-                price: 8999,
-                description: "Apple'ın en yeni akıllı saati. Kan oksijeni ölçümü ve sıcaklık sensörü.",
-                category: "saat",
-                images: [
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-starlight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963340",
-                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-silver-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963357"
-                ],
-                code: "TS-AWS845",
-                filters: {
-                    "Kasa Boyutu": ["41mm", "45mm"],
-                    "Renk": ["Midnight", "Starlight", "Silver", "Product Red"],
-                    "Kordon": ["Spor Kordon", "Deri Kordon", "Milanese Loop"]
-                }
-            },
-            {
-                id: 6,
-                name: "PlayStation 5 Standard",
-                originalPrice: 15999,
-                discountPercent: 6,
-                price: 14999,
-                description: "Sony'nin yeni nesil oyun konsolu. 4K gaming ve ultra hızlı SSD.",
-                category: "konsol",
-                images: [
-                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$",
-                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-with-dualsense-front-product-thumbnail-01-en-14sep21?$1600px--t$",
-                    "https://gmedia.playstation.com/is/image/SIEPDC/ps5-with-dualsense-back-product-thumbnail-01-en-14sep21?$1600px--t$"
-                ],
-                code: "TS-PS5STD",
-                filters: {
-                    "Model": ["Standard", "Digital Edition"],
-                    "Paket": ["Konsol Only", "Konsol + Oyun", "Konsol + Kumanda"]
-                }
-            }
-        ];
-
         // Sepet işlemleri
         let cart = JSON.parse(localStorage.getItem('techshop_cart')) || [];
         let currentZoom = 1;
@@ -1650,6 +1575,75 @@
             localStorage.setItem('techshop_cart', JSON.stringify(cart));
             document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
             renderCartItems();
+        }
+
+        // Sepet öğelerini render et
+        function renderCartItems() {
+            const cartContainer = document.getElementById('cartItemsContainer');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<div class="cart-empty"><i class="bi-cart-x"></i><p>Sepetinizde ürün bulunmamaktadır.</p></div>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+            
+            let total = 0;
+            cartContainer.innerHTML = '';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-details">Varyant: ${item.variant}, Renk: ${item.color}, Kod: ${item.code}</div>
+                    </div>
+                    <div class="cart-item-price">${itemTotal.toFixed(2)} TL</div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn decrease-btn" data-index="${index}">-</button>
+                        <span class="quantity-value">${item.quantity}</span>
+                        <button class="quantity-btn increase-btn" data-index="${index}">+</button>
+                    </div>
+                    <button class="remove-from-cart" data-index="${index}">
+                        <i class="bi-trash"></i>
+                    </button>
+                `;
+                
+                cartContainer.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = total.toFixed(2);
+            
+            // Sepet olay dinleyicileri
+            document.querySelectorAll('.decrease-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity--;
+                        updateCart();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.increase-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    cart[index].quantity++;
+                    updateCart();
+                });
+            });
+            
+            document.querySelectorAll('.remove-from-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    cart.splice(index, 1);
+                    updateCart();
+                });
+            });
         }
 
         // Arama fonksiyonu
@@ -1722,6 +1716,8 @@
                 col.innerHTML = `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
                         <div class="product-image">
+                            <button class="nav-arrow prev"><i class="bi-chevron-left"></i></button>
+                            <button class="nav-arrow next"><i class="bi-chevron-right"></i></button>
                             <img src="${product.images[0]}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Görsel+Yüklenemedi'">
                             <div class="product-badge">Yeni</div>
                             ${product.discountPercent > 0 ? `<div class="discount-badge">%${product.discountPercent} İndirim</div>` : ''}
@@ -1756,20 +1752,43 @@
             
             // Görsel navigasyon etkinleştirme
             document.querySelectorAll('.product-card').forEach(card => {
-                const images = card.querySelectorAll('.product-image img');
+                const product = products.find(p => p.id == card.dataset.id);
+                const image = card.querySelector('.product-image img');
                 const dots = card.querySelectorAll('.image-nav-dot');
+                const prevBtn = card.querySelector('.nav-arrow.prev');
+                const nextBtn = card.querySelector('.nav-arrow.next');
                 
+                let currentImageIndex = 0;
+                
+                function updateImage(index) {
+                    currentImageIndex = index;
+                    image.src = product.images[index];
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    dots[index].classList.add('active');
+                }
+                
+                // Nokta tıklamaları
                 dots.forEach((dot, index) => {
                     dot.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        // Aktif dot'u güncelle
-                        dots.forEach(d => d.classList.remove('active'));
-                        dot.classList.add('active');
-                        
-                        // Görseli değiştir
-                        const product = products.find(p => p.id == card.dataset.id);
-                        images[0].src = product.images[index];
+                        updateImage(index);
                     });
+                });
+                
+                // Önceki butonu
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    let newIndex = currentImageIndex - 1;
+                    if (newIndex < 0) newIndex = product.images.length - 1;
+                    updateImage(newIndex);
+                });
+                
+                // Sonraki butonu
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    let newIndex = currentImageIndex + 1;
+                    if (newIndex >= product.images.length) newIndex = 0;
+                    updateImage(newIndex);
                 });
             });
             
@@ -1939,11 +1958,83 @@
             updateCart();
         }
 
+        // Filtreleme işlevi
+        function setupFilters() {
+            const searchFilter = document.getElementById('searchFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            
+            function applyFilters() {
+                const searchText = searchFilter.value.toLowerCase();
+                const category = categoryFilter.value;
+                const priceRange = priceFilter.value;
+                
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const productId = card.dataset.id;
+                    const product = products.find(p => p.id == productId);
+                    let visible = true;
+                    
+                    // Arama filtresi
+                    if (searchText && !product.name.toLowerCase().includes(searchText)) {
+                        visible = false;
+                    }
+                    
+                    // Kategori filtresi
+                    if (category && product.category !== category) {
+                        visible = false;
+                    }
+                    
+                    // Fiyat filtresi
+                    if (priceRange) {
+                        if (priceRange === '0-5000' && product.price > 5000) visible = false;
+                        if (priceRange === '5000-10000' && (product.price < 5000 || product.price > 10000)) visible = false;
+                        if (priceRange === '10000-20000' && (product.price < 10000 || product.price > 20000)) visible = false;
+                        if (priceRange === '20000+' && product.price < 20000) visible = false;
+                    }
+                    
+                    // Görünürlüğü ayarla
+                    card.style.display = visible ? 'block' : 'none';
+                    card.closest('.col-md-6').style.display = visible ? 'block' : 'none';
+                });
+            }
+            
+            searchFilter.addEventListener('input', applyFilters);
+            categoryFilter.addEventListener('change', applyFilters);
+            priceFilter.addEventListener('change', applyFilters);
+        }
+
         // Sayfa yüklendiğinde çalıştır
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
             setupSearch();
+            setupFilters();
             updateCart();
+            
+            // Siparişi tamamla butonu
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Sepetinizde ürün bulunmamaktadır.');
+                    return;
+                }
+                
+                // WhatsApp sipariş işlemi
+                let message = "Merhaba, BARİSHOP'tan aşağıdaki ürünleri sipariş vermek istiyorum:%0A%0A";
+                
+                cart.forEach(item => {
+                    message += `- ${item.name} (Varyant: ${item.variant}, Renk: ${item.color}, Adet: ${item.quantity})%0A`;
+                });
+                
+                message += `%0AToplam Tutar: ${cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)} TL%0A%0A`;
+                message += "Lütfen bu sipariş ile ilgili bilgi verin.";
+                
+                // WhatsApp'a yönlendir
+                window.open(`https://wa.me/905303042950?text=${message}`, '_blank');
+                
+                // Sepeti temizle
+                cart = [];
+                updateCart();
+                bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+            });
         });
     </script>
 </body>

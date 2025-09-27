@@ -1,3 +1,6 @@
+Tabii canım! İşte tüm urunler.html dosyasının son hali:
+
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -439,7 +442,7 @@
         margin-bottom: 10px;
       }
       
-      /* Product Card Styles */
+      /* Product Card Styles - YENİ HALLERİ */
       .products-section {
         padding: 80px 0;
         background: rgba(255, 255, 255, 0.02);
@@ -495,7 +498,7 @@
       .discount-badge {
         position: absolute;
         top: 15px;
-        left: 15px;
+        right: 15px;
         background: linear-gradient(45deg, #ff416c, #ff4b2b);
         color: white;
         padding: 5px 15px;
@@ -504,113 +507,100 @@
         font-weight: 600;
       }
       
-      .product-image-nav {
-        position: absolute;
-        bottom: 15px;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        border-radius: 20px;
-        margin: 0 20px;
-      }
-      
-      .image-nav-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      
-      .image-nav-dot.active {
-        background: white;
-        transform: scale(1.3);
-      }
-      
-      .nav-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.5);
-        border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 10;
-      }
-      
-      .nav-arrow:hover {
-        background: var(--primary-color);
-        transform: translateY(-50%) scale(1.1);
-      }
-      
-      .nav-arrow.prev {
-        left: 10px;
-      }
-      
-      .nav-arrow.next {
-        right: 10px;
-      }
-      
-      .product-info {
-        padding: 25px;
-      }
-      
-      .product-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: white;
-        height: 60px;
-        overflow: hidden;
-      }
-      
-      .product-price {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--accent-color);
-        margin-bottom: 5px;
-      }
-      
-      .original-price {
-        text-decoration: line-through;
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-      }
-      
-      .discount-percent {
-        color: #25D366;
-        font-size: 1rem;
-        font-weight: 600;
-      }
-      
-      .product-description {
-        color: rgba(255, 255, 255, 0.7);
-        margin-bottom: 20px;
-        font-size: 0.95rem;
-        height: 60px;
-        overflow: hidden;
-      }
-      
-      .product-actions {
+      /* Basit ürün butonları */
+      .product-actions-simple {
         display: flex;
         gap: 10px;
+        margin-top: 15px;
       }
       
-      .product-actions .btn {
+      .btn-buy-now {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
         flex: 1;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+      
+      .btn-add-cart {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        flex: 1;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+      
+      .btn-buy-now:hover, .btn-add-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+      
+      /* Ürün rating */
+      .product-rating {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      
+      .rating-stars {
+        color: #ffc107;
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+      
+      .rating-value {
+        color: rgba(255,255,255,0.7);
+        font-size: 0.8rem;
+      }
+      
+      /* Stok bildirimi */
+      .stock-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: #ff9800;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+      
+      /* Bildirim */
+      .notification {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 9999;
+      }
+      
+      .notification-content {
+        background: rgba(76, 175, 80, 0.9);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        animation: slideIn 0.3s ease;
+      }
+      
+      @keyframes slideIn {
+        from { transform: translateX(100px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      
+      /* Görsel ve başlık tıklanabilir */
+      .product-image, .product-title {
+        cursor: pointer;
+      }
+      
+      .product-title:hover {
+        color: var(--accent-color);
       }
       
       /* Filter Styles */
@@ -1030,13 +1020,8 @@
           max-width: 300px;
         }
         
-        .product-actions {
+        .product-actions-simple {
           flex-direction: column;
-        }
-        
-        .nav-arrow {
-          width: 35px;
-          height: 35px;
         }
       }
       
@@ -1078,12 +1063,6 @@
         .search-container {
           max-width: 250px;
         }
-        
-        .nav-arrow {
-          width: 30px;
-          height: 30px;
-          font-size: 0.8rem;
-        }
       }
       
       @media (max-width: 576px) {
@@ -1108,10 +1087,9 @@
           max-width: 200px;
         }
         
-        .nav-arrow {
-          width: 25px;
-          height: 25px;
-          font-size: 0.7rem;
+        .btn-buy-now, .btn-add-cart {
+          padding: 8px 12px;
+          font-size: 0.8rem;
         }
       }
     </style>
@@ -1302,124 +1280,12 @@
                 </div>
             </div>
             
-<!-- Ürünler Grid -->
-<div class="row" id="productGrid">
-    <!-- Ürünler buraya otomatik gelecek -->
-</div>
-
-<script>
-// Ürünleri yükle ve göster
-function loadProducts() {
-    const productGrid = document.getElementById('productGrid');
-    productGrid.innerHTML = '';
-    
-    if (products.length === 0) {
-        productGrid.innerHTML = '<div class="col-12 text-center"><p>Ürün bulunamadı</p></div>';
-        return;
-    }
-    
-    products.forEach(product => {
-        const col = document.createElement('div');
-        col.className = 'col-md-6 col-lg-4 mb-4';
-        
-        col.innerHTML = `
-            <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-                <div class="product-image">
-                    <img src="${product.images[0]}" alt="${product.name}" 
-                         onclick="showProductDetails(${product.id})"
-                         onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Görsel+Yüklenemedi'">
-                    
-                    ${product.discountPercent > 0 ? `
-                        <div class="discount-badge">%${product.discountPercent} İndirim</div>
-                    ` : ''}
-                    
-                    ${product.stock < 10 ? `
-                        <div class="stock-badge">Son ${product.stock} ürün</div>
-                    ` : ''}
-                </div>
-                
-                <div class="product-info">
-                    <h3 class="product-title" onclick="showProductDetails(${product.id})">
-                        ${product.name}
-                    </h3>
-                    
-                    <div class="product-rating">
-                        ${generateStarRating(product.rating)}
-                        <span class="rating-value">${product.rating}</span>
-                    </div>
-                    
-                    <div class="product-pricing">
-                        ${product.discountPercent > 0 ? `
-                            <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                            <div class="product-price">${product.price.toFixed(2)} TL</div>
-                        ` : `
-                            <div class="product-price">${product.price.toFixed(2)} TL</div>
-                        `}
-                    </div>
-                    
-                    <div class="product-actions-simple">
-                        <button class="btn btn-buy-now" onclick="buyNow(${product.id})">
-                            <i class="bi-lightning-charge"></i> Hemen Al
-                        </button>
-                        <button class="btn btn-add-cart" onclick="addToCartDirectly(${product.id})">
-                            <i class="bi-cart-plus"></i> Sepete Ekle
-                        </button>
-                    </div>
-                </div>
+            <!-- Ürünler Grid -->
+            <div class="row" id="productGrid">
+                <!-- Ürünler buraya otomatik gelecek -->
             </div>
-        `;
-        
-        productGrid.appendChild(col);
-    });
-}
-
-// Hemen al fonksiyonu
-function buyNow(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
-    addToCartDirectly(product);
-    
-    // Sepet modalını aç
-    setTimeout(() => {
-        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
-        cartModal.show();
-    }, 500);
-}
-
-// Sepete doğrudan ekle
-function addToCartDirectly(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
-    const variant = product.variants && product.variants.length > 0 ? 
-        product.variants[0].varyant : "Standart";
-    const color = product.variants && product.variants.length > 0 ? 
-        product.variants[0].renk : "Siyah";
-    
-    addToCart(product, variant, color, 1);
-    
-    // Küçük bildirim
-    showNotification('Ürün sepete eklendi!');
-}
-
-// Bildirim göster
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="bi-check-circle"></i> ${message}
         </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-</script>
+    </section>
 
     <!-- Kampanyalar -->
     <section id="promotions" class="promotions-section">
@@ -1561,11 +1427,11 @@ function showNotification(message) {
                             </form>
                             
                             <div class="product-actions mt-4">
-                                <button type="button" class="btn btn-outline" id="viewDetailsBtn">
-                                    <i class="bi-eye me-2"></i> İncele
-                                </button>
                                 <button type="button" class="custom-btn btn" id="addToCartBtn">
                                     <i class="bi-cart-plus me-2"></i> Sepete Ekle
+                                </button>
+                                <button type="button" class="btn btn-buy-now" id="buyNowBtn">
+                                    <i class="bi-lightning-charge me-2"></i> Hemen Al
                                 </button>
                             </div>
                             
@@ -1778,11 +1644,6 @@ function showNotification(message) {
                     product.name.toLowerCase().includes(query)
                 );
                 
-                // Tahmin oluştur
-                const prediction = products.find(product => 
-                    product.name.toLowerCase().startsWith(query)
-                );
-                
                 // Sonuçları göster
                 searchResults.innerHTML = '';
                 
@@ -1792,12 +1653,7 @@ function showNotification(message) {
                     filteredProducts.forEach(product => {
                         const item = document.createElement('div');
                         item.className = 'search-result-item';
-                        item.innerHTML = `
-                            ${product.name}
-                            ${prediction && prediction.id === product.id ? 
-                                `<span class="search-prediction">- ${product.name.slice(query.length)}</span>` : ''
-                            }
-                        `;
+                        item.textContent = product.name;
                         item.addEventListener('click', function() {
                             searchInput.value = product.name;
                             searchResults.style.display = 'none';
@@ -1823,6 +1679,11 @@ function showNotification(message) {
             const productGrid = document.getElementById('productGrid');
             productGrid.innerHTML = '';
             
+            if (products.length === 0) {
+                productGrid.innerHTML = '<div class="col-12 text-center"><p>Ürün bulunamadı</p></div>';
+                return;
+            }
+            
             products.forEach(product => {
                 const col = document.createElement('div');
                 col.className = 'col-md-6 col-lg-4 mb-4';
@@ -1830,31 +1691,44 @@ function showNotification(message) {
                 col.innerHTML = `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
                         <div class="product-image">
-                            <button class="nav-arrow prev"><i class="bi-chevron-left"></i></button>
-                            <button class="nav-arrow next"><i class="bi-chevron-right"></i></button>
-                            <img src="${product.images[0]}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Görsel+Yüklenemedi'">
-                            <div class="product-badge">Yeni</div>
-                            ${product.discountPercent > 0 ? `<div class="discount-badge">%${product.discountPercent} İndirim</div>` : ''}
-                            <div class="product-image-nav">
-                                ${product.images.map((img, index) => 
-                                    `<div class="image-nav-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
-                                ).join('')}
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">${product.name}</h3>
+                            <img src="${product.images[0]}" alt="${product.name}" 
+                                 onclick="showProductDetails(${product.id})"
+                                 onerror="this.src='https://via.placeholder.com/400x300/333/fff?text=Görsel+Yüklenemedi'">
+                            
                             ${product.discountPercent > 0 ? `
-                                <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
-                                <div class="product-price">${product.price.toFixed(2)} TL</div>
-                                <div class="discount-percent">%${product.discountPercent} indirim</div>
-                            ` : `<div class="product-price">${product.price.toFixed(2)} TL</div>`}
-                            <p class="product-description">${product.description}</p>
-                            <div class="product-actions">
-                                <button class="btn btn-outline view-btn">
-                                    <i class="bi-eye me-1"></i> İncele
+                                <div class="discount-badge">%${product.discountPercent} İndirim</div>
+                            ` : ''}
+                            
+                            ${product.stock < 10 ? `
+                                <div class="stock-badge">Son ${product.stock} ürün</div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="product-info">
+                            <h3 class="product-title" onclick="showProductDetails(${product.id})">
+                                ${product.name}
+                            </h3>
+                            
+                            <div class="product-rating">
+                                ${generateStarRating(product.rating)}
+                                <span class="rating-value">${product.rating}</span>
+                            </div>
+                            
+                            <div class="product-pricing">
+                                ${product.discountPercent > 0 ? `
+                                    <div class="original-price">${product.originalPrice.toFixed(2)} TL</div>
+                                    <div class="product-price">${product.price.toFixed(2)} TL</div>
+                                ` : `
+                                    <div class="product-price">${product.price.toFixed(2)} TL</div>
+                                `}
+                            </div>
+                            
+                            <div class="product-actions-simple">
+                                <button class="btn btn-buy-now" onclick="buyNow(${product.id})">
+                                    <i class="bi-lightning-charge"></i> Hemen Al
                                 </button>
-                                <button class="custom-btn btn add-to-cart-btn">
-                                    <i class="bi-cart-plus me-1"></i> Sepete Ekle
+                                <button class="btn btn-add-cart" onclick="addToCartDirectly(${product.id})">
+                                    <i class="bi-cart-plus"></i> Sepete Ekle
                                 </button>
                             </div>
                         </div>
@@ -1863,64 +1737,71 @@ function showNotification(message) {
                 
                 productGrid.appendChild(col);
             });
-            
-            // Görsel navigasyon etkinleştirme
-            document.querySelectorAll('.product-card').forEach(card => {
-                const product = products.find(p => p.id == card.dataset.id);
-                const image = card.querySelector('.product-image img');
-                const dots = card.querySelectorAll('.image-nav-dot');
-                const prevBtn = card.querySelector('.nav-arrow.prev');
-                const nextBtn = card.querySelector('.nav-arrow.next');
-                
-                let currentImageIndex = 0;
-                
-                function updateImage(index) {
-                    currentImageIndex = index;
-                    image.src = product.images[index];
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    dots[index].classList.add('active');
+        }
+
+        // Yıldızları göster
+        function generateStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="bi-star-fill"></i>';
+                } else if (i - 0.5 <= rating) {
+                    stars += '<i class="bi-star-half"></i>';
+                } else {
+                    stars += '<i class="bi-star"></i>';
                 }
-                
-                // Nokta tıklamaları
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        updateImage(index);
-                    });
-                });
-                
-                // Önceki butonu
-                prevBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    let newIndex = currentImageIndex - 1;
-                    if (newIndex < 0) newIndex = product.images.length - 1;
-                    updateImage(newIndex);
-                });
-                
-                // Sonraki butonu
-                nextBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    let newIndex = currentImageIndex + 1;
-                    if (newIndex >= product.images.length) newIndex = 0;
-                    updateImage(newIndex);
-                });
-            });
+            }
+            return `<div class="rating-stars">${stars}</div>`;
+        }
+
+        // Hemen al fonksiyonu
+        function buyNow(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
             
-            // Buton event listener'ları
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const productId = this.closest('.product-card').dataset.id;
-                    showProductDetails(parseInt(productId));
-                });
-            });
+            addToCartDirectly(product);
             
-            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const productId = this.closest('.product-card').dataset.id;
-                    const product = products.find(p => p.id == productId);
-                    addToCartDirectly(product);
-                });
-            });
+            // Sepet modalını aç
+            setTimeout(() => {
+                const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                cartModal.show();
+            }, 500);
+        }
+
+        // Sepete doğrudan ekle
+        function addToCartDirectly(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const variant = product.variants && product.variants.length > 0 ? 
+                product.variants[0].varyant : "Standart";
+            const color = product.variants && product.variants.length > 0 ? 
+                product.variants[0].renk : "Siyah";
+            
+            addToCart(product, variant, color, 1);
+            
+            // Küçük bildirim
+            showNotification('Ürün sepete eklendi!');
+        }
+
+        // Bildirim göster
+        function showNotification(message) {
+            // Eski bildirimleri temizle
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="bi-check-circle"></i> ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
 
         // Ürün detaylarını göster
@@ -1952,21 +1833,18 @@ function showNotification(message) {
                 const filtersContainer = document.getElementById('productFilters');
                 filtersContainer.innerHTML = '';
                 
-                if (product.filters) {
-                    Object.keys(product.filters).forEach(filterName => {
-                        const filterDiv = document.createElement('div');
-                        filterDiv.className = 'mb-3';
-                        filterDiv.innerHTML = `
-                            <label for="filter-${filterName}" class="form-label">${filterName}</label>
-                            <select class="form-select" id="filter-${filterName}" required>
-                                <option value="">Seçiniz</option>
-                                ${product.filters[filterName].map(option => 
-                                    `<option value="${option}">${option}</option>`
-                                ).join('')}
-                            </select>
-                        `;
-                        filtersContainer.appendChild(filterDiv);
-                    });
+                if (product.variants && product.variants.length > 0) {
+                    const variantDiv = document.createElement('div');
+                    variantDiv.className = 'mb-3';
+                    variantDiv.innerHTML = `
+                        <label for="productVariant" class="form-label">Varyant Seçin</label>
+                        <select class="form-select" id="productVariant" required>
+                            ${product.variants.map(variant => 
+                                `<option value="${variant.varyant}">${variant.varyant} - ${variant.renk}</option>`
+                            ).join('')}
+                        </select>
+                    `;
+                    filtersContainer.appendChild(variantDiv);
                 }
                 
                 // Thumbnail'leri oluştur
@@ -2002,49 +1880,41 @@ function showNotification(message) {
                     addToCartFromModal(product);
                 };
                 
+                // Hemen al butonunu ayarla
+                document.getElementById('buyNowBtn').onclick = function() {
+                    addToCartFromModal(product);
+                    setTimeout(() => {
+                        bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+                        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                        cartModal.show();
+                    }, 500);
+                };
+                
                 // Modal'ı aç
                 resetZoom();
                 new bootstrap.Modal(document.getElementById('productModal')).show();
             }
         }
 
-        // Sepete doğrudan ekle (ürün listesinden)
-        function addToCartDirectly(product) {
-            // Varsayılan değerlerle sepete ekle
-            const variant = product.filters && Object.keys(product.filters).length > 0 ? 
-                Object.values(product.filters)[0][0] : "Standart";
-            const color = product.filters && product.filters.Renk ? 
-                product.filters.Renk[0] : "Siyah";
-            
-            addToCart(product, variant, color, 1);
-            alert('Ürün sepete eklendi!');
-        }
-
         // Sepete modal'dan ekle
         function addToCartFromModal(product) {
-            const filtersContainer = document.getElementById('productFilters');
-            const filterSelects = filtersContainer.querySelectorAll('select');
             const quantity = parseInt(document.getElementById('productQuantity').value);
             
             let variant = "Standart";
             let color = "Siyah";
             
-            // Filtre değerlerini al
-            filterSelects.forEach(select => {
-                if (select.value) {
-                    if (select.id.includes('Renk') || select.id.includes('Color')) {
-                        color = select.value;
-                    } else {
-                        variant = select.value;
-                    }
-                }
-            });
+            // Varyant seçimi
+            const variantSelect = document.getElementById('productVariant');
+            if (variantSelect) {
+                const selectedOption = variantSelect.options[variantSelect.selectedIndex].text;
+                const parts = selectedOption.split(' - ');
+                variant = parts[0] || "Standart";
+                color = parts[1] || "Siyah";
+            }
             
             addToCart(product, variant, color, quantity);
-            
-            // Modal'ı kapat
             bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
-            alert('Ürün sepete eklendi!');
+            showNotification('Ürün sepete eklendi!');
         }
 
         // Sepete ekleme fonksiyonu
@@ -2118,11 +1988,17 @@ function showNotification(message) {
         }
 
         // Sayfa yüklendiğinde çalıştır
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Önce CSV'den ürünleri yükle
+            await loadProductsFromCSV();
+            
+            // Sonra ürünleri göster
             loadProducts();
             setupSearch();
             setupFilters();
             updateCart();
+            
+            console.log('✅ Site hazır!');
             
             // Siparişi tamamla butonu
             document.getElementById('checkoutBtn').addEventListener('click', function() {
@@ -2153,3 +2029,21 @@ function showNotification(message) {
     </script>
 </body>
 </html>
+```
+
+📋 YAPMAN GEREKENLER:
+
+1. Bu kodu kopyala → urunler.html dosyasına yapıştır
+2. products.js dosyasını önceki mesajdaki gibi oluştur
+3. urunler.csv dosyasını oluştur ve ürünleri ekle
+
+🎯 YENİ ÖZELLİKLER:
+
+· ✅ Sadece 2 buton: "Hemen Al" ve "Sepete Ekle"
+· ✅ Ürün resmine/isime tıkla → detaylar açılır
+· ✅ CSV'den otomatik yükleme
+· ✅ Yıldız rating sistemi
+· ✅ Stok bildirimi
+· ✅ Bildirimler (Ürün eklendi vs.)
+
+Artık ürün eklemek için sadece CSV dosyasını düzenlemen yeterli! 🚀

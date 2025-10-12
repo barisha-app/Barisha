@@ -1,6 +1,8 @@
 ﻿#EXTM3U
 #EXTINF:-1 tvg-name="Kurdsat TV"tvg-id="kurdsat.tv"tvg-logo="https://cdn6.aptoide.com/imgs/a/f/e/afe314a10c57d7cc20a578aa6c77fa0d_icon.png"group-title="Kürt kanalları":http-user-agent="",Kurdsat TV
 https://iko-live.akamaized.net/KurdsatTV/master_3.m3u8
+#EXTINF:-1 tvg-name="Kurdsat TV"tvg-id="medyahaber.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0VL-hP4gFg-tgY6GJMAKEsyteHHXWBDhgJQ&s"group-title="Kürt kanalları":http-user-agent="",Medya Haber TV
+http://gtx4ktv.xyz:80/live/bhamed/hln3456/147655.ts
 #EXTINF:-1 tvg-name="Kurdistan 24 TV"tvg-id="kurdistan24.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8TYVIVoy5lA673oy_IGt6WZe6k5BC7eeB8w&s"group-title="Kürt kanalları":http-user-agent="",Kurdistan 24 TV
 https://d1x82nydcxndze.cloudfront.net/live/index_720p25.m3u8
 #EXTINF:-1 tvg-name="Farmoda TV"tvg-id="Farmoda.tv"tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFyiZ-y5m5BemyqfwDIRdlo3OIS0Asc-IsSQ&s"group-title="Kürt kanalları":http-user-agent="",Farmoda TV

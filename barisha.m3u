@@ -109,27 +109,27 @@ https://tv.ensonhaber.com/benguturk/benguturk_720p.m3u8
 https://edge1.socialsmart.tv/turkhaber/bant1/playlist.m3u8
 #EXTINF:-1 tvg-name="TURKHABER"tvg-id="TurkHaberTV.tr"tvg-logo="https://i.ibb.co/ySv65wg/turk-haber.png"group-title="HABER":http-user-agent="",TURKHABER
 https://n10.cdn.trafficdok.com/uploads/video/media/480/4/8/195384/v1/1.mp4
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/177230.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/221651.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/177234.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/177235.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/177236.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/beinsports1.png",Bein Sports 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/beinsports1.png?raw=true",Bein Sports 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/177237.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/S_Sport_1.png",S Sport 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/S_Sport_1.png?raw=true",S Sport 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172067.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/S_Sport_1.png",S Sport 1
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/S_Sport_1.png?raw=true",S Sport 1
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172068.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/S_Sport_Plus.png",S Sport 1 Plus
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/S_Sport_Plus.png?raw=true",S Sport 1 Plus
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172072.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/ssport2.jpg",S Sport 2
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/ssport2.jpg?raw=true",S Sport 2
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172070.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/ssport2.jpg",S Sport 2
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/ssport2.jpg?raw=true",S Sport 2
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172071.ts
-#EXTINF:-1 group-title="Futbol"tvg-logo="images/S_Sport_Plus.png",S Sport 2 Plus
+#EXTINF:-1 group-title="Futbol"tvg-logo="https://github.com/barisha-app/Barisha/blob/main/images/S_Sport_Plus.png?raw=true",S Sport 2 Plus
 http://gtx4ktv.xyz:80/live/bhamed/hln3456/172074.ts

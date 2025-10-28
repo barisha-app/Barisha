@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Son Dakika Haberleri | BARİSHOP</title>
+    
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #6a11cb;
+        --secondary-color: #2575fc;
+        --accent-color: #ff416c;
+        --dark-color: #121212;
+        --light-color: #f8f9fa;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        background-color: var(--dark-color);
+        color: white;
+        padding-top: 80px;
+        min-height: 100vh;
+      }
+      
+      /* Page Transition */
+      .page-transition {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        z-index: 9999;
+        transition: left 0.6s ease-in-out;
+      }
+      
+      .page-transition.active {
+        left: 0;
+      }
+      
+      /* Header Styles */
+      .site-header {
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        height: 80px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header.scrolled {
+        background: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .site-header-text {
+        text-decoration: none;
+        font-family: 'Unbounded', cursive;
+        font-weight: 700;
+        font-size: 1.8rem;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+      }
+      
+      .site-header-text:hover {
+        transform: scale(1.05);
+      }
+      
+      .site-header-text i {
+        font-size: 2rem;
+        margin-right: 10px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .custom-btn {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 50px;
+        padding: 10px 25px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .custom-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        transition: all 0.5s ease;
+        z-index: -1;
+        border-radius: 50px;
+      }
+      
+      .custom-btn:hover:before {
+        width: 100%;
+      }
+      
+      .custom-btn:hover {
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        transform: translateY(-3px);
+      }
+
+      /* News Page Styles */
+      .news-page {
+        padding: 80px 0;
+      }
+      
+      .page-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      
+      .page-title h1 {
+        font-family: 'Unbounded', cursive;
+        font-size: 3rem;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .page-title p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .news-filters {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .filter-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+      
+      .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      .filter-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .filter-btn:hover, .filter-btn.active {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+      }
+      
+      .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+      }
+      
+      .news-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .news-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        border-color: var(--primary-color);
+      }
+      
+      .news-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      
+      .news-content {
+        padding: 25px;
+      }
+      
+      .news-category {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+      
+      .news-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        line-height: 1.4;
+      }
+      
+      .news-excerpt {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      
+      .news-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      
+      .news-date {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .news-source {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .breaking-news {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+      }
+      
+      .breaking-news-icon {
+        font-size: 1.5rem;
+        animation: flash 1s infinite;
+      }
+      
+      @keyframes flash {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      
+      .breaking-news-content {
+        flex: 1;
+      }
+      
+      .breaking-news-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      
+      .breaking-news-time {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      
+      .load-more {
+        text-align: center;
+        margin-top: 40px;
+      }
+      
+      .pagination {
+        justify-content: center;
+        margin-top: 40px;
+      }
+      
+      .page-link {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        margin: 0 5px;
+        border-radius: 10px;
+      }
+      
+      .page-link:hover {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+      }
+      
+      .page-item.active .page-link {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-color: transparent;
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(18, 18, 18, 0.95);
+        color: white;
+        padding: 60px 0 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+        font-family: 'Unbounded', cursive;
+      }
+      
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+      }
+      
+      .footer-column ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .footer-column ul li {
+        margin-bottom: 12px;
+      }
+      
+      .footer-column ul li a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      
+      .footer-column ul li a:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+      }
+      
+      .contact-info li {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .contact-info li:hover {
+        color: var(--accent-color);
+        padding-left: 5px;
+      }
+      
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+      }
+
+      /* Particle Effects */
+      #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .page-title h1 {
+          font-size: 2.5rem;
+        }
+        
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .breaking-news {
+          flex-direction: column;
+          text-align: center;
+        }
+        
+        .filter-buttons {
+          justify-content: center;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- Page Transition -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <a class="site-header-text d-flex align-items-center" href="index.html">
+                        <i class="bi-cpu"></i>
+                        <span>BARİSHOP</span>
+                    </a>
+                    
+                    <div class="d-flex gap-3 align-items-center">
+                        <a href="index.html" class="custom-btn btn">
+                            <i class="bi-house me-2"></i>Ana Sayfa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- News Page Content -->
+    <section class="news-page">
+        <div class="container">
+            <div class="page-title">
+                <h1>📰 Son Dakika Haberleri</h1>
+                <p>Teknoloji dünyasından en güncel haberler ve gelişmeler</p>
+            </div>
+            
+            <!-- Son Dakika Banner -->
+            <div class="breaking-news">
+                <div class="breaking-news-icon">
+                    <i class="bi-megaphone-fill"></i>
+                </div>
+                <div class="breaking-news-content">
+                    <div class="breaking-news-title" id="breakingNewsTitle">Yükleniyor...</div>
+                    <div class="breaking-news-time" id="breakingNewsTime"></div>
+                </div>
+            </div>
+            
+            <!-- Haber Filtreleri -->
+            <div class="news-filters">
+                <div class="filter-title">Kategorilere Göre Filtrele:</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">Tümü</button>
+                    <button class="filter-btn" data-category="teknoloji">Teknoloji</button>
+                    <button class="filter-btn" data-category="mobil">Mobil</button>
+                    <button class="filter-btn" data-category="yazilim">Yazılım</button>
+                    <button class="filter-btn" data-category="donanim">Donanım</button>
+                    <button class="filter-btn" data-category="oyun">Oyun</button>
+                    <button class="filter-btn" data-category="internet">İnternet</button>
+                </div>
+            </div>
+            
+            <!-- Haber Grid -->
+            <div class="news-grid" id="newsGrid">
+                <!-- Haberler buraya dinamik olarak eklenecek -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Haberler yükleniyor...</span>
+                    </div>
+                    <p class="mt-3">Haberler yükleniyor...</p>
+                </div>
+            </div>
+            
+            <!-- Sayfalama -->
+            <nav aria-label="Haber sayfalama">
+                <ul class="pagination" id="pagination">
+                    <!-- Sayfalama buraya dinamik olarak eklenecek -->
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BARİSHOP</h3>
+                    <p>Teknoloji alışverişinde güvenilir adres. En yeni ürünler, en uygun fiyatlarla.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html" class="page-link">Ana Sayfa</a></li>
+                        <li><a href="urunler.html" class="page-link">BARISHOP</a></li>
+                        <li><a href="news.html" class="page-link">HABERLER</a></li>
+                        <li><a href="dosyalar.html" class="page-link">DOSYALAR</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Müşteri Hizmetleri</h3>
+                    <ul>
+                        <li><a href="mh/sss.html" class="page-link">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="mh/iade-degisim.html" class="page-link">İade ve Değişim</a></li>
+                        <li><a href="mh/kargo-takip.html" class="page-link">Kargo Takibi</a></li>
+                        <li><a href="mh/iletisim.html" class="page-link">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <ul class="contact-info">
+                        <li onclick="window.location.href='tel:08501110850'"><i class="bi-telephone me-2"></i> 0850 111 08 50</li>
+                        <li onclick="window.location.href='mailto:barisha@yaani.com'"><i class="bi-envelope me-2"></i> barisha@yaani.com</li>
+                        <li onclick="window.open('https://wa.me/905303042950', '_blank')"><i class="bi-whatsapp me-2"></i> 0530 304 29 50</li>
+                        <li onclick="window.open('https://maps.google.com/?q=İstanbul,Türkiye', '_blank')"><i class="bi-geo-alt me-2"></i> İstanbul, Türkiye</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 BariShop. Tüm hakları saklıdır. | Site yapım aşamasındadır</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Particles.js initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 }},
+                    "color": { "value": "#ffffff" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5 },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out"
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": { "enable": true, "mode": "grab" },
+                        "onclick": { "enable": true, "mode": "push" },
+                        "resize": true
+                    }
+                }
+            });
+        });
+
+        // Haber yükleme ve yönetimi
+        let allNews = [];
+        let currentPage = 1;
+        const newsPerPage = 9;
+        let currentCategory = 'all';
+
+        // Haber yükleme fonksiyonu
+        async function loadNews() {
+            try {
+                // Haberleri JSON dosyasından çek
+                const response = await fetch('news-data.json');
+                const newsData = await response.json();
+                
+                // Tüm haberleri sakla
+                allNews = newsData.news || [];
+                
+                // Son dakika haberini güncelle
+                updateBreakingNews(newsData.breakingNews);
+                
+                // Haberleri göster
+                displayNews();
+                
+                // Sayfalama oluştur
+                setupPagination();
+                
+            } catch (error) {
+                console.error('Haberler yüklenirken hata oluştu:', error);
+                // Fallback haberler
+                loadFallbackNews();
+            }
+        }
+
+        // Son dakika haberini güncelle
+        function updateBreakingNews(breakingNews) {
+            const breakingNewsTitle = document.getElementById('breakingNewsTitle');
+            const breakingNewsTime = document.getElementById('breakingNewsTime');
+            
+            if (breakingNews && breakingNews.title) {
+                breakingNewsTitle.textContent = breakingNews.title;
+                breakingNewsTime.textContent = breakingNews.time || 'Şimdi';
+            } else {
+                breakingNewsTitle.textContent = 'Teknoloji dünyasından en son gelişmeler burada!';
+                breakingNewsTime.textContent = 'Son Dakika';
+            }
+        }
+
+        // Haberleri görüntüle
+        function displayNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            
+            // Kategoriye göre filtrele
+            let filteredNews = allNews;
+            if (currentCategory !== 'all') {
+                filteredNews = allNews.filter(news => 
+                    news.category && news.category.toLowerCase() === currentCategory.toLowerCase()
+                );
+            }
+            
+            // Sayfalama için haberleri böl
+            const startIndex = (currentPage - 1) * newsPerPage;
+            const endIndex = startIndex + newsPerPage;
+            const newsToShow = filteredNews.slice(startIndex, endIndex);
+            
+            if (newsToShow.length === 0) {
+                newsGrid.innerHTML = '<div class="text-center py-5">Bu kategoride henüz haber bulunmamaktadır.</div>';
+                return;
+            }
+            
+            newsGrid.innerHTML = '';
+            
+            newsToShow.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.setAttribute('data-id', item.id);
+                
+                newsCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400x200?text=Haber+Görseli'">
+                    <div class="news-content">
+                        <span class="news-category">${item.category || 'Teknoloji'}</span>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-excerpt">${item.excerpt || ''}</p>
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <i class="bi-calendar"></i>
+                                ${item.date || 'Yakın zamanda'}
+                            </span>
+                            <span class="news-source">
+                                <i class="bi-newspaper"></i>
+                                ${item.source || 'BARİSHOP'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                newsCard.addEventListener('click', function() {
+                    showNewsDetails(item.id);
+                });
+                
+                newsGrid.appendChild(newsCard);
+            });
+        }
+
+        // Sayfalama kurulumu
+        function setupPagination() {
+            const pagination = document.getElementById('pagination');
+            const filteredNews = currentCategory === 'all' ? allNews : 
+                allNews.filter(news => news.category && news.category.toLowerCase() === currentCategory.toLowerCase());
+            
+            const totalPages = Math.ceil(filteredNews.length / newsPerPage);
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Önceki sayfa butonu
+            if (currentPage > 1) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="${currentPage - 1}">
+                            <i class="bi-chevron-left"></i>
+                        </a>
+                    </li>
+                `;
+            }
+            
+            // Sayfa numaraları
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+            
+            // Sonraki sayfa butonu
+            if (currentPage < totalPages) {
+                paginationHTML += `
+                    <li class="page-item">
+                        <a class="page-link" href="#" data-page="${currentPage + 1}">
+                            <i class="bi-chevron-right"></i>
+                        </a>
+                    </li>
+                `;
+            }
+            
+            pagination.innerHTML = paginationHTML;
+            
+            // Sayfa değiştirme event'leri
+            pagination.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt(this.getAttribute('data-page'));
+                    if (page && page !== currentPage) {
+                        currentPage = page;
+                        displayNews();
+                        setupPagination();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // Fallback haberler
+        function loadFallbackNews() {
+            const fallbackNews = {
+                breakingNews: {
+                    title: "Yapay Zeka Devrimi: Yeni Teknolojiler Hayatımızı Değiştiriyor",
+                    time: "5 dakika önce"
+                },
+                news: [
+                    {
+                        id: 1,
+                        title: "Apple Yeni iPhone Modelini Duyurdu",
+                        excerpt: "Apple'ın yeni iPhone modeli beklenen özellikleriyle geliyor. Kamera sisteminde devrim yaratan yenilikler dikkat çekiyor.",
+                        image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Mobil",
+                        date: "2 saat önce",
+                        source: "TechNews"
+                    },
+                    {
+                        id: 2,
+                        title: "Samsung Galaxy S24 Serisi Tanıtıldı",
+                        excerpt: "Samsung'un yeni amiral gemisi serisi Galaxy S24, yapay zeka odaklı özellikleriyle öne çıkıyor.",
+                        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Mobil",
+                        date: "4 saat önce",
+                        source: "MobileWorld"
+                    },
+                    {
+                        id: 3,
+                        title: "NVIDIA Yapay Zeka Çipleriyle Rekor Kırdı",
+                        excerpt: "NVIDIA'nın yeni yapay zeka işlemcileri performans testlerinde rekor seviyelere ulaştı.",
+                        image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Donanım",
+                        date: "6 saat önce",
+                        source: "TechReport"
+                    },
+                    {
+                        id: 4,
+                        title: "Microsoft Windows 12 İçin Geri Sayım Başladı",
+                        excerpt: "Microsoft'un yeni işletim sistemi Windows 12'nin özellikleri sızdırıldı. İşte beklenen yenilikler...",
+                        image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Yazılım",
+                        date: "1 gün önce",
+                        source: "SoftTech"
+                    },
+                    {
+                        id: 5,
+                        title: "PlayStation 6 Geliştirme Aşamasında",
+                        excerpt: "Sony'nin yeni oyun konsolu PlayStation 6'nın geliştirme süreci başladı. Devrim niteliğinde özellikler bekleniyor.",
+                        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Oyun",
+                        date: "1 gün önce",
+                        source: "GameNews"
+                    },
+                    {
+                        id: 6,
+                        title: "Tesla Yeni Otonom Sürüş Sistemini Duyurdu",
+                        excerpt: "Tesla'nın tam otonom sürüş sistemi FSD v12, gerçek dünya testlerinde başarılı sonuçlar verdi.",
+                        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Otomotiv",
+                        date: "2 gün önce",
+                        source: "AutoTech"
+                    },
+                    {
+                        id: 7,
+                        title: "Google Yapay Zeka Asistanı Gemini'yi Tanıttı",
+                        excerpt: "Google'ın yeni yapay zeka asistanı Gemini, ChatGPT'e rakip olarak piyasaya sürüldü.",
+                        image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Yapay Zeka",
+                        date: "3 gün önce",
+                        source: "AITech"
+                    },
+                    {
+                        id: 8,
+                        title: "Meta Sanal Gerçeklik Gözlüğü Quest 3 Satışa Sunuldu",
+                        excerpt: "Meta'nın yeni sanal gerçeklik gözlüğü Quest 3, geliştirilmiş özellikleriyle kullanıcıların beğenisine sunuldu.",
+                        image: "https://images.unsplash.com/photo-1622037022771-2c5e2be9d079?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "VR/AR",
+                        date: "4 gün önce",
+                        source: "VRWorld"
+                    },
+                    {
+                        id: 9,
+                        title: "Intel Yeni İşlemci Ailesini Duyurdu",
+                        excerpt: "Intel'in yeni işlemci ailesi, performans ve enerji verimliliği konusunda önemli iyileştirmeler sunuyor.",
+                        image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Donanım",
+                        date: "5 gün önce",
+                        source: "HardwareNews"
+                    },
+                    {
+                        id: 10,
+                        title: "SpaceX Starship Test Uçuşunda Yeni Rekor",
+                        excerpt: "SpaceX'in Starship roketi, son test uçuşunda beklenen performansı aşarak yeni bir rekor kırdı.",
+                        image: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Uzay",
+                        date: "1 hafta önce",
+                        source: "SpaceTech"
+                    },
+                    {
+                        id: 11,
+                        title: "Amazon Yeni Drone Teslimat Sistemini Test Ediyor",
+                        excerpt: "Amazon, yeni drone teslimat sistemini test etmeye başladı. 30 dakika içinde teslimat vaadi dikkat çekiyor.",
+                        image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Teknoloji",
+                        date: "1 hafta önce",
+                        source: "TechDaily"
+                    },
+                    {
+                        id: 12,
+                        title: "Netflix Oyun Platformunu Genişletiyor",
+                        excerpt: "Netflix, mobil oyun platformunu genişleterek daha fazla oyunu abonelerine sunmaya hazırlanıyor.",
+                        image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Oyun",
+                        date: "2 hafta önce",
+                        source: "GameSpot"
+                    }
+                ]
+            };
+            
+            allNews = fallbackNews.news;
+            updateBreakingNews(fallbackNews.breakingNews);
+            displayNews();
+            setupPagination();
+        }
+
+        // Haber detayı göster
+        function showNewsDetails(newsId) {
+            const transition = document.getElementById('pageTransition');
+            transition.classList.add('active');
+            
+            setTimeout(() => {
+                // Haber detay sayfasına yönlendir
+                window.location.href = `news-detail.html?id=${newsId}`;
+            }, 600);
+        }
+
+        // Filtre butonları event'leri
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Aktif butonu güncelle
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Kategoriyi güncelle
+                    currentCategory = this.getAttribute('data-category');
+                    currentPage = 1;
+                    
+                    // Haberleri yeniden yükle
+                    displayNews();
+                    setupPagination();
+                });
+            });
+        }
+
+        // Sayfa geçiş efekti
+        function setupPageTransitions() {
+            const links = document.querySelectorAll('.page-link');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    const transition = document.getElementById('pageTransition');
+                    transition.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 600);
+                });
+            });
+        }
+
+        // Sayfa yüklendiğinde çalıştır
+        document.addEventListener('DOMContentLoaded', function() {
+            // Haberleri yükle
+            loadNews();
+            
+            // Filtreleri kur
+            setupFilters();
+            
+            setupPageTransitions();
+        });
+    </script>
+</body>
+</html>

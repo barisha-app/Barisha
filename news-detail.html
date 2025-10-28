@@ -307,6 +307,11 @@
         -webkit-text-fill-color: transparent;
       }
       
+      .section-title p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.1rem;
+      }
+      
       .news-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -546,8 +551,8 @@
             <div class="article-content">
                 <!-- Haber Başlık -->
                 <div class="article-header">
-                    <span class="article-category" id="articleCategory">Teknoloji</span>
-                    <h1 class="article-title" id="articleTitle">Haber Başlığı Yükleniyor...</h1>
+                    <span class="article-category" id="articleCategory">Yükleniyor...</span>
+                    <h1 class="article-title" id="articleTitle">Haber yükleniyor...</h1>
                     
                     <div class="article-meta">
                         <span class="article-date" id="articleDate">
@@ -556,7 +561,7 @@
                         </span>
                         <span class="article-source" id="articleSource">
                             <i class="bi-newspaper"></i>
-                            <span id="articleSourceText">BARİSHOP</span>
+                            <span id="articleSourceText">Yükleniyor...</span>
                         </span>
                         <span class="article-views">
                             <i class="bi-eye"></i>
@@ -566,11 +571,16 @@
                 </div>
                 
                 <!-- Haber Görseli -->
-                <img id="articleImage" src="" alt="Haber Görseli" class="article-image" onerror="this.src='https://via.placeholder.com/1200x500?text=Haber+Görseli'">
+                <img id="articleImage" src="" alt="Haber Görseli" class="article-image">
                 
                 <!-- Haber İçerik -->
                 <div class="article-body" id="articleBody">
-                    <p>Haber içeriği yükleniyor...</p>
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Haber yükleniyor...</span>
+                        </div>
+                        <p class="mt-3">Haber içeriği yükleniyor...</p>
+                    </div>
                 </div>
                 
                 <!-- Etiketler -->
@@ -716,34 +726,71 @@
         // Haber detayını yükle
         async function loadNewsDetail() {
             const params = getUrlParams();
-            const newsId = params.id ? parseInt(params.id) : 1;
+            const newsId = params.id ? parseInt(params.id) : null;
             
             try {
-                // Haberleri JSON dosyasından çek
-                const response = await fetch('news-data.json');
-                const newsData = await response.json();
+                // localStorage'dan haberi al
+                const savedNews = localStorage.getItem('currentNews');
+                const savedNewsId = localStorage.getItem('currentNewsId');
                 
-                // Belirli haberi bul
-                const newsItem = newsData.news.find(item => item.id === newsId);
-                
-                if (newsItem) {
+                if (savedNews && savedNewsId) {
+                    const newsItem = JSON.parse(savedNews);
+                    console.log('✅ Haber detayı yüklendi:', newsItem.title);
+                    
                     // Haber detayını göster
                     displayNewsDetail(newsItem);
                     
                     // İlgili haberleri yükle
-                    loadRelatedNews(newsItem.category, newsId);
+                    loadRelatedNews(newsItem.category, newsItem.id);
                     
-                    // Görüntüleme sayısını artır (localStorage'da sakla)
-                    incrementViewCount(newsId);
+                    // Görüntüleme sayısını artır
+                    incrementViewCount(newsItem.id);
                 } else {
-                    // Haber bulunamadı
-                    showError('Haber bulunamadı.');
+                    // Eğer localStorage'da yoksa, API'den çek
+                    await loadNewsFromAPI(newsId);
                 }
                 
             } catch (error) {
                 console.error('Haber detayı yüklenirken hata oluştu:', error);
-                // Fallback haber
-                loadFallbackNewsDetail(newsId);
+                showError('Haber yüklenirken bir hata oluştu.');
+            }
+        }
+
+        // API'den haber yükle
+        async function loadNewsFromAPI(newsId) {
+            try {
+                const API_KEY = '0904885e71744879b8691238fa897ebb';
+                const response = await fetch(`https://newsapi.org/v2/top-headlines?country=tr&pageSize=20&apiKey=${API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error('API bağlantı hatası');
+                }
+                
+                const apiData = await response.json();
+                
+                if (!apiData.articles || apiData.articles.length === 0) {
+                    throw new Error('Haber bulunamadı');
+                }
+                
+                // İlk haberi göster
+                const firstArticle = apiData.articles[0];
+                const formattedArticle = {
+                    id: 1,
+                    title: firstArticle.title,
+                    category: 'Türkiye',
+                    date: new Date(firstArticle.publishedAt).toLocaleDateString('tr-TR'),
+                    source: firstArticle.source?.name,
+                    image: firstArticle.urlToImage,
+                    content: firstArticle.content || firstArticle.description,
+                    excerpt: firstArticle.description
+                };
+                
+                displayNewsDetail(formattedArticle);
+                loadFallbackRelatedNews();
+                
+            } catch (error) {
+                console.error('API hatası:', error);
+                showError('Haber şu anda yüklenemiyor.');
             }
         }
 
@@ -753,11 +800,18 @@
             document.title = `${newsItem.title} | BARİSHOP`;
             
             // Haber bilgilerini güncelle
-            document.getElementById('articleCategory').textContent = newsItem.category || 'Teknoloji';
+            document.getElementById('articleCategory').textContent = newsItem.category || 'Türkiye';
             document.getElementById('articleTitle').textContent = newsItem.title;
             document.getElementById('articleDateText').textContent = newsItem.date || 'Yakın zamanda';
-            document.getElementById('articleSourceText').textContent = newsItem.source || 'BARİSHOP';
-            document.getElementById('articleImage').src = newsItem.image || 'https://via.placeholder.com/1200x500?text=Haber+Görseli';
+            document.getElementById('articleSourceText').textContent = newsItem.source || 'Haber Kaynağı';
+            
+            // Görseli ayarla
+            const articleImage = document.getElementById('articleImage');
+            if (newsItem.image && newsItem.image !== 'null') {
+                articleImage.src = newsItem.image;
+            } else {
+                articleImage.src = 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
+            }
             
             // Haber içeriğini oluştur
             const articleBody = document.getElementById('articleBody');
@@ -773,44 +827,63 @@
 
         // Haber içeriği oluştur
         function generateArticleContent(newsItem) {
-            // Burada gerçek bir API'den gelen içerik kullanılabilir
-            // Şu an örnek içerik oluşturuyoruz
-            const fullContent = newsItem.fullContent || `
-                <p>${newsItem.excerpt}</p>
-                
-                <h2>Detaylı Bilgiler</h2>
-                
-                <p>Teknoloji dünyasında yaşanan bu önemli gelişme, sektörü derinden etkileyecek potansiyele sahip. Uzmanlar, bu yeniliğin önümüzdeki dönemde piyasayı nasıl şekillendireceğini tartışıyor.</p>
-                
-                <blockquote>
-                    "Bu gelişme, teknoloji endüstrisinde yeni bir çağın başlangıcı olabilir. Yenilikçi yaklaşım ve kullanıcı odaklı tasarım, sektör standartlarını yeniden belirleyecek."
-                </blockquote>
-                
-                <h3>Teknik Özellikler</h3>
-                
-                <p>Yeni ürünün öne çıkan özellikleri şunlar:</p>
-                
-                <ul>
-                    <li>Geliştirilmiş performans ve hız</li>
-                    <li>Enerji verimliliğinde %40 artış</li>
-                    <li>Yapay zeka destekli özellikler</li>
-                    <li>Kullanıcı dostu arayüz</li>
-                    <li>Uzun pil ömrü</li>
-                </ul>
-                
-                <h3>Gelecek Beklentileri</h3>
-                
-                <p>Analistler, bu gelişmenin önümüzdeki yıllarda sektörü nasıl etkileyeceğini değerlendiriyor. Özellikle yapay zeka entegrasyonunun, kullanıcı deneyiminde devrim yaratması bekleniyor.</p>
-                
-                <p>Şirket yetkilileri, önümüzdeki çeyrekte benzer teknolojileri içeren daha fazla ürün duyurmayı planladıklarını belirtti. Bu, tüketiciler için daha fazla seçenek ve rekabet anlamına geliyor.</p>
-            `;
-            
-            return fullContent;
+            if (newsItem.content && newsItem.content !== 'null') {
+                // İçerik varsa onu kullan
+                return `
+                    <p><strong>${newsItem.excerpt || ''}</strong></p>
+                    <p>${newsItem.content}</p>
+                    
+                    <h2>Detaylı Bilgiler</h2>
+                    <p>Bu haber Türkiye'den güncel bir gelişmeyi içermektedir. Haberin detayları aşağıda yer almaktadır.</p>
+                    
+                    <blockquote>
+                        "Türkiye'den güncel haberler ve gelişmeler BARİSHOP'ta!"
+                    </blockquote>
+                    
+                    <h3>Önemli Noktalar</h3>
+                    <ul>
+                        <li>Güncel ve doğrulanmış bilgiler</li>
+                        <li>Türkiye odaklı içerik</li>
+                        <li>Anlık güncellemeler</li>
+                        <li>Güvenilir kaynaklar</li>
+                    </ul>
+                `;
+            } else {
+                // İçerik yoksa örnek içerik oluştur
+                return `
+                    <p><strong>${newsItem.excerpt || 'Türkiye\'den güncel bir haber'}</strong></p>
+                    
+                    <p>Bu haber, Türkiye'de yaşanan önemli bir gelişmeyi konu alıyor. Detaylar aşağıda yer almaktadır.</p>
+                    
+                    <h2>Haber Detayları</h2>
+                    
+                    <p>Türkiye'de son dönemde yaşanan bu gelişme, birçok kesimi ilgilendiriyor. Uzmanlar konu hakkında değerlendirmelerde bulunuyor.</p>
+                    
+                    <blockquote>
+                        "Türkiye'nin geleceği için önemli bir adım. Bu gelişme, ülkemizin ilerlemesine katkı sağlayacak."
+                    </blockquote>
+                    
+                    <h3>Etkileri ve Sonuçları</h3>
+                    
+                    <p>Bu gelişmenin Türkiye üzerindeki olası etkileri şunlar olabilir:</p>
+                    
+                    <ul>
+                        <li>Ekonomik etkiler ve fırsatlar</li>
+                        <li>Sosyal gelişmeler</li>
+                        <li>Teknolojik ilerlemeler</li>
+                        <li>Uluslararası ilişkiler</li>
+                    </ul>
+                    
+                    <p>Konuyla ilgili daha fazla detay için haber kaynağını takip etmeye devam edin.</p>
+                `;
+            }
         }
 
         // Etiketler oluştur
         function generateTags(newsItem) {
-            const tags = newsItem.tags || ['teknoloji', 'yenilik', 'gelişme', newsItem.category.toLowerCase()];
+            const baseTags = ['türkiye', 'haber', 'güncel'];
+            const categoryTag = newsItem.category ? newsItem.category.toLowerCase() : 'genel';
+            const tags = [...baseTags, categoryTag];
             
             return tags.map(tag => 
                 `<span class="tag">#${tag}</span>`
@@ -820,27 +893,34 @@
         // İlgili haberleri yükle
         async function loadRelatedNews(category, currentId) {
             try {
-                const response = await fetch('news-data.json');
-                const newsData = await response.json();
+                const API_KEY = '0904885e71744879b8691238fa897ebb';
+                const response = await fetch(`https://newsapi.org/v2/top-headlines?country=tr&pageSize=6&apiKey=${API_KEY}`);
                 
-                // Aynı kategorideki diğer haberleri filtrele (mevcut haber hariç)
-                const relatedNews = newsData.news.filter(item => 
-                    item.category === category && item.id !== currentId
-                ).slice(0, 3); // En fazla 3 haber
-                
-                // Eğer aynı kategoride yeterli haber yoksa, diğer haberlerden ekle
-                if (relatedNews.length < 3) {
-                    const additionalNews = newsData.news
-                        .filter(item => item.id !== currentId && !relatedNews.includes(item))
-                        .slice(0, 3 - relatedNews.length);
-                    relatedNews.push(...additionalNews);
+                if (!response.ok) {
+                    throw new Error('API bağlantı hatası');
                 }
                 
-                displayRelatedNews(relatedNews);
+                const apiData = await response.json();
+                
+                if (apiData.articles && apiData.articles.length > 0) {
+                    // İlk 3 haberi al (mevcut haber hariç)
+                    const relatedArticles = apiData.articles.slice(0, 3).map((article, index) => ({
+                        id: index + 100, // Farklı ID vermek için
+                        title: article.title,
+                        excerpt: article.description,
+                        image: article.urlToImage,
+                        category: 'Türkiye',
+                        date: new Date(article.publishedAt).toLocaleDateString('tr-TR'),
+                        source: article.source?.name
+                    }));
+                    
+                    displayRelatedNews(relatedArticles);
+                } else {
+                    loadFallbackRelatedNews();
+                }
                 
             } catch (error) {
                 console.error('İlgili haberler yüklenirken hata oluştu:', error);
-                // Fallback ilgili haberler
                 loadFallbackRelatedNews();
             }
         }
@@ -862,30 +942,74 @@
                 newsCard.setAttribute('data-id', item.id);
                 
                 newsCard.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400x200?text=Haber+Görseli'">
+                    <img src="${item.image || 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'}" alt="${item.title}" class="news-image">
                     <div class="news-content">
-                        <span class="news-category">${item.category || 'Teknoloji'}</span>
+                        <span class="news-category">${item.category}</span>
                         <h3 class="news-title">${item.title}</h3>
-                        <p class="news-excerpt">${item.excerpt || ''}</p>
+                        <p class="news-excerpt">${item.excerpt || 'Haber açıklaması mevcut değil...'}</p>
                         <div class="news-meta">
                             <span class="news-date">
                                 <i class="bi-calendar"></i>
-                                ${item.date || 'Yakın zamanda'}
+                                ${item.date}
                             </span>
                             <span class="news-source">
                                 <i class="bi-newspaper"></i>
-                                ${item.source || 'BARİSHOP'}
+                                ${item.source || 'Kaynak'}
                             </span>
                         </div>
                     </div>
                 `;
                 
                 newsCard.addEventListener('click', function() {
-                    showNewsDetails(item.id);
+                    // Yeni haberi localStorage'a kaydet
+                    localStorage.setItem('currentNews', JSON.stringify(item));
+                    localStorage.setItem('currentNewsId', item.id);
+                    
+                    const transition = document.getElementById('pageTransition');
+                    transition.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = `news-detail.html?id=${item.id}`;
+                    }, 600);
                 });
                 
                 relatedNewsContainer.appendChild(newsCard);
             });
+        }
+
+        // Fallback ilgili haberler
+        function loadFallbackRelatedNews() {
+            const fallbackRelatedNews = [
+                {
+                    id: 101,
+                    title: "Türkiye'de Güncel Gelişmeler",
+                    excerpt: "Türkiye'den son dakika haberleri ve önemli gelişmeler",
+                    image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    category: "Türkiye",
+                    date: "Bugün",
+                    source: "BARİSHOP Haber"
+                },
+                {
+                    id: 102,
+                    title: "Ekonomide Son Durum",
+                    excerpt: "Türkiye ekonomisindeki güncel gelişmeler ve analizler",
+                    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    category: "Ekonomi",
+                    date: "Bugün",
+                    source: "BARİSHOP Haber"
+                },
+                {
+                    id: 103,
+                    title: "Teknoloji Haberleri",
+                    excerpt: "Türkiye'den teknoloji dünyasındaki son gelişmeler",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    category: "Teknoloji",
+                    date: "Bugün",
+                    source: "BARİSHOP Haber"
+                }
+            ];
+            
+            displayRelatedNews(fallbackRelatedNews);
         }
 
         // Görüntüleme sayısını artır
@@ -904,81 +1028,19 @@
             document.getElementById('articleViews').textContent = views;
         }
 
-        // Fallback haber detayı
-        function loadFallbackNewsDetail(newsId) {
-            const fallbackNews = {
-                id: newsId,
-                title: "Teknoloji Dünyasında Devrim Yaratan Gelişme",
-                excerpt: "Teknoloji sektöründe önemli bir gelişme yaşandı. Yeni buluş, sektör standartlarını değiştirecek potansiyele sahip.",
-                image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                category: "Teknoloji",
-                date: "Bugün",
-                source: "BARİSHOP",
-                tags: ["teknoloji", "yenilik", "gelişme"]
-            };
-            
-            displayNewsDetail(fallbackNews);
-            loadFallbackRelatedNews();
-        }
-
-        // Fallback ilgili haberler
-        function loadFallbackRelatedNews() {
-            const fallbackRelatedNews = [
-                {
-                    id: 2,
-                    title: "Yapay Zeka Teknolojilerinde Yeni Dönem",
-                    excerpt: "Yapay zeka alanındaki son gelişmeler, teknoloji dünyasını derinden etkiliyor.",
-                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                    category: "Yapay Zeka",
-                    date: "1 gün önce",
-                    source: "AITech"
-                },
-                {
-                    id: 3,
-                    title: "Mobil Teknolojide Yeni Standartlar",
-                    excerpt: "Mobil cihazlarda yaşanan gelişmeler, kullanıcı deneyimini yeniden tanımlıyor.",
-                    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                    category: "Mobil",
-                    date: "2 gün önce",
-                    source: "MobileWorld"
-                },
-                {
-                    id: 4,
-                    title: "Veri Güvenliğinde Yeni Yaklaşımlar",
-                    excerpt: "Siber güvenlik alanındaki yenilikler, veri koruma standartlarını yükseltiyor.",
-                    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                    category: "Güvenlik",
-                    date: "3 gün önce",
-                    source: "CyberTech"
-                }
-            ];
-            
-            displayRelatedNews(fallbackRelatedNews);
-        }
-
         // Hata göster
         function showError(message) {
             const articleContent = document.querySelector('.article-content');
             articleContent.innerHTML = `
                 <div class="text-center py-5">
                     <i class="bi-exclamation-triangle display-1 text-warning"></i>
-                    <h2 class="mt-3">Haber Bulunamadı</h2>
+                    <h2 class="mt-3">Haber Yüklenemedi</h2>
                     <p class="mb-4">${message}</p>
                     <a href="news.html" class="custom-btn btn">
                         <i class="bi-arrow-left me-2"></i>Haberler Sayfasına Dön
                     </a>
                 </div>
             `;
-        }
-
-        // Haber detayına git
-        function showNewsDetails(newsId) {
-            const transition = document.getElementById('pageTransition');
-            transition.classList.add('active');
-            
-            setTimeout(() => {
-                window.location.href = `news-detail.html?id=${newsId}`;
-            }, 600);
         }
 
         // Sosyal medya paylaşım fonksiyonları
@@ -996,7 +1058,6 @@
 
         function shareOnLinkedIn() {
             const url = encodeURIComponent(window.location.href);
-            const title = encodeURIComponent(document.getElementById('articleTitle').textContent);
             window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
         }
 

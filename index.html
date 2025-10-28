@@ -306,9 +306,10 @@
         letter-spacing: 1px;
       }
 
-      /* Product Grid Section */
-      .products-section {
+      /* News Section */
+      .news-section {
         padding: 80px 0;
+        background: rgba(255, 255, 255, 0.02);
       }
       
       .section-title {
@@ -330,130 +331,121 @@
         font-size: 1.1rem;
       }
       
-      /* Product Columns */
-      .product-column {
+      .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+      
+      .news-card {
         background: rgba(255, 255, 255, 0.05);
         border-radius: 15px;
-        padding: 25px;
+        overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        height: 100%;
-      }
-      
-      .column-title {
-        font-family: 'Unbounded', cursive;
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        text-align: center;
-      }
-      
-      /* Small Product List */
-      .product-list-small {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      
-      .product-item-small {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease;
         cursor: pointer;
       }
       
-      .product-item-small:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateX(5px);
+      .news-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        border-color: var(--primary-color);
       }
       
-      .product-item-small:last-child {
-        border-bottom: none;
-      }
-      
-      .product-image-small {
-        width: 60px;
-        height: 60px;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-right: 15px;
-        flex-shrink: 0;
-      }
-      
-      .product-image-small img {
+      .news-image {
         width: 100%;
-        height: 100%;
+        height: 200px;
         object-fit: cover;
       }
       
-      .product-info-small {
-        flex: 1;
+      .news-content {
+        padding: 25px;
       }
       
-      .product-title-small {
-        font-size: 0.95rem;
-        font-weight: 600;
-        margin-bottom: 5px;
+      .news-category {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         color: white;
-      }
-      
-      .product-price-small {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--accent-color);
-      }
-      
-      .view-details-btn {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        color: white;
-        padding: 8px 15px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 0.8rem;
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      
-      .view-details-btn:hover {
-        background: var(--primary-color);
-        transform: scale(1.05);
-      }
-
-      /* Promotions Section */
-      .promotions-section {
-        padding: 80px 0;
-        background: rgba(255, 255, 255, 0.02);
-      }
-      
-      .promotion-banner {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        padding: 40px;
-        border-radius: 15px;
-        text-align: center;
-        margin-bottom: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      
-      .promotion-banner:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      }
-      
-      .promotion-banner h3 {
-        font-family: 'Unbounded', cursive;
-        font-size: 1.8rem;
+        font-weight: 600;
         margin-bottom: 15px;
       }
       
-      .promotion-banner p {
-        font-size: 1.1rem;
-        margin-bottom: 0;
-        opacity: 0.9;
+      .news-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        line-height: 1.4;
+      }
+      
+      .news-excerpt {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      
+      .news-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      
+      .news-date {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .news-source {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .breaking-news {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+      }
+      
+      .breaking-news-icon {
+        font-size: 1.5rem;
+        animation: flash 1s infinite;
+      }
+      
+      @keyframes flash {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      
+      .breaking-news-content {
+        flex: 1;
+      }
+      
+      .breaking-news-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      
+      .breaking-news-time {
+        font-size: 0.9rem;
+        opacity: 0.8;
       }
 
       /* Footer */
@@ -561,8 +553,13 @@
           font-size: 2rem;
         }
         
-        .product-column {
-          margin-bottom: 30px;
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .breaking-news {
+          flex-direction: column;
+          text-align: center;
         }
       }
     </style>
@@ -643,93 +640,40 @@
         </div>
     </section>
 
-    <!-- Ürün Grid Section -->
-    <section class="products-section">
+    <!-- Son Dakika Haberleri Section -->
+    <section class="news-section">
         <div class="container">
             <div class="section-title">
-                <h2>🚀 Öne Çıkan Ürünler</h2>
-                <p>En popüler ve indirimli ürünlerimiz</p>
+                <h2>📰 Son Dakika Haberleri</h2>
+                <p>Teknoloji dünyasından en güncel haberler</p>
             </div>
             
-            <div class="row">
-                <!-- Sol Sütun: En Çok İndirim -->
-                <div class="col-lg-4 mb-4">
-                    <div class="product-column">
-                        <h3 class="column-title">🔥 En Çok İndirim</h3>
-                        <ul class="product-list-small" id="discountProducts">
-                            <!-- En çok indirimli ürünler buraya eklenecek -->
-                            <li class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Yükleniyor...</span>
-                                </div>
-                                <p class="mt-2">Ürünler yükleniyor...</p>
-                            </li>
-                        </ul>
-                    </div>
+            <!-- Son Dakika Banner -->
+            <div class="breaking-news">
+                <div class="breaking-news-icon">
+                    <i class="bi-megaphone-fill"></i>
                 </div>
-                
-                <!-- Orta Sütun: En Çok Görüntülenen -->
-                <div class="col-lg-4 mb-4">
-                    <div class="product-column">
-                        <h3 class="column-title">👁️ En Çok Görüntülenen</h3>
-                        <ul class="product-list-small" id="popularProducts">
-                            <!-- En çok görüntülenen ürünler buraya eklenecek -->
-                            <li class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Yükleniyor...</span>
-                                </div>
-                                <p class="mt-2">Ürünler yükleniyor...</p>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="breaking-news-content">
+                    <div class="breaking-news-title" id="breakingNewsTitle">Yükleniyor...</div>
+                    <div class="breaking-news-time" id="breakingNewsTime"></div>
                 </div>
-                
-                <!-- Sağ Sütun: En Çok Satan -->
-                <div class="col-lg-4 mb-4">
-                    <div class="product-column">
-                        <h3 class="column-title">💰 En Çok Satan</h3>
-                        <ul class="product-list-small" id="bestSellingProducts">
-                            <!-- En çok satan ürünler buraya eklenecek -->
-                            <li class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Yükleniyor...</span>
-                                </div>
-                                <p class="mt-2">Ürünler yükleniyor...</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Kampanyalar Section -->
-    <section class="promotions-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>🎯 Özel Kampanyalar</h2>
-                <p>Kaçırmamanız gereken fırsatlar</p>
             </div>
             
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="promotion-banner">
-                        <h3>🚚 Kargo Bedava!</h3>
-                        <p>1000 TL ve üzeri alışverişlerde kargo bedava</p>
+            <!-- Haber Grid -->
+            <div class="news-grid" id="newsGrid">
+                <!-- Haberler buraya dinamik olarak eklenecek -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Haberler yükleniyor...</span>
                     </div>
+                    <p class="mt-3">Haberler yükleniyor...</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="promotion-banner" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
-                        <h3>🎁 %10 İndirim</h3>
-                        <p>İlk siparişinizde özel indirim fırsatı</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="promotion-banner" style="background: linear-gradient(135deg, #25D366, #128C7E);">
-                        <h3>💬 WhatsApp İndirimi</h3>
-                        <p>WhatsApp'tan sipariş verene ekstra %5 indirim</p>
-                    </div>
-                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="news.html" class="custom-btn btn">
+                    <i class="bi-newspaper me-2"></i>Tüm Haberleri Gör
+                </a>
             </div>
         </div>
     </section>
@@ -747,6 +691,7 @@
                     <ul>
                         <li><a href="index.html" class="page-link">Ana Sayfa</a></li>
                         <li><a href="urunler.html" class="page-link">BARISHOP</a></li>
+                        <li><a href="news.html" class="page-link">HABERLER</a></li>
                         <li><a href="dosyalar.html" class="page-link">DOSYALAR</a></li>
                     </ul>
                 </div>
@@ -860,235 +805,160 @@
             }
         }
 
-        // CSV'den ürün verilerini çekme fonksiyonu
-        async function loadProductsFromCSV() {
+        // Haber yükleme fonksiyonu
+        async function loadNews() {
             try {
-                const response = await fetch('urunler.csv');
-                const csvData = await response.text();
+                // Haberleri JSON dosyasından çek
+                const response = await fetch('news-data.json');
+                const newsData = await response.json();
                 
-                // CSV'yi parse etme
-                const products = parseCSV(csvData);
+                // Son dakika haberini güncelle
+                updateBreakingNews(newsData.breakingNews);
                 
-                // Ürün listelerini güncelleme
-                updateProductLists(products);
+                // Haber gridini güncelle
+                updateNewsGrid(newsData.news);
                 
-                return products;
             } catch (error) {
-                console.error('CSV yüklenirken hata oluştu:', error);
-                // Fallback: Sabit ürün verilerini kullan
-                return loadFallbackProducts();
+                console.error('Haberler yüklenirken hata oluştu:', error);
+                // Fallback haberler
+                loadFallbackNews();
             }
         }
 
-        // CSV parse fonksiyonu
-        function parseCSV(csvData) {
-            const lines = csvData.split('\n').filter(line => line.trim() !== '');
-            if (lines.length < 2) return [];
+        // Son dakika haberini güncelle
+        function updateBreakingNews(breakingNews) {
+            const breakingNewsTitle = document.getElementById('breakingNewsTitle');
+            const breakingNewsTime = document.getElementById('breakingNewsTime');
             
-            const headers = lines[0].split(',').map(header => header.trim());
-            
-            const products = [];
-            
-            for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',').map(value => value.trim());
-                const product = {};
-                
-                headers.forEach((header, index) => {
-                    if (values[index]) {
-                        // Sayısal değerleri dönüştür
-                        if (['price', 'originalPrice', 'discountPercent', 'views', 'sales'].includes(header)) {
-                            product[header] = parseFloat(values[index]) || 0;
-                        } else {
-                            product[header] = values[index];
-                        }
-                    }
-                });
-                
-                // Gerekli alanlar kontrolü
-                if (product.name && product.price) {
-                    products.push({
-                        id: product.id || i,
-                        name: product.name,
-                        price: product.price,
-                        originalPrice: product.originalPrice || product.price,
-                        discountPercent: product.discountPercent || 0,
-                        image: product.image || 'https://via.placeholder.com/60x60?text=Ürün',
-                        category: product.category || 'genel',
-                        views: product.views || Math.floor(Math.random() * 1000),
-                        sales: product.sales || Math.floor(Math.random() * 200)
-                    });
-                }
+            if (breakingNews && breakingNews.title) {
+                breakingNewsTitle.textContent = breakingNews.title;
+                breakingNewsTime.textContent = breakingNews.time || 'Şimdi';
+            } else {
+                breakingNewsTitle.textContent = 'Teknoloji dünyasından en son gelişmeler burada!';
+                breakingNewsTime.textContent = 'Son Dakika';
             }
-            
-            return products;
         }
 
-        // Fallback ürün verileri
-        function loadFallbackProducts() {
-            return [
-                { id: 1, name: "iPhone 14 Pro 128GB", price: 34999, originalPrice: 36999, discountPercent: 5, 
-                  image: "https://resim.epey.com/802356/s_apple-iphone-14-pro-1.png", category: "telefon", views: 1500, sales: 200 },
-                { id: 2, name: "Samsung Galaxy S23 256GB", price: 24999, originalPrice: 26999, discountPercent: 7, 
-                  image: "https://resim.epey.com/845148/b_samsung-galaxy-s23-2.png", category: "telefon", views: 1200, sales: 180 },
-                { id: 3, name: "MacBook Air M2 13\"", price: 29999, originalPrice: 31999, discountPercent: 6, 
-                  image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-space-gray-select-201810?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664472289661", category: "bilgisayar", views: 900, sales: 150 },
-                { id: 4, name: "Sony WH-1000XM4", price: 5999, originalPrice: 6499, discountPercent: 8, 
-                  image: "https://images.sony.com.tr/image/5c4d4b4e3b1a4c4e8a0a0a0a0a0a0a0a?fmt=pjpeg&wid=1000&hei=1000", category: "kulaklik", views: 800, sales: 120 },
-                { id: 5, name: "Apple Watch Series 8", price: 8999, originalPrice: 9499, discountPercent: 5, 
-                  image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/watch-series8-aluminum-midnight-nc-41mm_VW_PF_WF_SI?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1660759963313", category: "saat", views: 700, sales: 100 },
-                { id: 6, name: "PlayStation 5 Standard", price: 14999, originalPrice: 15999, discountPercent: 6, 
-                  image: "https://gmedia.playstation.com/is/image/SIEPDC/ps5-product-thumbnail-01-en-14sep21?$1600px--t$", category: "konsol", views: 1100, sales: 160 },
-                { id: 7, name: "iPad Air 5. Nesil", price: 12999, originalPrice: 13999, discountPercent: 7, 
-                  image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=1000&hei=1000&fmt=jpeg&qlt=90&.v=1645065730655", category: "tablet", views: 600, sales: 90 },
-                { id: 8, name: "Xiaomi Redmi Note 12", price: 7999, originalPrice: 8999, discountPercent: 11, 
-                  image: "https://i01.appmifile.com/v1/MI_18455B3E4DA706226CF7535A58E875F0267/pms_1677570749.02675728.png", category: "telefon", views: 950, sales: 140 }
-            ];
-        }
-
-        // Ürün listelerini güncelleme fonksiyonu
-        function updateProductLists(products) {
-            // En çok indirimli ürünler
-            updateProductList('discountProducts', products, (a, b) => 
-                (b.discountPercent || 0) - (a.discountPercent || 0)
-            );
+        // Haber gridini güncelle
+        function updateNewsGrid(news) {
+            const newsGrid = document.getElementById('newsGrid');
             
-            // En çok görüntülenen ürünler
-            updateProductList('popularProducts', products, (a, b) => 
-                (b.views || 0) - (a.views || 0)
-            );
-            
-            // En çok satan ürünler
-            updateProductList('bestSellingProducts', products, (a, b) => 
-                (b.sales || 0) - (a.sales || 0)
-            );
-        }
-
-        // Tekil liste güncelleme fonksiyonu
-        function updateProductList(containerId, products, sortFunction) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            const sortedProducts = [...products]
-                .sort(sortFunction)
-                .slice(0, 5);
-            
-            if (sortedProducts.length === 0) {
-                container.innerHTML = '<li class="text-center py-4">Henüz ürün bulunmamaktadır.</li>';
+            if (!news || news.length === 0) {
+                newsGrid.innerHTML = '<div class="text-center py-5">Henüz haber bulunmamaktadır.</div>';
                 return;
             }
             
-            sortedProducts.forEach(product => {
-                const discountPercent = product.discountPercent || 0;
-                const originalPrice = product.originalPrice || product.price;
-                const currentPrice = discountPercent > 0 ? 
-                    (originalPrice * (1 - discountPercent / 100)).toFixed(2) : 
-                    product.price;
+            newsGrid.innerHTML = '';
+            
+            // İlk 6 haberi göster
+            news.slice(0, 6).forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.setAttribute('data-id', item.id);
                 
-                const listItem = document.createElement('li');
-                listItem.className = 'product-item-small';
-                listItem.setAttribute('data-id', product.id);
-                
-                listItem.innerHTML = `
-                    <div class="product-image-small">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/60x60?text=Ürün'">
+                newsCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400x200?text=Haber+Görseli'">
+                    <div class="news-content">
+                        <span class="news-category">${item.category || 'Teknoloji'}</span>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-excerpt">${item.excerpt || ''}</p>
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <i class="bi-calendar"></i>
+                                ${item.date || 'Yakın zamanda'}
+                            </span>
+                            <span class="news-source">
+                                <i class="bi-newspaper"></i>
+                                ${item.source || 'BARİSHOP'}
+                            </span>
+                        </div>
                     </div>
-                    <div class="product-info-small">
-                        <div class="product-title-small">${product.name}</div>
-                        ${discountPercent > 0 ? 
-                            `<div class="original-price" style="text-decoration: line-through; color: rgba(255, 255, 255, 0.5); font-size: 0.8rem;">${originalPrice.toFixed(2)} TL</div>` : 
-                            ''
-                        }
-                        <div class="product-price-small">${currentPrice} TL</div>
-                        ${containerId === 'discountProducts' && discountPercent > 0 ? 
-                            `<div style="color: #25D366; font-size: 0.8rem; font-weight: 600;">%${discountPercent} İndirim</div>` : 
-                            ''
-                        }
-                        ${containerId === 'popularProducts' ? 
-                            `<div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">${product.views || 0} görüntüleme</div>` : 
-                            ''
-                        }
-                        ${containerId === 'bestSellingProducts' ? 
-                            `<div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">${product.sales || 0} satış</div>` : 
-                            ''
-                        }
-                    </div>
-                    <button class="view-details-btn">İncele</button>
                 `;
                 
-                container.appendChild(listItem);
+                newsCard.addEventListener('click', function() {
+                    showNewsDetails(item.id);
+                });
+                
+                newsGrid.appendChild(newsCard);
             });
         }
 
-        // Arama fonksiyonu
-        function setupSearch(products) {
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
+        // Fallback haberler
+        function loadFallbackNews() {
+            const fallbackNews = {
+                breakingNews: {
+                    title: "Yapay Zeka Devrimi: Yeni Teknolojiler Hayatımızı Değiştiriyor",
+                    time: "5 dakika önce"
+                },
+                news: [
+                    {
+                        id: 1,
+                        title: "Apple Yeni iPhone Modelini Duyurdu",
+                        excerpt: "Apple'ın yeni iPhone modeli beklenen özellikleriyle geliyor. Kamera sisteminde devrim yaratan yenilikler dikkat çekiyor.",
+                        image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Mobil",
+                        date: "2 saat önce",
+                        source: "TechNews"
+                    },
+                    {
+                        id: 2,
+                        title: "Samsung Galaxy S24 Serisi Tanıtıldı",
+                        excerpt: "Samsung'un yeni amiral gemisi serisi Galaxy S24, yapay zeka odaklı özellikleriyle öne çıkıyor.",
+                        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Mobil",
+                        date: "4 saat önce",
+                        source: "MobileWorld"
+                    },
+                    {
+                        id: 3,
+                        title: "NVIDIA Yapay Zeka Çipleriyle Rekor Kırdı",
+                        excerpt: "NVIDIA'nın yeni yapay zeka işlemcileri performans testlerinde rekor seviyelere ulaştı.",
+                        image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Donanım",
+                        date: "6 saat önce",
+                        source: "TechReport"
+                    },
+                    {
+                        id: 4,
+                        title: "Microsoft Windows 12 İçin Geri Sayım Başladı",
+                        excerpt: "Microsoft'un yeni işletim sistemi Windows 12'nin özellikleri sızdırıldı. İşte beklenen yenilikler...",
+                        image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Yazılım",
+                        date: "1 gün önce",
+                        source: "SoftTech"
+                    },
+                    {
+                        id: 5,
+                        title: "PlayStation 6 Geliştirme Aşamasında",
+                        excerpt: "Sony'nin yeni oyun konsolu PlayStation 6'nın geliştirme süreci başladı. Devrim niteliğinde özellikler bekleniyor.",
+                        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Oyun",
+                        date: "1 gün önce",
+                        source: "GameNews"
+                    },
+                    {
+                        id: 6,
+                        title: "Tesla Yeni Otonom Sürüş Sistemini Duyurdu",
+                        excerpt: "Tesla'nın tam otonom sürüş sistemi FSD v12, gerçek dünya testlerinde başarılı sonuçlar verdi.",
+                        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        category: "Otomotiv",
+                        date: "2 gün önce",
+                        source: "AutoTech"
+                    }
+                ]
+            };
             
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
-                
-                if (query.length === 0) {
-                    searchResults.style.display = 'none';
-                    return;
-                }
-                
-                // Ürünleri filtrele
-                const filteredProducts = products.filter(product => 
-                    product.name.toLowerCase().includes(query)
-                );
-                
-                // Tahmin oluştur
-                const prediction = products.find(product => 
-                    product.name.toLowerCase().startsWith(query)
-                );
-                
-                // Sonuçları göster
-                searchResults.innerHTML = '';
-                
-                if (filteredProducts.length === 0) {
-                    searchResults.innerHTML = '<div class="search-result-item">Ürün bulunamadı</div>';
-                } else {
-                    filteredProducts.forEach(product => {
-                        const item = document.createElement('div');
-                        item.className = 'search-result-item';
-                        item.innerHTML = `
-                            ${product.name}
-                            ${prediction && prediction.id === product.id ? 
-                                `<span class="search-prediction">- ${product.name.slice(query.length)}</span>` : ''
-                            }
-                        `;
-                        item.addEventListener('click', function() {
-                            searchInput.value = product.name;
-                            searchResults.style.display = 'none';
-                            // Ürün detayına git
-                            showProductDetails(product.id);
-                        });
-                        searchResults.appendChild(item);
-                    });
-                }
-                
-                searchResults.style.display = 'block';
-            });
-            
-            // Dışarı tıklayınca kapat
-            document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-                    searchResults.style.display = 'none';
-                }
-            });
+            updateBreakingNews(fallbackNews.breakingNews);
+            updateNewsGrid(fallbackNews.news);
         }
 
-        // Ürün detayı göster
-        function showProductDetails(productId) {
-            // Sayfa geçiş efekti
+        // Haber detayı göster
+        function showNewsDetails(newsId) {
             const transition = document.getElementById('pageTransition');
             transition.classList.add('active');
             
             setTimeout(() => {
-                // Ürünler sayfasına yönlendir (ürün ID'si ile)
-                window.location.href = `urunler.html?product=${productId}`;
+                window.location.href = `news.html?article=${newsId}`;
             }, 600);
         }
 
@@ -1109,26 +979,6 @@
                     }, 600);
                 });
             });
-            
-            // Ürün kartlarına tıklama
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.product-item-small')) {
-                    const productCard = e.target.closest('[data-id]');
-                    if (productCard) {
-                        const productId = parseInt(productCard.dataset.id);
-                        showProductDetails(productId);
-                    }
-                }
-                
-                // İncele butonlarına tıklama
-                if (e.target.classList.contains('view-details-btn')) {
-                    const productCard = e.target.closest('[data-id]');
-                    if (productCard) {
-                        const productId = parseInt(productCard.dataset.id);
-                        showProductDetails(productId);
-                    }
-                }
-            });
         }
 
         // Sayfa yüklendiğinde çalıştır
@@ -1136,10 +986,8 @@
             updateCountdown();
             const countdownInterval = setInterval(updateCountdown, 1000);
             
-            // CSV'den ürünleri yükle
-            loadProductsFromCSV().then(products => {
-                setupSearch(products);
-            });
+            // Haberleri yükle
+            loadNews();
             
             setupPageTransitions();
         });

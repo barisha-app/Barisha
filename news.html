@@ -464,8 +464,8 @@
     <section class="news-page">
         <div class="container">
             <div class="page-title">
-                <h1>📰 Son Dakika Haberleri</h1>
-                <p>Teknoloji dünyasından en güncel haberler ve gelişmeler</p>
+                <h1>📰 Türkiye'den Son Dakika</h1>
+                <p>Tüm Türkiye haberleri burada - Canlı ve güncel</p>
             </div>
             
             <!-- Son Dakika Banner -->
@@ -474,7 +474,7 @@
                     <i class="bi-megaphone-fill"></i>
                 </div>
                 <div class="breaking-news-content">
-                    <div class="breaking-news-title" id="breakingNewsTitle">Yükleniyor...</div>
+                    <div class="breaking-news-title" id="breakingNewsTitle">Türkiye'den canlı haber akışı yükleniyor...</div>
                     <div class="breaking-news-time" id="breakingNewsTime"></div>
                 </div>
             </div>
@@ -485,11 +485,10 @@
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-category="all">Tümü</button>
                     <button class="filter-btn" data-category="teknoloji">Teknoloji</button>
-                    <button class="filter-btn" data-category="mobil">Mobil</button>
-                    <button class="filter-btn" data-category="yazilim">Yazılım</button>
-                    <button class="filter-btn" data-category="donanim">Donanım</button>
-                    <button class="filter-btn" data-category="oyun">Oyun</button>
-                    <button class="filter-btn" data-category="internet">İnternet</button>
+                    <button class="filter-btn" data-category="spor">Spor</button>
+                    <button class="filter-btn" data-category="ekonomi">Ekonomi</button>
+                    <button class="filter-btn" data-category="siyaset">Siyaset</button>
+                    <button class="filter-btn" data-category="saglik">Sağlık</button>
                 </div>
             </div>
             
@@ -500,7 +499,7 @@
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Haberler yükleniyor...</span>
                     </div>
-                    <p class="mt-3">Haberler yükleniyor...</p>
+                    <p class="mt-3">Türkiye haberleri yükleniyor...</p>
                 </div>
             </div>
             
@@ -599,21 +598,110 @@
         // Haber yükleme ve yönetimi
         let allNews = [];
         let currentPage = 1;
-        const newsPerPage = 9;
+        const newsPerPage = 12;
         let currentCategory = 'all';
 
         // Haber yükleme fonksiyonu
         async function loadNews() {
             try {
-                // Haberleri JSON dosyasından çek
-                const response = await fetch('news-data.json');
-                const newsData = await response.json();
+                // 🔥 SENİN API KEY'İN İLE - TÜM TÜRKİYE HABERLERİ
+                const API_KEY = '0904885e71744879b8691238fa897ebb';
                 
-                // Tüm haberleri sakla
-                allNews = newsData.news || [];
+                console.log('🔗 Tüm Türkiye haberleri yükleniyor...');
+                
+                // Tüm Türkiye haberlerini çek
+                const response = await fetch(`https://newsapi.org/v2/top-headlines?country=tr&pageSize=50&apiKey=${API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error(`API hatası: ${response.status}`);
+                }
+                
+                const apiData = await response.json();
+                
+                console.log('✅ Türkiye haberleri başarıyla yüklendi!', apiData.totalResults, 'haber bulundu');
+                
+                // Eğer hiç haber yoksa
+                if (!apiData.articles || apiData.articles.length === 0) {
+                    throw new Error('Türkiye haberleri bulunamadı');
+                }
+                
+                // API verisini bizim formata dönüştür
+                allNews = apiData.articles.map((article, index) => {
+                    // Tarihi güzel formatla
+                    const newsDate = new Date(article.publishedAt);
+                    const now = new Date();
+                    const diffTime = Math.abs(now - newsDate);
+                    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    let dateText;
+                    if (diffHours < 1) {
+                        const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                        dateText = diffMinutes < 1 ? 'Az önce' : `${diffMinutes} dakika önce`;
+                    } else if (diffHours < 24) {
+                        dateText = `${diffHours} saat önce`;
+                    } else if (diffDays === 1) {
+                        dateText = 'Dün';
+                    } else if (diffDays < 7) {
+                        dateText = `${diffDays} gün önce`;
+                    } else {
+                        dateText = newsDate.toLocaleDateString('tr-TR', {
+                            day: 'numeric',
+                            month: 'long'
+                        });
+                    }
+                    
+                    // Kategoriyi belirle (başlığa göre)
+                    let category = 'Genel';
+                    const title = article.title?.toLowerCase() || '';
+                    const description = article.description?.toLowerCase() || '';
+                    
+                    if (title.includes('teknoloji') || title.includes('teknolojik') || description.includes('teknoloji') ||
+                        title.includes('telefon') || title.includes('iphone') || title.includes('samsung') || 
+                        title.includes('yazılım') || title.includes('internet') || title.includes('google') ||
+                        title.includes('apple') || title.includes('android') || title.includes('windows')) {
+                        category = 'Teknoloji';
+                    } else if (title.includes('spor') || title.includes('futbol') || title.includes('basketbol') ||
+                             title.includes('takım') || title.includes('maç') || title.includes('lig') ||
+                             description.includes('spor') || description.includes('futbol')) {
+                        category = 'Spor';
+                    } else if (title.includes('ekonomi') || title.includes('borsa') || title.includes('finans') ||
+                             title.includes('dolar') || title.includes('tl') || title.includes('faiz') ||
+                             description.includes('ekonomi') || description.includes('borsa')) {
+                        category = 'Ekonomi';
+                    } else if (title.includes('siyaset') || title.includes('politika') || title.includes('meclis') ||
+                             title.includes('parti') || title.includes('seçim') || title.includes('cumhurbaşkanı') ||
+                             description.includes('siyaset') || description.includes('politika')) {
+                        category = 'Siyaset';
+                    } else if (title.includes('sağlık') || title.includes('hastane') || title.includes('doktor') ||
+                             title.includes('virüs') || title.includes('covid') || title.includes('tedavi') ||
+                             description.includes('sağlık') || description.includes('hastane')) {
+                        category = 'Sağlık';
+                    }
+                    
+                    return {
+                        id: index + 1,
+                        title: article.title || 'Haber başlığı yok',
+                        excerpt: article.description || 'Haber açıklaması mevcut değil...',
+                        image: article.urlToImage || 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                        category: category,
+                        date: dateText,
+                        source: article.source?.name || 'Haber Kaynağı',
+                        url: article.url,
+                        content: article.content || article.description || 'Haber içeriği mevcut değil...',
+                        author: article.author || 'Editör'
+                    };
+                });
+                
+                console.log('📰 Haberler hazır:', allNews.length, 'haber yüklendi');
                 
                 // Son dakika haberini güncelle
-                updateBreakingNews(newsData.breakingNews);
+                if (allNews.length > 0) {
+                    updateBreakingNews({
+                        title: allNews[0].title,
+                        time: 'Son Dakika'
+                    });
+                }
                 
                 // Haberleri göster
                 displayNews();
@@ -622,8 +710,8 @@
                 setupPagination();
                 
             } catch (error) {
-                console.error('Haberler yüklenirken hata oluştu:', error);
-                // Fallback haberler
+                console.error('❌ API bağlantı hatası:', error);
+                // API çalışmazsa yedek haberleri göster
                 loadFallbackNews();
             }
         }
@@ -637,8 +725,8 @@
                 breakingNewsTitle.textContent = breakingNews.title;
                 breakingNewsTime.textContent = breakingNews.time || 'Şimdi';
             } else {
-                breakingNewsTitle.textContent = 'Teknoloji dünyasından en son gelişmeler burada!';
-                breakingNewsTime.textContent = 'Son Dakika';
+                breakingNewsTitle.textContent = 'Türkiye\'den canlı haber akışı';
+                breakingNewsTime.textContent = 'Canlı';
             }
         }
 
@@ -672,26 +760,26 @@
                 newsCard.setAttribute('data-id', item.id);
                 
                 newsCard.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400x200?text=Haber+Görseli'">
+                    <img src="${item.image}" alt="${item.title}" class="news-image">
                     <div class="news-content">
-                        <span class="news-category">${item.category || 'Teknoloji'}</span>
+                        <span class="news-category">${item.category}</span>
                         <h3 class="news-title">${item.title}</h3>
-                        <p class="news-excerpt">${item.excerpt || ''}</p>
+                        <p class="news-excerpt">${item.excerpt}</p>
                         <div class="news-meta">
                             <span class="news-date">
                                 <i class="bi-calendar"></i>
-                                ${item.date || 'Yakın zamanda'}
+                                ${item.date}
                             </span>
                             <span class="news-source">
                                 <i class="bi-newspaper"></i>
-                                ${item.source || 'BARİSHOP'}
+                                ${item.source}
                             </span>
                         </div>
                     </div>
                 `;
                 
                 newsCard.addEventListener('click', function() {
-                    showNewsDetails(item.id);
+                    showNewsDetails(item);
                 });
                 
                 newsGrid.appendChild(newsCard);
@@ -769,135 +857,38 @@
         function loadFallbackNews() {
             const fallbackNews = {
                 breakingNews: {
-                    title: "Yapay Zeka Devrimi: Yeni Teknolojiler Hayatımızı Değiştiriyor",
-                    time: "5 dakika önce"
-                },
-                news: [
-                    {
-                        id: 1,
-                        title: "Apple Yeni iPhone Modelini Duyurdu",
-                        excerpt: "Apple'ın yeni iPhone modeli beklenen özellikleriyle geliyor. Kamera sisteminde devrim yaratan yenilikler dikkat çekiyor.",
-                        image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Mobil",
-                        date: "2 saat önce",
-                        source: "TechNews"
-                    },
-                    {
-                        id: 2,
-                        title: "Samsung Galaxy S24 Serisi Tanıtıldı",
-                        excerpt: "Samsung'un yeni amiral gemisi serisi Galaxy S24, yapay zeka odaklı özellikleriyle öne çıkıyor.",
-                        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Mobil",
-                        date: "4 saat önce",
-                        source: "MobileWorld"
-                    },
-                    {
-                        id: 3,
-                        title: "NVIDIA Yapay Zeka Çipleriyle Rekor Kırdı",
-                        excerpt: "NVIDIA'nın yeni yapay zeka işlemcileri performans testlerinde rekor seviyelere ulaştı.",
-                        image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Donanım",
-                        date: "6 saat önce",
-                        source: "TechReport"
-                    },
-                    {
-                        id: 4,
-                        title: "Microsoft Windows 12 İçin Geri Sayım Başladı",
-                        excerpt: "Microsoft'un yeni işletim sistemi Windows 12'nin özellikleri sızdırıldı. İşte beklenen yenilikler...",
-                        image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Yazılım",
-                        date: "1 gün önce",
-                        source: "SoftTech"
-                    },
-                    {
-                        id: 5,
-                        title: "PlayStation 6 Geliştirme Aşamasında",
-                        excerpt: "Sony'nin yeni oyun konsolu PlayStation 6'nın geliştirme süreci başladı. Devrim niteliğinde özellikler bekleniyor.",
-                        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Oyun",
-                        date: "1 gün önce",
-                        source: "GameNews"
-                    },
-                    {
-                        id: 6,
-                        title: "Tesla Yeni Otonom Sürüş Sistemini Duyurdu",
-                        excerpt: "Tesla'nın tam otonom sürüş sistemi FSD v12, gerçek dünya testlerinde başarılı sonuçlar verdi.",
-                        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Otomotiv",
-                        date: "2 gün önce",
-                        source: "AutoTech"
-                    },
-                    {
-                        id: 7,
-                        title: "Google Yapay Zeka Asistanı Gemini'yi Tanıttı",
-                        excerpt: "Google'ın yeni yapay zeka asistanı Gemini, ChatGPT'e rakip olarak piyasaya sürüldü.",
-                        image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Yapay Zeka",
-                        date: "3 gün önce",
-                        source: "AITech"
-                    },
-                    {
-                        id: 8,
-                        title: "Meta Sanal Gerçeklik Gözlüğü Quest 3 Satışa Sunuldu",
-                        excerpt: "Meta'nın yeni sanal gerçeklik gözlüğü Quest 3, geliştirilmiş özellikleriyle kullanıcıların beğenisine sunuldu.",
-                        image: "https://images.unsplash.com/photo-1622037022771-2c5e2be9d079?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "VR/AR",
-                        date: "4 gün önce",
-                        source: "VRWorld"
-                    },
-                    {
-                        id: 9,
-                        title: "Intel Yeni İşlemci Ailesini Duyurdu",
-                        excerpt: "Intel'in yeni işlemci ailesi, performans ve enerji verimliliği konusunda önemli iyileştirmeler sunuyor.",
-                        image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Donanım",
-                        date: "5 gün önce",
-                        source: "HardwareNews"
-                    },
-                    {
-                        id: 10,
-                        title: "SpaceX Starship Test Uçuşunda Yeni Rekor",
-                        excerpt: "SpaceX'in Starship roketi, son test uçuşunda beklenen performansı aşarak yeni bir rekor kırdı.",
-                        image: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Uzay",
-                        date: "1 hafta önce",
-                        source: "SpaceTech"
-                    },
-                    {
-                        id: 11,
-                        title: "Amazon Yeni Drone Teslimat Sistemini Test Ediyor",
-                        excerpt: "Amazon, yeni drone teslimat sistemini test etmeye başladı. 30 dakika içinde teslimat vaadi dikkat çekiyor.",
-                        image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Teknoloji",
-                        date: "1 hafta önce",
-                        source: "TechDaily"
-                    },
-                    {
-                        id: 12,
-                        title: "Netflix Oyun Platformunu Genişletiyor",
-                        excerpt: "Netflix, mobil oyun platformunu genişleterek daha fazla oyunu abonelerine sunmaya hazırlanıyor.",
-                        image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-                        category: "Oyun",
-                        date: "2 hafta önce",
-                        source: "GameSpot"
-                    }
-                ]
+                    title: "Türkiye'den Canlı Haberler",
+                    time: "Şimdi"
+                }
             };
             
-            allNews = fallbackNews.news;
             updateBreakingNews(fallbackNews.breakingNews);
-            displayNews();
-            setupPagination();
+            
+            // Basit fallback mesajı göster
+            const newsGrid = document.getElementById('newsGrid');
+            newsGrid.innerHTML = `
+                <div class="text-center py-5">
+                    <i class="bi-wifi-off display-1 text-muted"></i>
+                    <h3 class="mt-3">Canlı Haberler Geçici Olarak Ulaşılamıyor</h3>
+                    <p class="mb-4">Lütfen internet bağlantınızı kontrol edin ve sayfayı yenileyin.</p>
+                    <button class="custom-btn btn" onclick="loadNews()">
+                        <i class="bi-arrow-clockwise me-2"></i>Tekrar Dene
+                    </button>
+                </div>
+            `;
         }
 
         // Haber detayı göster
-        function showNewsDetails(newsId) {
+        function showNewsDetails(article) {
+            // Haberi localStorage'a kaydet
+            localStorage.setItem('currentNews', JSON.stringify(article));
+            localStorage.setItem('currentNewsId', article.id);
+            
             const transition = document.getElementById('pageTransition');
             transition.classList.add('active');
             
             setTimeout(() => {
-                // Haber detay sayfasına yönlendir
-                window.location.href = `news-detail.html?id=${newsId}`;
+                window.location.href = `news-detail.html?id=${article.id}`;
             }, 600);
         }
 

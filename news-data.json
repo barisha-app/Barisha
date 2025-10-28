@@ -1,0 +1,116 @@
+{
+  "breakingNews": {
+    "title": "Yapay Zeka Devrimi: Yeni Teknolojiler Hayatımızı Değiştiriyor",
+    "time": "5 dakika önce"
+  },
+  "news": [
+    {
+      "id": 1,
+      "title": "Apple Yeni iPhone Modelini Duyurdu",
+      "excerpt": "Apple'ın yeni iPhone modeli beklenen özellikleriyle geliyor. Kamera sisteminde devrim yaratan yenilikler dikkat çekiyor.",
+      "image": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Mobil",
+      "date": "2 saat önce",
+      "source": "TechNews"
+    },
+    {
+      "id": 2,
+      "title": "Samsung Galaxy S24 Serisi Tanıtıldı",
+      "excerpt": "Samsung'un yeni amiral gemisi serisi Galaxy S24, yapay zeka odaklı özellikleriyle öne çıkıyor.",
+      "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Mobil",
+      "date": "4 saat önce",
+      "source": "MobileWorld"
+    },
+    {
+      "id": 3,
+      "title": "NVIDIA Yapay Zeka Çipleriyle Rekor Kırdı",
+      "excerpt": "NVIDIA'nın yeni yapay zeka işlemcileri performans testlerinde rekor seviyelere ulaştı.",
+      "image": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Donanım",
+      "date": "6 saat önce",
+      "source": "TechReport"
+    },
+    {
+      "id": 4,
+      "title": "Microsoft Windows 12 İçin Geri Sayım Başladı",
+      "excerpt": "Microsoft'un yeni işletim sistemi Windows 12'nin özellikleri sızdırıldı. İşte beklenen yenilikler...",
+      "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Yazılım",
+      "date": "1 gün önce",
+      "source": "SoftTech"
+    },
+    {
+      "id": 5,
+      "title": "PlayStation 6 Geliştirme Aşamasında",
+      "excerpt": "Sony'nin yeni oyun konsolu PlayStation 6'nın geliştirme süreci başladı. Devrim niteliğinde özellikler bekleniyor.",
+      "image": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Oyun",
+      "date": "1 gün önce",
+      "source": "GameNews"
+    },
+    {
+      "id": 6,
+      "title": "Tesla Yeni Otonom Sürüş Sistemini Duyurdu",
+      "excerpt": "Tesla'nın tam otonom sürüş sistemi FSD v12, gerçek dünya testlerinde başarılı sonuçlar verdi.",
+      "image": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Otomotiv",
+      "date": "2 gün önce",
+      "source": "AutoTech"
+    },
+    {
+      "id": 7,
+      "title": "Google Yapay Zeka Asistanı Gemini'yi Tanıttı",
+      "excerpt": "Google'ın yeni yapay zeka asistanı Gemini, ChatGPT'e rakip olarak piyasaya sürüldü.",
+      "image": "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Yapay Zeka",
+      "date": "3 gün önce",
+      "source": "AITech"
+    },
+    {
+      "id": 8,
+      "title": "Meta Sanal Gerçeklik Gözlüğü Quest 3 Satışa Sunuldu",
+      "excerpt": "Meta'nın yeni sanal gerçeklik gözlüğü Quest 3, geliştirilmiş özellikleriyle kullanıcıların beğenisine sunuldu.",
+      "image": "https://images.unsplash.com/photo-1622037022771-2c5e2be9d079?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "VR/AR",
+      "date": "4 gün önce",
+      "source": "VRWorld"
+    },
+    {
+      "id": 9,
+      "title": "Intel Yeni İşlemci Ailesini Duyurdu",
+      "excerpt": "Intel'in yeni işlemci ailesi, performans ve enerji verimliliği konusunda önemli iyileştirmeler sunuyor.",
+      "image": "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Donanım",
+      "date": "5 gün önce",
+      "source": "HardwareNews"
+    },
+    {
+      "id": 10,
+      "title": "SpaceX Starship Test Uçuşunda Yeni Rekor",
+      "excerpt": "SpaceX'in Starship roketi, son test uçuşunda beklenen performansı aşarak yeni bir rekor kırdı.",
+      "image": "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Uzay",
+      "date": "1 hafta önce",
+      "source": "SpaceTech"
+    },
+    {
+      "id": 11,
+      "title": "Amazon Yeni Drone Teslimat Sistemini Test Ediyor",
+      "excerpt": "Amazon, yeni drone teslimat sistemini test etmeye başladı. 30 dakika içinde teslimat vaadi dikkat çekiyor.",
+      "image": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Teknoloji",
+      "date": "1 hafta önce",
+      "source": "TechDaily"
+    },
+    {
+      "id": 12,
+      "title": "Netflix Oyun Platformunu Genişletiyor",
+      "excerpt": "Netflix, mobil oyun platformunu genişleterek daha fazla oyunu abonelerine sunmaya hazırlanıyor.",
+      "image": "https://images.unsplash.com/photo-1611605698335-8b1569810432?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "category": "Oyun",
+      "date": "2 hafta önce",
+      "source": "GameSpot"
+    }
+  ]
+}

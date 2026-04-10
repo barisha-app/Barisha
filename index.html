@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Barış & Helin | Dijital Davetiye</title>
+    <title>Barış & Helin | Premium Davetiye</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,7 +15,6 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1612 0%, #2d2318 50%, #1a1612 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -24,38 +23,104 @@
             overflow: hidden;
         }
 
-        /* Arka plan altın parçacıklar */
-        body::before {
-            content: "";
-            position: absolute;
+        /* Ana Arka Plan Fotoğrafı */
+        .main-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('imgs/background.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(3px) brightness(0.4) saturate(1.2);
+            transform: scale(1.1);
+            z-index: -2;
+        }
+
+        /* Premium Karanlık & Bulanık Overlay */
+        .dark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 30%, rgba(212,175,55,0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(212,175,55,0.1) 0%, transparent 50%);
-            pointer-events: none;
+                radial-gradient(ellipse at center, rgba(20,15,10,0.3) 0%, rgba(10,8,5,0.95) 100%),
+                linear-gradient(135deg, rgba(30,25,15,0.8) 0%, rgba(15,12,8,0.9) 100%);
+            z-index: -1;
         }
 
-        /* Yıldız parçacıkları */
-        .stars {
-            position: absolute;
+        /* Altın Işık Parıltıları */
+        .golden-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(212,175,55,0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(212,175,55,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(212,175,55,0.05) 0%, transparent 60%);
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Premium Yıldız Parçacıkları */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
 
-        .star {
+        .star-particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .star-particle.gold {
+            background: linear-gradient(135deg, #ffd700, #ffec8b, #d4af37);
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px rgba(255,215,0,0.5);
+        }
+
+        .star-particle.diamond {
+            background: linear-gradient(135deg, #fff, #e8e8e8, #fff);
+            box-shadow: 0 0 8px #fff, 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        /* Floating Altın Tozları */
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
             background: #d4af37;
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            opacity: 0;
+            animation: floatDust 8s ease-in-out infinite;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
+        @keyframes floatDust {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; transform: scale(1); }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(0.5);
+                opacity: 0;
+            }
         }
 
         /* Ana Container */
@@ -63,69 +128,194 @@
             text-align: center;
             z-index: 10;
             padding: 40px;
+            position: relative;
         }
 
-        /* Çiçek süsleme */
+        /* Premium Çerçeve */
+        .premium-frame {
+            position: relative;
+            padding: 60px 80px;
+            background: linear-gradient(135deg, rgba(20,15,10,0.7) 0%, rgba(30,25,15,0.5) 100%);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 25px 50px rgba(0,0,0,0.5),
+                inset 0 0 60px rgba(212,175,55,0.05);
+            animation: frameFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes frameFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Premium Çerçeve Kenar Süslemeleri */
+        .premium-frame::before,
+        .premium-frame::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(212,175,55,0.4);
+            pointer-events: none;
+        }
+
+        .premium-frame::before {
+            top: 15px;
+            left: 15px;
+            border-right: none;
+            border-bottom: none;
+            border-top-left-radius: 15px;
+        }
+
+        .premium-frame::after {
+            bottom: 15px;
+            right: 15px;
+            border-left: none;
+            border-top: none;
+            border-bottom-right-radius: 15px;
+        }
+
+        /* Çiçek Süsleme */
         .floral-decoration {
-            font-size: 2rem;
-            color: #c9a227;
-            margin-bottom: 20px;
-            opacity: 0.8;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 25px;
+            animation: floralGlow 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(212,175,55,0.6);
+        }
+
+        @keyframes floralGlow {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.1);
+                filter: brightness(1.3);
+            }
         }
 
         /* İsimler */
         .names {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 400;
             color: #fff;
-            margin-bottom: 10px;
-            letter-spacing: 3px;
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+            text-shadow:
+                0 0 30px rgba(212,175,55,0.3),
+                0 4px 8px rgba(0,0,0,0.3);
+            animation: nameShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes nameShimmer {
+            0%, 100% {
+                text-shadow:
+                    0 0 30px rgba(212,175,55,0.3),
+                    0 4px 8px rgba(0,0,0,0.3);
+            }
+            50% {
+                text-shadow:
+                    0 0 50px rgba(212,175,55,0.6),
+                    0 0 80px rgba(212,175,55,0.3),
+                    0 4px 8px rgba(0,0,0,0.3);
+            }
         }
 
         .names span {
             color: #d4af37;
-            margin: 0 15px;
+            margin: 0 20px;
+            display: inline-block;
+            animation: heartBeat 1.5s ease-in-out infinite;
         }
 
-        /* Altın çizgi */
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+        }
+
+        /* Premium Altın Çizgi */
         .divider {
-            width: 120px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #d4af37, transparent);
-            margin: 20px auto;
+            position: relative;
+            width: 180px;
+            height: 3px;
+            margin: 25px auto;
         }
 
-        /* Alt başlık */
+        .divider::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            animation: dividerShine 2s ease-in-out infinite;
+        }
+
+        .divider::after {
+            content: '✦';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #d4af37;
+            font-size: 1rem;
+            background: #1a1612;
+            padding: 0 10px;
+            animation: starRotate 4s linear infinite;
+        }
+
+        @keyframes dividerShine {
+            0%, 100% { opacity: 0.6; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.5); }
+        }
+
+        @keyframes starRotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Alt Başlık */
         .subtitle {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 300;
-            color: #a89a7c;
-            letter-spacing: 6px;
+            color: #c9b896;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            animation: subtitleFade 1s ease-out;
         }
 
-        /* Davetiyeyi Aç Butonu */
+        @keyframes subtitleFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Premium Buton */
         .open-btn {
-            background: linear-gradient(145deg, #d4af37, #b8962e);
+            position: relative;
+            background: linear-gradient(145deg, #d4af37, #b8962e, #c9a227);
             border: none;
-            padding: 22px 55px;
-            border-radius: 50px;
+            padding: 25px 70px;
+            border-radius: 60px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 400;
             color: #1a1612;
             cursor: pointer;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            box-shadow:
-                0 15px 35px rgba(0,0,0,0.4),
-                0 0 20px rgba(212,175,55,0.2);
-            transition: all 0.3s ease;
-            position: relative;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.4),
+                0 0 30px rgba(212,175,55,0.3),
+                inset 0 2px 0 rgba(255,255,255,0.2);
         }
 
         .open-btn::before {
@@ -135,15 +325,38 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.4),
+                rgba(255,255,255,0.6),
+                rgba(255,255,255,0.4),
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .open-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: btnShine 3s ease-in-out infinite;
+        }
+
+        @keyframes btnShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .open-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.05);
             box-shadow:
-                0 20px 40px rgba(0,0,0,0.5),
-                0 0 30px rgba(212,175,55,0.4);
+                0 25px 50px rgba(0,0,0,0.5),
+                0 0 60px rgba(212,175,55,0.5),
+                0 0 100px rgba(212,175,55,0.3),
+                inset 0 2px 0 rgba(255,255,255,0.3);
         }
 
         .open-btn:hover::before {
@@ -151,24 +364,50 @@
         }
 
         .open-btn i {
-            margin-right: 10px;
+            margin-right: 12px;
+            animation: iconBounce 1s ease-in-out infinite;
         }
 
-        /* Zarf Overlay - Tam ekran zarf efekti */
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* Buton Yan Parıltılar */
+        .btn-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .btn-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        /* Zarf Overlay */
         .envelope-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a1612 0%, #2d2318 100%);
+            background: linear-gradient(135deg, #0a0806 0%, #1a1510 50%, #0a0806 100%);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope-overlay.active {
@@ -176,121 +415,168 @@
             visibility: visible;
         }
 
-        /* Zarf kutusu */
+        /* Premium Zarf Kutusu */
         .envelope {
             position: relative;
-            width: 360px;
-            height: 240px;
-            perspective: 1000px;
+            width: 400px;
+            height: 280px;
+            perspective: 1500px;
         }
 
-        /* Zarfın gövdesi */
+        /* Zarf Gövdesi */
         .envelope-body {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(145deg, #c9a227, #a47c1f);
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            background: linear-gradient(145deg, #d4af37, #b8962e, #c9a227);
+            border-radius: 12px;
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.5),
+                inset 0 -5px 20px rgba(0,0,0,0.3),
+                inset 0 5px 20px rgba(255,255,255,0.1);
+            animation: envelopeGlow 2s ease-in-out infinite;
         }
 
-        /* Zarf kapağı (üçgen şeklinde) */
+        @keyframes envelopeGlow {
+            0%, 100% { box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 -5px 20px rgba(0,0,0,0.3), inset 0 5px 20px rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 30px 60px rgba(212,175,55,0.3), inset 0 -5px 20px rgba(0,0,0,0.3), inset 0 5px 20px rgba(255,255,255,0.1); }
+        }
+
+        /* Zarf Kabartması */
+        .envelope-body::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        /* Zarf Kapağı */
         .envelope-flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(145deg, #d4af37, #b8860b);
-            border-radius: 8px;
-            clip-path: polygon(0 0, 50% 45%, 100% 0);
+            background: linear-gradient(145deg, #e8c547, #d4af37, #c9a227);
+            border-radius: 12px;
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
             transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
         }
 
-        /* Zarf kapağı açılırken */
         .envelope-overlay.active .envelope-flap {
             transform: rotateX(-180deg);
         }
 
-        /* İçindeki davetiye kartı */
+        /* İç Davetiye Kartı */
         .invitation-card {
             position: absolute;
-            width: 90%;
-            height: 85%;
-            background: linear-gradient(145deg, #fffef7, #fef5e6);
-            border-radius: 12px;
-            bottom: 10%;
-            left: 5%;
+            width: 92%;
+            height: 88%;
+            background: linear-gradient(145deg, #fffef7, #fef8ee, #fef5e6);
+            border-radius: 15px;
+            bottom: 6%;
+            left: 4%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transform: translateY(20px) scale(0.9);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transform: translateY(30px) scale(0.85);
             opacity: 0;
-            transition: all 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+            transition: all 0.8s cubic-bezier(0.34, 1.3, 0.64, 1);
             transition-delay: 0s;
             z-index: 1;
-            border: 2px solid #d4af37;
+            border: 3px solid #d4af37;
             text-align: center;
-            padding: 20px;
+            padding: 25px;
         }
 
-        /* Kart çıkma animasyonu - önce kapağın açılmasını bekle */
         .envelope-overlay.active .invitation-card {
-            transform: translateY(-30px) scale(1);
+            transform: translateY(-50px) scale(1);
             opacity: 1;
-            transition-delay: 0.5s;
+            transition-delay: 0.6s;
+        }
+
+        /* Kart Dekoratif Kenarlar */
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid rgba(212,175,55,0.4);
+            border-radius: 10px;
+            pointer-events: none;
         }
 
         .card-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: #d4af37;
-            margin-bottom: 15px;
-            animation: heartbeat 1s infinite;
+            margin-bottom: 20px;
+            animation: cardHeartbeat 1.2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(212,175,55,0.5);
         }
 
-        @keyframes heartbeat {
+        @keyframes cardHeartbeat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
         }
 
         .card-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #5a4a2a;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .card-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #8a7a5a;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
-        /* Parıltı efekti - tam ekran altın parlaması */
+        /* Premium Parıltı Efekti */
         .glow-effect {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(212,175,55,0.9) 0%, rgba(212,175,55,0.4) 50%, transparent 100%);
+            background: radial-gradient(circle at center,
+                rgba(212,175,55,1) 0%,
+                rgba(255,215,0,0.8) 20%,
+                rgba(212,175,55,0.4) 50%,
+                transparent 100%);
             z-index: 1001;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
             pointer-events: none;
         }
 
         .glow-effect.active {
             opacity: 1;
             visibility: visible;
+            animation: premiumGlow 0.8s ease-out forwards;
         }
 
-        /* Işık parçacıkları efekti */
+        @keyframes premiumGlow {
+            0% { transform: scale(0.5); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Premium Işık Parçacıkları */
         .sparkles {
             position: fixed;
             top: 0;
@@ -300,7 +586,7 @@
             pointer-events: none;
             z-index: 1002;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.3s;
         }
 
         .sparkles.active {
@@ -309,56 +595,91 @@
 
         .sparkle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #ffd700;
             border-radius: 50%;
-            box-shadow: 0 0 10px #ffd700;
-            animation: sparkleAnim 0.6s ease-out forwards;
+            animation: sparkleAnim 1s ease-out forwards;
+        }
+
+        .sparkle.gold {
+            background: radial-gradient(circle, #ffd700, #ffec8b);
+            box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700, 0 0 45px rgba(255,215,0,0.5);
+        }
+
+        .sparkle.white {
+            background: radial-gradient(circle, #fff, #e8e8e8);
+            box-shadow: 0 0 10px #fff, 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        .sparkle.diamond {
+            background: radial-gradient(circle, #fff, #c0c0c0);
+            box-shadow: 0 0 8px #fff, 0 0 15px rgba(255,255,255,0.6);
         }
 
         @keyframes sparkleAnim {
             0% {
-                transform: scale(0) rotate(0deg);
+                transform: scale(0) rotate(0deg) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg) translateY(-50px);
                 opacity: 1;
             }
             100% {
-                transform: scale(1.5) rotate(180deg);
+                transform: scale(0) rotate(360deg) translateY(-150px);
                 opacity: 0;
             }
         }
 
+        /* Firework Parçacıkları */
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
         /* Responsive */
-        @media (max-width: 480px) {
-            .names { font-size: 2.5rem; }
-            .names span { margin: 0 10px; }
-            .subtitle { font-size: 0.75rem; letter-spacing: 4px; }
-            .open-btn { padding: 18px 40px; font-size: 1rem; }
-            .envelope { width: 280px; height: 190px; }
-            .card-icon { font-size: 2.2rem; }
-            .card-title { font-size: 1.3rem; }
-            .card-subtitle { font-size: 0.7rem; }
+        @media (max-width: 600px) {
+            .names { font-size: 2.8rem; letter-spacing: 2px; }
+            .names span { margin: 0 12px; }
+            .subtitle { font-size: 0.8rem; letter-spacing: 5px; }
+            .open-btn { padding: 20px 50px; font-size: 1rem; }
+            .premium-frame { padding: 40px 30px; }
+            .envelope { width: 300px; height: 210px; }
+            .card-icon { font-size: 2.5rem; }
+            .card-title { font-size: 1.5rem; }
+            .card-subtitle { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Yıldız parçacıkları -->
-    <div class="stars" id="stars"></div>
+    <!-- Ana Arka Plan Fotoğrafı -->
+    <div class="main-bg"></div>
+
+    <!-- Karanlık & Bulanık Overlay -->
+    <div class="dark-overlay"></div>
+
+    <!-- Altın Işık Parıltıları -->
+    <div class="golden-glow"></div>
+
+    <!-- Premium Yıldız Parçacıkları -->
+    <div class="stars-container" id="starsContainer"></div>
 
     <!-- Ana İçerik -->
     <div class="container">
-        <div class="floral-decoration">
-            <i class="fas fa-ring"></i>
-        </div>
-        <h1 class="names">Barış<span>&</span>Helin</h1>
-        <div class="divider"></div>
-        <p class="subtitle">Düğün Davetiyesi</p>
+        <div class="premium-frame">
+            <div class="floral-decoration">
+                <i class="fas fa-rings-wedding"></i>
+            </div>
+            <h1 class="names">Barış<span>&</span>Helin</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Premium Davetiye</p>
 
-        <button class="open-btn" id="openBtn">
-            <i class="fas fa-envelope-open-text"></i>
-            Davetiyeyi Aç
-        </button>
+            <button class="open-btn" id="openBtn">
+                <i class="fas fa-envelope-open-text"></i>
+                Davetiyeyi Aç
+            </button>
+        </div>
     </div>
 
     <!-- Zarf Animasyon Overlay -->
@@ -376,41 +697,120 @@
         </div>
     </div>
 
-    <!-- Parıltı Efekti -->
+    <!-- Premium Parıltı Efekti -->
     <div class="glow-effect" id="glowEffect"></div>
 
-    <!-- Işık Parçacıkları -->
+    <!-- Premium Işık Parçacıkları -->
     <div class="sparkles" id="sparkles"></div>
 
     <script>
-        // Yıldızları oluştur
+        // Premium Yıldız Parçacıkları Oluştur
         function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 50; i++) {
+            const container = document.getElementById('starsContainer');
+
+            for (let i = 0; i < 60; i++) {
                 const star = document.createElement('div');
-                star.className = 'star';
+                star.className = 'star-particle ' + (Math.random() > 0.3 ? 'gold' : 'diamond');
+
+                const size = Math.random() * 4 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
+
+                star.style.animation = `starTwinkle ${Math.random() * 3 + 2}s ease-in-out infinite`;
                 star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                starsContainer.appendChild(star);
+
+                container.appendChild(star);
+            }
+
+            // CSS ekle
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes starTwinkle {
+                    0%, 100% {
+                        opacity: 0.2;
+                        transform: scale(1);
+                    }
+                    50% {
+                        opacity: 1;
+                        transform: scale(1.8);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Altın Toz Parçacıkları
+        function createDust() {
+            const container = document.getElementById('starsContainer');
+
+            for (let i = 0; i < 30; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                dust.style.left = Math.random() * 100 + '%';
+                dust.style.animationDelay = Math.random() * 8 + 's';
+                dust.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                dust.style.width = (Math.random() * 3 + 1) + 'px';
+                dust.style.height = dust.style.width;
+                container.appendChild(dust);
             }
         }
-        createStars();
 
-        // Işık parçacıkları oluştur
+        // Premium Parılcıklar
         function createSparkles() {
             const sparklesContainer = document.getElementById('sparkles');
             sparklesContainer.innerHTML = '';
-            for (let i = 0; i < 80; i++) {
+
+            for (let i = 0; i < 120; i++) {
                 const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
+                const types = ['gold', 'white', 'diamond'];
+                sparkle.className = 'sparkle ' + types[Math.floor(Math.random() * types.length)];
+
+                const size = Math.random() * 10 + 4;
+                sparkle.style.width = size + 'px';
+                sparkle.style.height = size + 'px';
                 sparkle.style.left = Math.random() * 100 + '%';
                 sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 0.3 + 's';
-                sparkle.style.width = (Math.random() * 6 + 2) + 'px';
-                sparkle.style.height = sparkle.style.width;
+                sparkle.style.animationDelay = Math.random() * 0.8 + 's';
+                sparkle.style.animationDuration = (Math.random() * 0.8 + 0.6) + 's';
+
                 sparklesContainer.appendChild(sparkle);
+            }
+        }
+
+        // Firework efekti
+        function createFirework(x, y) {
+            const sparklesContainer = document.getElementById('sparkles');
+            const colors = ['#ffd700', '#ffec8b', '#fff', '#d4af37'];
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sparkle gold';
+
+                const size = Math.random() * 8 + 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = (Math.PI * 2 / 20) * i;
+                const velocity = Math.random() * 150 + 100;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.style.animation = 'none';
+                particle.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+                sparklesContainer.appendChild(particle);
+
+                requestAnimationFrame(() => {
+                    particle.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
+                    particle.style.opacity = '0';
+                });
+
+                setTimeout(() => particle.remove(), 1000);
             }
         }
 
@@ -420,7 +820,7 @@
         const glowEffect = document.getElementById('glowEffect');
         const sparkles = document.getElementById('sparkles');
 
-        openBtn.addEventListener('click', function() {
+        openBtn.addEventListener('click', function(e) {
             // Butonu devre dışı bırak
             openBtn.style.pointerEvents = 'none';
             openBtn.style.opacity = '0.7';
@@ -428,7 +828,7 @@
             // Zarf efektini aktif et
             overlay.classList.add('active');
 
-            // 1.3 saniye sonra davetiye kartı çıkmış olacak, parıltıyı başlat
+            // 1.5 saniye sonra parıltıyı başlat
             setTimeout(function() {
                 // Işık parçacıklarını oluştur
                 createSparkles();
@@ -437,16 +837,499 @@
                 glowEffect.classList.add('active');
                 sparkles.classList.add('active');
 
-                // 0.6 saniye sonra parıltı yavaşça söner ve yönlendirme yapılır
-                setTimeout(function() {
-                    // Gerçek sitenize yönlendirme
-                    // "haberakedemi.com.tr/barishelin" adresine gider
-                    window.location.href = 'http://www.haberakedemi.com.tr/barishelin/';
-                }, 600);
+                // Birden fazla firework ateşle
+                setTimeout(() => createFirework(window.innerWidth / 2, window.innerHeight / 2), 200);
+                setTimeout(() => createFirework(window.innerWidth * 0.3, window.innerHeight * 0.3), 400);
+                setTimeout(() => createFirework(window.innerWidth * 0.7, window.innerHeight * 0.7), 600);
 
-            }, 1300);
+                // 1 saniye sonra yönlendirme
+                setTimeout(function() {
+                    window.location.href = 'http://www.haberakedemi.com.tr/barishelin/';
+                }, 1000);
+
+            }, 1500);
         });
+
+        // Sayfa yüklendiğinde parçacıkları oluştur
+        createStars();
+        createDust();
     </script>
 
+
+<script>
+/**
+ * Iframe 元素高亮注入脚本
+ * 需要在目标网站中引入此脚本来支持跨域 iframe 高亮功能
+ *
+ * 使用方法：
+ * 1. 将此脚本添加到目标网站的 HTML 中
+ * 2. 或通过浏览器扩展、用户脚本等方式注入
+ */
+
+(function () {
+  "use strict";
+
+  // 检查是否在 iframe 中
+  if (window.self === window.top) {
+    return; // 不在 iframe 中，不执行
+  }
+
+  // 检查是否已经初始化过
+  if (window.__iframeHighlightInitialized) {
+    return;
+  }
+  window.__iframeHighlightInitialized = true;
+  console.log("Iframe 高亮脚本已加载");
+
+  // 创建高亮覆盖层
+  var overlay = document.createElement("div");
+  overlay.id = "iframe-highlight-overlay";
+  overlay.style.cssText = "\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100vw;\n    height: 100vh;\n    pointer-events: none;\n    z-index: 999999;\n    overflow: hidden;\n  ";
+
+  // 创建悬停高亮框（虚线边框）
+  var highlightBox = document.createElement("div");
+  highlightBox.id = "iframe-highlight-box";
+  highlightBox.style.cssText = "\n    position: absolute;\n    border: 2px dashed #007AFF;\n    background: rgba(0, 122, 255, 0.08);\n    pointer-events: none;\n    display: none;\n    transition: all 0.1s ease;\n    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);\n    border-radius: 2px;\n  ";
+
+  // 创建选中节点的常驻高亮框（实线边框）
+  var selectedBox = document.createElement("div");
+  selectedBox.id = "iframe-selected-box";
+  selectedBox.style.cssText = "\n    position: absolute;\n    border: 2px solid #007AFF;\n    pointer-events: none;\n    display: none;\n    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 107, 53, 0.4);\n    border-radius: 2px;\n    z-index: 1000000;\n  ";
+
+  // 创建悬停标签显示
+  var tagLabel = document.createElement("div");
+  tagLabel.id = "iframe-tag-label";
+  tagLabel.style.cssText = "\n    position: absolute;\n    background: #007AFF;\n    color: white;\n    padding: 2px 6px;\n    font-size: 11px;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n    border-radius: 2px;\n    pointer-events: none;\n    display: none;\n    white-space: nowrap;\n    z-index: 1000001;\n    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);\n    font-weight: 500;\n  ";
+
+  // 创建选中节点标签
+  var selectedLabel = document.createElement("div");
+  selectedLabel.id = "iframe-selected-label";
+  selectedLabel.style.cssText = "\n    position: absolute;\n    background: #007AFF;\n    color: white;\n    padding: 3px 8px;\n    font-size: 11px;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n    border-radius: 3px;\n    pointer-events: none;\n    display: none;\n    white-space: nowrap;\n    z-index: 1000002;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);\n    font-weight: 600;\n  ";
+  overlay.appendChild(highlightBox);
+  overlay.appendChild(selectedBox);
+  overlay.appendChild(tagLabel);
+  overlay.appendChild(selectedLabel);
+  document.body.appendChild(overlay);
+
+  // 存储当前选中的元素
+  var selectedElement = null;
+  var highlightEnabled = false;
+
+  // 更新选中元素的高亮显示
+  function updateSelectedHighlight(element) {
+    console.log("updateSelectedHighlight called with:", element);
+    if (!element) {
+      selectedBox.style.display = "none";
+      selectedLabel.style.display = "none";
+      selectedElement = null;
+      console.log("Cleared selected highlight");
+      return;
+    }
+    selectedElement = element;
+    var rect = element.getBoundingClientRect();
+    console.log("Selected element rect:", rect);
+
+    // 更新选中高亮框位置
+    selectedBox.style.display = "block";
+    selectedBox.style.left = "".concat(rect.left - 2, "px");
+    selectedBox.style.top = "".concat(rect.top - 2, "px");
+    selectedBox.style.width = "".concat(rect.width + 4, "px");
+    selectedBox.style.height = "".concat(rect.height + 4, "px");
+
+    // 更新选中标签位置和内容
+    selectedLabel.style.display = "block";
+    selectedLabel.textContent = "\u2713 <".concat(element.tagName.toLowerCase(), ">");
+
+    // 计算标签位置，确保不超出视窗
+    var labelTop = rect.top - 28;
+    var labelLeft = rect.left;
+
+    // 如果标签会超出顶部，显示在元素下方
+    if (labelTop < 5) {
+      labelTop = rect.bottom + 5;
+    }
+
+    // 如果标签会超出右侧，向左调整
+    var labelWidth = selectedLabel.offsetWidth || 100; // 预估宽度
+    if (labelLeft + labelWidth > window.innerWidth - 10) {
+      labelLeft = window.innerWidth - labelWidth - 10;
+    }
+    selectedLabel.style.left = "".concat(Math.max(5, labelLeft), "px");
+    selectedLabel.style.top = "".concat(labelTop, "px");
+    console.log("Selected highlight positioned at:", {
+      left: selectedBox.style.left,
+      top: selectedBox.style.top,
+      width: selectedBox.style.width,
+      height: selectedBox.style.height
+    });
+  }
+  function getElementSelector(element) {
+    if (!(element instanceof Element)) throw new Error('Argument must be a DOM element');
+    var segments = [];
+    var current = element;
+    while (current !== document.documentElement) {
+      var selector = '';
+      // 优先检查唯一ID
+      if (current.id && document.querySelectorAll("#".concat(current.id)).length === 1) {
+        segments.unshift("#".concat(current.id));
+        break; // ID唯一，无需继续向上
+      }
+
+      // 生成类名选择器（取第一个有效类名）
+      var classes = Array.from(current.classList).filter(function (c) {
+        return !c.startsWith('js-');
+      });
+      var className = classes.length > 0 ? ".".concat(classes[0]) : '';
+
+      // 生成位置索引（nth-child）
+      var tag = current.tagName.toLowerCase();
+      if (!className) {
+        var siblings = Array.from(current.parentNode.children);
+        var index = siblings.findIndex(function (el) {
+          return el === current;
+        }) + 1;
+        selector = "".concat(tag, ":nth-child(").concat(index, ")");
+      } else {
+        selector = className;
+      }
+      segments.unshift(selector);
+      current = current.parentElement;
+    }
+
+    // 处理根元素
+    if (current === document.documentElement) {
+      segments.unshift('html');
+    }
+    return segments.join(' > ');
+  }
+
+  // 获取元素文本内容
+  function getElementText(element) {
+    var _element$textContent;
+    if (element.tagName === "INPUT") {
+      return element.value || element.placeholder || "";
+    }
+    if (element.tagName === "TEXTAREA") {
+      return element.value || element.placeholder || "";
+    }
+    var text = ((_element$textContent = element.textContent) === null || _element$textContent === void 0 ? void 0 : _element$textContent.trim()) || "";
+    return text.length > 50 ? text.substring(0, 50) + "..." : text;
+  }
+
+  // 获取元素属性信息
+  function getElementAttributes(element) {
+    var attrs = {};
+    for (var i = 0; i < element.attributes.length; i++) {
+      var attr = element.attributes[i];
+      attrs[attr.name] = attr.value;
+    }
+    return attrs;
+  }
+
+  // 鼠标悬停事件处理
+  function handleMouseOver(e) {
+    if (!highlightEnabled) return;
+    var target = e.target;
+    if (!target || target === overlay || target === highlightBox || target === tagLabel || target === selectedBox || target === selectedLabel) {
+      return;
+    }
+
+    // 避免高亮 html 和 body 元素
+    if (target === document.documentElement || target === document.body) {
+      return;
+    }
+
+    // 如果是已选中的元素，不显示悬停高亮
+    if (target === selectedElement) {
+      highlightBox.style.display = "none";
+      tagLabel.style.display = "none";
+      return;
+    }
+    var rect = target.getBoundingClientRect();
+    var selector = getElementSelector(target);
+    var text = getElementText(target);
+    var attributes = getElementAttributes(target);
+
+    // 更新悬停高亮框位置
+    highlightBox.style.display = "block";
+    highlightBox.style.left = "".concat(rect.left - 2, "px");
+    highlightBox.style.top = "".concat(rect.top - 2, "px");
+    highlightBox.style.width = "".concat(rect.width + 4, "px");
+    highlightBox.style.height = "".concat(rect.height + 4, "px");
+
+    // 更新标签位置和内容
+    tagLabel.style.display = "block";
+    tagLabel.textContent = "<".concat(target.tagName.toLowerCase(), ">");
+
+    // 计算标签位置，确保不超出视窗
+    var labelTop = rect.top - 22;
+    var labelLeft = rect.left;
+
+    // 如果标签会超出顶部，显示在元素下方
+    if (labelTop < 0) {
+      labelTop = rect.bottom + 5;
+    }
+
+    // 如果标签会超出右侧，向左调整
+    if (labelLeft + tagLabel.offsetWidth > window.innerWidth) {
+      labelLeft = window.innerWidth - tagLabel.offsetWidth - 5;
+    }
+    tagLabel.style.left = "".concat(Math.max(0, labelLeft), "px");
+    tagLabel.style.top = "".concat(labelTop, "px");
+
+    // 发送消息到父窗口
+    var elementInfo = {
+      tagName: target.tagName.toLowerCase(),
+      rect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+        x: rect.x,
+        y: rect.y
+      },
+      selector: selector,
+      text: text,
+      attributes: attributes,
+      url: window.location.href,
+      path: window.location.pathname,
+      timestamp: Date.now()
+    };
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-hover",
+        data: elementInfo,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 鼠标离开事件处理
+  function handleMouseOut(e) {
+    if (!highlightEnabled) return;
+    var relatedTarget = e.relatedTarget;
+
+    // 如果鼠标移动到高亮相关元素上，不隐藏高亮
+    if (relatedTarget && (relatedTarget === highlightBox || relatedTarget === tagLabel || relatedTarget === overlay || relatedTarget === selectedBox || relatedTarget === selectedLabel)) {
+      return;
+    }
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-hover",
+        data: null,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 点击事件处理
+  function handleClick(e) {
+    var target = e.target;
+    if (!target || target === overlay || target === highlightBox || target === tagLabel || target === selectedBox || target === selectedLabel) {
+      return;
+    }
+
+    // 避免处理 html 和 body 元素
+    if (target === document.documentElement || target === document.body) {
+      return;
+    }
+
+    // 检查是否是交互元素，这些元素需要保留默认行为
+    var isInteractiveElement = ['input', 'textarea', 'select', 'button', 'a'].includes(target.tagName.toLowerCase());
+
+    // 如果高亮功能启用，对于非交互元素阻止默认行为和事件传播
+    if (highlightEnabled) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    var rect = target.getBoundingClientRect();
+    var selector = getElementSelector(target);
+    var text = getElementText(target);
+    var attributes = getElementAttributes(target);
+    console.log("Element clicked:", {
+      tagName: target.tagName,
+      selector: selector,
+      rect: rect
+    });
+
+    // 立即更新选中高亮
+    updateSelectedHighlight(target);
+
+    // 隐藏悬停高亮，因为现在是选中状态
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    var elementInfo = {
+      tagName: target.tagName.toLowerCase(),
+      rect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+        x: rect.x,
+        y: rect.y
+      },
+      selector: selector,
+      text: text,
+      attributes: attributes,
+      url: window.location.href,
+      path: window.location.pathname,
+      timestamp: Date.now()
+    };
+    try {
+      window.parent.postMessage({
+        type: "iframe-element-click",
+        data: elementInfo,
+        source: "iframe-highlight-injector"
+      }, "*");
+    } catch (error) {
+      console.warn("无法发送消息到父窗口:", error);
+    }
+  }
+
+  // 监听来自父窗口的消息
+  function handleParentMessage(event) {
+    console.log("Received message from parent:", event.data);
+    if (event.data.type === "iframe-highlight-toggle") {
+      var enabled = event.data.enabled;
+      console.log("Highlight toggle:", enabled);
+      if (enabled) {
+        enableHighlight();
+      } else {
+        disableHighlight();
+      }
+    } else if (event.data.type === "enable-iframe-highlight") {
+      console.log("Enable iframe highlight");
+      enableHighlight();
+    } else if (event.data.type === "disable-iframe-highlight") {
+      console.log("Disable iframe highlight");
+      disableHighlight();
+    } else if (event.data.type === "toggle-iframe-highlight") {
+      var _enabled = event.data.enabled !== undefined ? event.data.enabled : !highlightEnabled;
+      console.log("Toggle iframe highlight to:", _enabled);
+      if (_enabled) {
+        enableHighlight();
+      } else {
+        disableHighlight();
+      }
+    } else if (event.data.type === "update-selected-element") {
+      var selector = event.data.selector;
+      console.log("Update selected element with selector:", selector);
+      if (selector) {
+        try {
+          var element = document.querySelector(selector);
+          console.log("Found element by selector:", element);
+          updateSelectedHighlight(element);
+        } catch (error) {
+          console.warn("Failed to select element:", error);
+          updateSelectedHighlight(null);
+        }
+      } else {
+        updateSelectedHighlight(null);
+      }
+    } else if (event.data.type === "clear-selected-element") {
+      console.log("Clear selected element");
+      updateSelectedHighlight(null);
+    }
+  }
+
+  // 启用高亮功能
+  function enableHighlight() {
+    console.log("Enabling highlight");
+    document.addEventListener("mouseover", handleMouseOver, true);
+    document.addEventListener("mouseout", handleMouseOut, true);
+    document.addEventListener("click", handleClick, true);
+    highlightEnabled = true;
+    overlay.style.display = "block";
+  }
+
+  // 禁用高亮功能
+  function disableHighlight() {
+    console.log("Disabling highlight");
+    highlightEnabled = false;
+    // 保持事件监听器，但通过 highlightEnabled 变量控制行为
+    // 这样可以保留选中状态的显示
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    // 不隐藏 selectedBox 和 selectedLabel，保留选中状态
+  }
+
+  // 完全禁用高亮功能（移除所有监听器）
+  function fullyDisableHighlight() {
+    console.log("Fully disabling highlight");
+    highlightEnabled = false;
+    document.removeEventListener("mouseover", handleMouseOver, true);
+    document.removeEventListener("mouseout", handleMouseOut, true);
+    document.removeEventListener("click", handleClick, true);
+    overlay.style.display = "none";
+    highlightBox.style.display = "none";
+    tagLabel.style.display = "none";
+    selectedBox.style.display = "none";
+    selectedLabel.style.display = "none";
+  }
+
+  // 添加事件监听
+  enableHighlight();
+  window.addEventListener("message", handleParentMessage);
+
+  // 暴露全局函数供外部调用
+  window.__iframeHighlightControl = {
+    enable: enableHighlight,
+    disable: disableHighlight,
+    fullyDisable: fullyDisableHighlight,
+    isEnabled: function isEnabled() {
+      return highlightEnabled;
+    },
+    getSelectedElement: function getSelectedElement() {
+      return selectedElement;
+    },
+    updateSelected: updateSelectedHighlight,
+    // 通过消息发送开关控制
+    sendToggleMessage: function sendToggleMessage(enabled) {
+      window.parent.postMessage({
+        type: 'iframe-highlight-status',
+        enabled: enabled || highlightEnabled,
+        source: 'iframe-highlight-injector'
+      }, '*');
+    }
+  };
+
+  // 通知父窗口脚本已加载
+  try {
+    window.parent.postMessage({
+      type: "iframe-highlight-ready",
+      data: {
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        timestamp: Date.now()
+      },
+      source: "iframe-highlight-injector"
+    }, "*");
+  } catch (error) {
+    console.warn("无法发送就绪消息到父窗口:", error);
+  }
+
+  // 清理函数
+  window.__iframeHighlightCleanup = function () {
+    fullyDisableHighlight();
+    window.removeEventListener("message", handleParentMessage);
+    if (overlay.parentElement) {
+      overlay.parentElement.removeChild(overlay);
+    }
+    delete window.__iframeHighlightInitialized;
+    delete window.__iframeHighlightCleanup;
+  };
+})();
+
+</script>
 </body>
 </html>
